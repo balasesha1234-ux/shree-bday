@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, Shield, ChevronDown, Lock } from 'lucide-react';
+import { GlitchAge } from '../shared/GlitchAge';
 
 interface PrivateIntroProps {
   onStartScroll: () => void;
@@ -44,7 +45,7 @@ export const PrivateIntro: React.FC<PrivateIntroProps> = ({ onStartScroll }) => 
           transition={{ delay: 0.2 }}
           className="text-4xl sm:text-7xl font-playfair font-bold text-[#3D2040] leading-tight"
         >
-          Happy 22nd Birthday, <br />
+          Happy <GlitchAge suffix="th" className="mx-1 text-3xl sm:text-5xl align-middle" /> Birthday, <br />
           <span className="text-gradient-pink font-fredoka">My Dearest Sister Shree!</span> 🎂✨
         </motion.h1>
 

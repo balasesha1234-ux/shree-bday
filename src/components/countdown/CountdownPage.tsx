@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, Radio, Play, Shield } from 'lucide-react';
+import { GlitchAge } from '../shared/GlitchAge';
 import { useCountdown } from '../../hooks/useCountdown';
 import { CountdownTimer } from './CountdownTimer';
 import { TeaserUnlocks } from './TeaserUnlocks';
@@ -60,7 +61,7 @@ export const CountdownPage: React.FC<CountdownPageProps> = ({ onUnlockBirthday }
         </motion.div>
 
         <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-fredoka font-bold tracking-tight text-white drop-shadow-[0_5px_30px_rgba(255,45,120,0.5)]">
-          SHREE’S 22ND BIRTHDAY 🎂
+          SHREE’S <GlitchAge suffix="TH" className="mx-2 text-3xl sm:text-5xl md:text-6xl align-middle" /> BIRTHDAY 🎂
         </h1>
 
         <p className="mt-3 text-sm sm:text-base font-quicksand text-pink-200/90 max-w-2xl leading-relaxed">

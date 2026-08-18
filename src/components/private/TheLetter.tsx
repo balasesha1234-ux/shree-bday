@@ -54,7 +54,7 @@ export const TheLetter: React.FC = () => {
         {/* Letter Body in Caveat Handwriting Font */}
         <div className="font-caveat text-2xl sm:text-3xl text-gray-800 leading-relaxed space-y-6">
           <p>
-            Happy 22nd Birthday to the most inspiring, pure-hearted sister figure in my life. 🌸
+            Happy Birthday to the most inspiring, pure-hearted sister figure in my life. 🌸
           </p>
 
           <p>

@@ -32,7 +32,7 @@ export const PrivateFinale: React.FC<PrivateFinaleProps> = ({ onReplay }) => {
         </h2>
 
         <p className="font-caveat text-2xl sm:text-3xl text-gray-700 max-w-xl mx-auto leading-relaxed">
-          "May this 22nd year bring you endless peace, extraordinary triumphs, and continuous smiles. 
+          "May this next magnificent chapter bring you endless peace, extraordinary triumphs, and continuous smiles. 
           Your brother will always be cheering for you."
         </p>
 

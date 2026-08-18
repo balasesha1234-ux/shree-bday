@@ -2,6 +2,7 @@
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { Heart, Sparkles, MessageCircleHeart, PartyPopper } from 'lucide-react';
 import { triggerCustomConfetti } from '../shared/Confetti';
+import { GlitchAge } from '../shared/GlitchAge';
 import { soundEngine } from '../../utils/soundEffects';
 
 interface PublicHeroProps {
@@ -167,7 +168,7 @@ export const PublicHero: React.FC<PublicHeroProps> = ({ onWishClick }) => {
           className="pointer-events-auto inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/90 backdrop-blur-md shadow-pop border border-pink-200 text-[#FF4D8D] font-fredoka font-semibold text-xs sm:text-sm mb-6"
         >
           <Sparkles className="w-4 h-4 text-[#FFD93D] fill-[#FFD93D]" />
-          <span>MARCH 6 // CELEBRATING 22 YEARS OF SHREE 🎂</span>
+          <span>MARCH 6 // CELEBRATING <GlitchAge suffix=" YEARS" className="mx-1 text-xs sm:text-sm" /> OF SHREE 🎂</span>
         </motion.div>
 
         {/* Dynamic 3D Cursor Responsive Title */}

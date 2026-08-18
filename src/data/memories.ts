@@ -25,5 +25,5 @@ export const MEMORIES_DATA: PolaroidMemory[] = [
   { id: 12, title: 'Sweet Celebrations', image: '/assets/serial/12s.jpg', caption: 'Celebrating your achievements with ice cream and endless laughs 🍦', date: 'June 2024', tag: 'Celebration', sticker: '🍦', tapeColor: 'pink', rotation: 1.9 },
   { id: 13, title: 'Grace & Poise', image: '/assets/serial/13s.jpg', caption: 'Looking graceful in traditional attire — the true embodiment of grace 🌸', date: 'April 2024', tag: 'Grace', sticker: '🌸', tapeColor: 'lavender', rotation: -3.0 },
   { id: 14, title: 'Long Distance Calls', image: '/assets/serial/14s.jpg', caption: 'Every long-distance call from Hyderabad to Delhi keeping the bond strong 📞', date: 'Feb 2024', tag: 'Hyd ➔ Del', sticker: '📞', tapeColor: 'mint', rotation: 2.2 },
-  { id: 15, title: 'Turning 22!', image: '/assets/serial/15s.jpg', caption: 'Turned 22 with the biggest heart and the brightest future ahead! 🎂', date: 'March 2027', tag: '22nd Birthday', sticker: '🎂', tapeColor: 'gold', rotation: -1.0 }
+  { id: 15, title: 'New Chapter!', image: '/assets/serial/15s.jpg', caption: 'A brand new chapter with the biggest heart and the brightest future ahead! 🎂', date: 'March 2027', tag: 'New Chapter 🎂', sticker: '🎂', tapeColor: 'gold', rotation: -1.0 }
 ];
