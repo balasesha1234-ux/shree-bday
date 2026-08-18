@@ -58,6 +58,6 @@ export const TEASER_MILESTONES: TeaserMilestone[] = [
     lore: 'Tonight, the public realm shall rejoice. And beyond it, a secret world awaits only for her.',
     unlocked: false,
     type: 'text',
-    easterEgg: '✨ 22 years of pure magic.'
+    easterEgg: '✨ Special Chapter of pure magic.'
   }
 ];

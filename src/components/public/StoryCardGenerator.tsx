@@ -9,7 +9,7 @@ type StoryTheme = 'pink' | 'devotional' | 'kitty';
 export const StoryCardGenerator: React.FC = () => {
   const [theme, setTheme] = useState<StoryTheme>('pink');
   const [fanName, setFanName] = useState('Ananya');
-  const [wishText, setWishText] = useState('Happy 22nd Birthday to our favorite creator! Keep shining always 🌸✨');
+  const [wishText, setWishText] = useState('Happy Birthday to our favorite creator! Keep shining always 🌸✨');
   const [isGenerating, setIsGenerating] = useState(false);
   const [downloadSuccess, setDownloadSuccess] = useState(false);
 
@@ -47,7 +47,7 @@ export const StoryCardGenerator: React.FC = () => {
       ctx.fillStyle = theme === 'devotional' ? '#D4A84B' : '#FF4D8D';
       ctx.font = 'bold 36px sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText('MARCH 6 • 22ND BIRTHDAY CELEBRATION', 540, 180);
+      ctx.fillText('MARCH 6 • Birthday CELEBRATION', 540, 180);
 
       ctx.fillStyle = theme === 'devotional' ? '#FFFFFF' : '#2D2D2D';
       ctx.font = 'bold 84px sans-serif';
@@ -229,7 +229,7 @@ export const StoryCardGenerator: React.FC = () => {
           >
             <div className="pt-2">
               <span className="text-[9px] font-space font-bold tracking-widest text-[#FF4D8D] block uppercase">
-                MARCH 6 • 22ND BIRTHDAY
+                MARCH 6 • Birthday
               </span>
               <h4 className="text-xl font-fredoka font-bold text-gray-800 leading-tight mt-0.5">
                 HAPPY BIRTHDAY SHREE! 🎂

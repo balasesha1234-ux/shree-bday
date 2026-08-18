@@ -14,7 +14,7 @@ export const PublicFinale: React.FC<PublicFinaleProps> = ({ onTapTarget, tapStep
     if (navigator.share) {
       navigator.share({
         title: 'Happy Birthday Shree! 🎂',
-        text: 'Join the worldwide celebration for Shree’s 22nd Birthday!',
+        text: 'Join the worldwide celebration for Shree’s Birthday!',
         url: window.location.href
       }).catch(() => {});
     } else {

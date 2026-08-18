@@ -15,7 +15,7 @@ export const FRIEND_WISHES_DATA: FriendWish[] = [
     relation: 'Family',
     avatarEmoji: '👨‍👩‍👧',
     balloonColor: 'bg-[#FF6B9D]',
-    message: 'Happy 22nd Birthday to our dearest darling! May God bless you with health, success, and pure joy always. So proud of the woman you are becoming! 💖',
+    message: 'Happy Birthday to our dearest darling! May God bless you with health, success, and pure joy always. So proud of the woman you are becoming! 💖',
     signature: 'With all our blessings'
   },
   {
@@ -51,7 +51,7 @@ export const FRIEND_WISHES_DATA: FriendWish[] = [
     relation: 'Friend',
     avatarEmoji: '😎',
     balloonColor: 'bg-[#A78BFA]',
-    message: 'Happy 22nd Shree! Treat party is pending in Delhi! Wishing you massive creator milestones and endless happiness this year!',
+    message: 'Happy  Shree! Treat party is pending in Delhi! Wishing you massive creator milestones and endless happiness this year!',
     signature: 'Party hard!'
   },
   {
@@ -69,7 +69,7 @@ export const FRIEND_WISHES_DATA: FriendWish[] = [
     relation: 'The Squad',
     avatarEmoji: '🎉',
     balloonColor: 'bg-[#38BDF8]',
-    message: 'Happy 22nd Birthday to our favorite cat queen! Can’t wait to celebrate with you soon! 🐱🎂💖',
+    message: 'Happy Birthday to our favorite cat queen! Can’t wait to celebrate with you soon! 🐱🎂💖',
     signature: 'The Squad'
   }
 ];
