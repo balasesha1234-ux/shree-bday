@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, Radio, Play, Shield } from 'lucide-react';
+import { Sparkles, Radio, Shield } from 'lucide-react';
 import { GlitchAge } from '../shared/GlitchAge';
 import { useCountdown } from '../../hooks/useCountdown';
 import { CountdownTimer } from './CountdownTimer';
@@ -37,15 +37,11 @@ export const CountdownPage: React.FC<CountdownPageProps> = ({ onUnlockBirthday }
           </span>
         </div>
 
-        {/* Secret Preview Toggle for Midnight Explosion */}
-        <button
-          onClick={() => setTriggerMidnight(true)}
-          className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FF2D78]/20 border border-[#FF2D78]/50 text-[#FF2D78] hover:bg-[#FF2D78] hover:text-white transition-all text-xs font-space font-semibold"
-          title="Instant Preview Midnight Reveal Transition"
-        >
-          <Play className="w-3.5 h-3.5 fill-current" />
-          <span>PREVIEW ZERO HOUR 💥</span>
-        </button>
+        {/* Live Status Indicator */}
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-space font-semibold">
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          <span>LIVE BROADCAST READY</span>
+        </div>
       </header>
 
       {/* Center Cinematic Content */}

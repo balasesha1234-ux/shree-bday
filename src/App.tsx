@@ -29,24 +29,11 @@ import { ConfettiEffect, triggerCustomConfetti } from './components/shared/Confe
 
 export function App() {
   const [appMode, setAppMode] = useState<AppMode>(() => {
-    if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search);
-      if (params.get('mode') === 'private') return 'private';
-      if (params.get('mode') === 'public') return 'public';
-      if (params.get('mode') === 'countdown') return 'countdown';
-    }
     return isBirthdayActive() ? 'public' : 'countdown';
   });
 
-  // Preview Switcher is enabled in local development OR with ?preview=1 / ?dev=true in URL
-  const [showPreviewToolbar] = useState<boolean>(() => {
-    if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search);
-      return import.meta.env.DEV || params.get('preview') === '1' || params.get('dev') === 'true';
-    }
-    return import.meta.env.DEV;
-  });
-
+  // Preview Switcher is strictly enabled only during local npm run dev
+  const showPreviewToolbar = import.meta.env.DEV;
   const [devToolbarOpen, setDevToolbarOpen] = useState<boolean>(true);
 
   // Initialize Lenis smooth scroll with ice-glide physics
