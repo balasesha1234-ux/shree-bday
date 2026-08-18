@@ -1,6 +1,6 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Send, Sparkles, Heart } from 'lucide-react';
+import { X, Send, Sparkles, Heart, AlertCircle } from 'lucide-react';
 import { FanWish } from '../../utils/supabaseClient';
 import { triggerCustomConfetti } from '../shared/Confetti';
 
@@ -10,22 +10,48 @@ interface WishSubmitFormProps {
   onSubmit: (wish: Omit<FanWish, 'id' | 'created_at' | 'likes'>) => void;
 }
 
+// Anti-XSS and Anti-Spam Sanitizer
+function sanitizeInput(text: string): string {
+  return text
+    .replace(/[<>]/g, '') // Strip HTML tags
+    .replace(/javascript:/gi, '')
+    .trim();
+}
+
 export const WishSubmitForm: React.FC<WishSubmitFormProps> = ({ isOpen, onClose, onSubmit }) => {
   const [name, setName] = useState('');
   const [city, setCity] = useState('');
   const [message, setMessage] = useState('');
   const [selectedEmoji, setSelectedEmoji] = useState('🌸');
+  const [cooldownError, setCooldownError] = useState<string | null>(null);
 
   const emojis = ['🌸', '🐱', '🪷', '✨', '💖', '🎂', '🎈', '👑'];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !message.trim()) return;
+    setCooldownError(null);
+
+    const cleanName = sanitizeInput(name);
+    const cleanMessage = sanitizeInput(message);
+    const cleanCity = sanitizeInput(city);
+
+    if (!cleanName || !cleanMessage) return;
+
+    // Rate Limiting (Anti-Spam Flooding Guard)
+    const lastSubmitTime = Number(sessionStorage.getItem('last_wish_submit_time') || 0);
+    const now = Date.now();
+    if (now - lastSubmitTime < 10000) {
+      const waitSeconds = Math.ceil((10000 - (now - lastSubmitTime)) / 1000);
+      setCooldownError(`Please wait ${waitSeconds}s before submitting another wish!`);
+      return;
+    }
+
+    sessionStorage.setItem('last_wish_submit_time', String(now));
 
     onSubmit({
-      name: name.trim(),
-      city: city.trim() || undefined,
-      message: message.trim(),
+      name: cleanName.slice(0, 40),
+      city: cleanCity ? cleanCity.slice(0, 30) : undefined,
+      message: cleanMessage.slice(0, 300),
       emoji: selectedEmoji
     });
 
@@ -39,7 +65,7 @@ export const WishSubmitForm: React.FC<WishSubmitFormProps> = ({ isOpen, onClose,
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
           <motion.div
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
@@ -65,6 +91,13 @@ export const WishSubmitForm: React.FC<WishSubmitFormProps> = ({ isOpen, onClose,
                 <X className="w-4 h-4" />
               </button>
             </div>
+
+            {cooldownError && (
+              <div className="mb-4 p-3 rounded-xl bg-rose-50 border border-rose-200 flex items-center gap-2 text-rose-600 text-xs font-semibold">
+                <AlertCircle className="w-4 h-4 shrink-0" />
+                <span>{cooldownError}</span>
+              </div>
+            )}
 
             <form onSubmit={handleSubmit} className="space-y-4 font-quicksand">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -100,27 +133,28 @@ export const WishSubmitForm: React.FC<WishSubmitFormProps> = ({ isOpen, onClose,
                   rows={3}
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Write something sweet, warm, or funny for Shree..."
-                  maxLength={280}
+                  placeholder="Write a sweet, uplifting birthday wish for Shree..."
+                  maxLength={300}
                   className="w-full px-4 py-2.5 rounded-xl bg-pink-50/50 border border-pink-200 focus:outline-none focus:ring-2 focus:ring-[#FF4D8D] text-sm resize-none"
                 />
-                <span className="text-[10px] text-gray-400 float-right mt-1">
-                  {message.length} / 280
+                <span className="text-[10px] text-gray-400 block text-right">
+                  {message.length} / 300 characters
                 </span>
               </div>
 
+              {/* Choose Emoji Avatar */}
               <div>
-                <label className="block text-xs font-bold text-gray-700 mb-1.5">Pick a Reaction Badge</label>
-                <div className="flex items-center gap-2">
+                <label className="block text-xs font-bold text-gray-700 mb-2">Choose an Emoji Stamp</label>
+                <div className="flex flex-wrap gap-2">
                   {emojis.map((emoji) => (
                     <button
                       key={emoji}
                       type="button"
                       onClick={() => setSelectedEmoji(emoji)}
-                      className={`w-9 h-9 rounded-xl flex items-center justify-center text-lg transition-all ${
+                      className={`w-10 h-10 rounded-2xl flex items-center justify-center text-xl transition-all ${
                         selectedEmoji === emoji
-                          ? 'bg-[#FF4D8D] text-white scale-110 shadow-sm'
-                          : 'bg-pink-50 hover:bg-pink-100'
+                          ? 'bg-pink-100 border-2 border-[#FF4D8D] scale-110 shadow-sm'
+                          : 'bg-gray-50 border border-gray-200 hover:bg-pink-50'
                       }`}
                     >
                       {emoji}
@@ -129,22 +163,14 @@ export const WishSubmitForm: React.FC<WishSubmitFormProps> = ({ isOpen, onClose,
                 </div>
               </div>
 
-              <div className="pt-2 flex items-center justify-end gap-3">
-                <button
-                  type="button"
-                  onClick={onClose}
-                  className="px-5 py-2.5 rounded-full text-xs font-fredoka font-semibold text-gray-500 hover:text-gray-700"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#FF4D8D] hover:bg-[#FF2D78] text-white text-xs font-fredoka font-semibold shadow-pop hover:scale-105 active:scale-95 transition-all"
-                >
-                  <Send className="w-3.5 h-3.5" />
-                  <span>Send Wish 🌸</span>
-                </button>
-              </div>
+              {/* Submit Action */}
+              <button
+                type="submit"
+                className="w-full mt-4 flex items-center justify-center gap-2 py-3 rounded-2xl bg-[#FF4D8D] hover:bg-[#FF2D78] text-white font-fredoka font-semibold text-sm shadow-pop hover:scale-[1.02] active:scale-[0.98] transition-all"
+              >
+                <Send className="w-4 h-4" />
+                <span>Post Birthday Wish 🌸</span>
+              </button>
             </form>
           </motion.div>
         </div>

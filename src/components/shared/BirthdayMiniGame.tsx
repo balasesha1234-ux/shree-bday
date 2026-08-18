@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Play, RotateCcw, Trophy, Sparkles } from 'lucide-react';
 import { soundEngine } from '../../utils/soundEffects';
 import { triggerCustomConfetti } from './Confetti';
-import { LeaderboardEntry, INITIAL_LEADERBOARD } from '../../utils/supabaseClient';
+import { LeaderboardEntry, INITIAL_LEADERBOARD, getArcadeLeaderboard, submitArcadeScore, supabase } from '../../utils/supabaseClient';
 
 interface FallingItem {
   id: number;
@@ -29,6 +29,31 @@ export const BirthdayMiniGame: React.FC = () => {
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(30);
   const [combo, setCombo] = useState(1);
+
+  // Anti-Cheat & Live Supabase sync
+  useEffect(() => {
+    getArcadeLeaderboard().then((data) => {
+      if (data && data.length > 0) setLeaderboard(data);
+    });
+
+    if (supabase) {
+      const channel = supabase
+        .channel('public:arcade_leaderboard')
+        .on(
+          'postgres_changes',
+          { event: 'INSERT', schema: 'public', table: 'arcade_leaderboard' },
+          (payload) => {
+            const newEntry = payload.new as LeaderboardEntry;
+            setLeaderboard((prev) => [newEntry, ...prev.filter(e => e.id !== newEntry.id)].sort((a, b) => b.score - a.score).slice(0, 20));
+          }
+        )
+        .subscribe();
+
+      return () => {
+        if (supabase) supabase.removeChannel(channel);
+      };
+    }
+  }, []);
 
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>(() => {
     const saved = localStorage.getItem('shree_arcade_leaderboard');
@@ -97,21 +122,23 @@ export const BirthdayMiniGame: React.FC = () => {
 
   useEffect(() => {
     if (gameState === 'gameover' && score > 0) {
+      // Anti-Cheat: Max theoretical score in 30 seconds is ~15,000. Cap unrealistic memory-injected scores.
+      const validScore = Math.min(20000, Math.max(0, Math.floor(score)));
+      const cleanPlayerName = (playerName.trim() || 'Anonymous Friend').slice(0, 30);
+      const cleanCity = playerCity.trim() ? playerCity.trim().slice(0, 30) : undefined;
       const rankData = getRankInfo(score);
       const newEntry: LeaderboardEntry = {
         id: String(Date.now()),
-        name: playerName.trim() || 'Anonymous Friend',
-        score,
+        name: cleanPlayerName,
+        score: validScore,
         rank: rankData.rank,
         avatar: playerAvatar,
-        city: playerCity.trim() || undefined,
+        city: cleanCity,
         created_at: new Date().toISOString()
       };
 
-      setLeaderboard((prev) => {
-        const combined = [newEntry, ...prev].sort((a, b) => b.score - a.score).slice(0, 15);
-        localStorage.setItem('shree_arcade_leaderboard', JSON.stringify(combined));
-        return combined;
+      submitArcadeScore(newEntry).then((saved) => {
+        setLeaderboard((prev) => [saved, ...prev.filter(e => e.id !== saved.id)].sort((a, b) => b.score - a.score).slice(0, 15));
       });
     }
   }, [gameState, score, playerName, playerAvatar, playerCity]);
