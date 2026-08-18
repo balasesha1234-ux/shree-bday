@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ShieldAlert, Lock, Zap } from 'lucide-react';
+import { LokiGlitchAge } from '../shared/LokiGlitchAge';
 
 interface CountdownTimerProps {
   days: string;
@@ -10,7 +10,7 @@ interface CountdownTimerProps {
   milliseconds: string;
 }
 
-const AGE_GLITCH_ARRAY = ['18', '27', '99', '04', '73', '88', '19', '42', '56', '31', '64', '??', '##', 'XX', '∞', '00', '77'];
+const MINECRAFT_RUNES = ['ᔑ', 'ʖ', 'ᓵ', 'ᖱ', 'ᒷ', '⎓', 'ㄍ', '⍑', '╎', '⋮', 'ꖌ', 'ꖎ', 'ᒲ', 'リ', '𝙹', '!¡', 'ᑑ', '∷', 'ᓭ', 'ℸ ̣', '⚍', '⍊', '∴', '̇/', '||', 'ㄗ'];
 
 export const CountdownTimer: React.FC<CountdownTimerProps> = ({
   days,
@@ -19,17 +19,13 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({
   seconds,
   milliseconds
 }) => {
-  const [glitchAge, setGlitchAge] = useState('??');
-  const [isGlitching, setIsGlitching] = useState(false);
+  const [enchantPhrase, setEnchantPhrase] = useState('ᔑʖᓵᖱᒷ');
 
   useEffect(() => {
-    // Ultra fast-paced number scrambler (50ms)
     const interval = setInterval(() => {
-      const randomVal = AGE_GLITCH_ARRAY[Math.floor(Math.random() * AGE_GLITCH_ARRAY.length)];
-      setGlitchAge(randomVal);
-      setIsGlitching(Math.random() > 0.4);
-    }, 50);
-
+      const p = Array.from({ length: 6 }, () => MINECRAFT_RUNES[Math.floor(Math.random() * MINECRAFT_RUNES.length)]).join('');
+      setEnchantPhrase(p);
+    }, 80);
     return () => clearInterval(interval);
   }, []);
 
@@ -42,25 +38,23 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({
 
   return (
     <div className="flex flex-col items-center justify-center my-8 w-full max-w-4xl px-4 select-none">
-      {/* Target Age Glitch Encryption Status */}
+      {/* Loki / Minecraft Enchanting Table Age Header */}
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="mb-6 inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#12122B]/90 border border-pink-500/40 shadow-neon-glow text-xs font-space backdrop-blur-md"
+        className="mb-6 flex flex-wrap items-center justify-center gap-3 px-5 py-2 rounded-2xl bg-[#080816]/90 border border-emerald-500/40 shadow-[0_0_30px_rgba(34,197,94,0.3)] backdrop-blur-xl"
       >
-        <span className="w-2 h-2 rounded-full bg-[#7CEBC6] animate-ping" />
-        <span className="text-gray-300 font-semibold tracking-wider">
-          TARGET AGE PROTOCOL:
+        <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
+        <span className="text-xs font-space font-bold uppercase tracking-widest text-emerald-400">
+          LEVEL CIPHER:
         </span>
-        <span className="px-2 py-0.5 rounded bg-black/60 font-mono font-bold text-base text-[#FF2D78] border border-[#FF2D78]/60 drop-shadow-[0_0_10px_rgba(255,45,120,0.9)] animate-pulse">
-          [{glitchAge}]
-        </span>
-        <span className="text-[10px] font-mono tracking-widest text-[#7CEBC6] font-bold uppercase hidden sm:inline">
-          // TOP SECRET ENCRYPTED
+        <LokiGlitchAge suffix="CHAPTER" className="text-lg sm:text-2xl" />
+        <span className="font-mono text-xs text-purple-400 tracking-widest font-bold hidden sm:inline">
+          [{enchantPhrase}]
         </span>
       </motion.div>
 
-      {/* Glitch Timer Cards (4-Column Primary Count) */}
+      {/* Glitch Timer Cards (4 Primary Countdown Units) */}
       <div className="grid grid-cols-4 gap-2 md:gap-6 w-full">
         {units.map((unit, index) => (
           <motion.div
