@@ -1,0 +1,4 @@
+﻿User-agent: *
+Allow: /
+
+Sitemap: https://my-love-bday.vercel.app/sitemap.xml

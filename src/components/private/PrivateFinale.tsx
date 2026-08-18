@@ -1,0 +1,55 @@
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Sparkles, RotateCcw, ShieldCheck } from 'lucide-react';
+import { soundEngine } from '../../utils/soundEffects';
+import { triggerCustomConfetti } from '../shared/Confetti';
+
+interface PrivateFinaleProps {
+  onReplay: () => void;
+}
+
+export const PrivateFinale: React.FC<PrivateFinaleProps> = ({ onReplay }) => {
+  const handleReplayClick = () => {
+    soundEngine.playSparkle(1.5);
+    triggerCustomConfetti();
+    onReplay();
+  };
+
+  return (
+    <section className="relative w-full max-w-4xl mx-auto px-4 py-28 text-center select-none">
+      <div className="space-y-6">
+        <motion.div
+          initial={{ scale: 0 }}
+          whileInView={{ scale: 1 }}
+          viewport={{ once: true }}
+          className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-[#D4A84B] to-[#FF4D8D] text-white flex items-center justify-center text-3xl shadow-pop"
+        >
+          🪷
+        </motion.div>
+
+        <h2 className="text-4xl sm:text-6xl font-playfair font-bold text-[#3D2040]">
+          Always Here For You, Shree 🌸
+        </h2>
+
+        <p className="font-caveat text-2xl sm:text-3xl text-gray-700 max-w-xl mx-auto leading-relaxed">
+          "May this 22nd year bring you endless peace, extraordinary triumphs, and continuous smiles. 
+          Your brother will always be cheering for you."
+        </p>
+
+        <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <button
+            onClick={handleReplayClick}
+            className="flex items-center gap-2 px-8 py-3.5 rounded-full bg-white hover:bg-pink-50 border border-pink-200 text-[#FF4D8D] font-fredoka font-bold text-sm shadow-sm hover:scale-105 active:scale-95 transition-all"
+          >
+            <RotateCcw className="w-4 h-4" />
+            <span>Replay Sanctuary Experience 🌸</span>
+          </button>
+        </div>
+
+        <div className="pt-12 text-xs font-space text-gray-400">
+          <span>MADE WITH 100% BROTHERLY RESPECT & ADMIRATION • MARCH 6, 2027</span>
+        </div>
+      </div>
+    </section>
+  );
+};

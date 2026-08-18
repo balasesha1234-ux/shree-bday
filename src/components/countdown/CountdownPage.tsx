@@ -1,0 +1,97 @@
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Sparkles, Radio, Play, Shield } from 'lucide-react';
+import { useCountdown } from '../../hooks/useCountdown';
+import { CountdownTimer } from './CountdownTimer';
+import { TeaserUnlocks } from './TeaserUnlocks';
+import { MidnightReveal } from './MidnightReveal';
+import { PawPrints } from '../shared/PawPrints';
+
+interface CountdownPageProps {
+  onUnlockBirthday: () => void;
+}
+
+export const CountdownPage: React.FC<CountdownPageProps> = ({ onUnlockBirthday }) => {
+  const countdown = useCountdown();
+  const [triggerMidnight, setTriggerMidnight] = useState<boolean>(false);
+
+  return (
+    <div className="relative min-h-screen bg-[#0A0A1A] text-white flex flex-col items-center justify-between overflow-hidden selection:bg-[#FF2D78] selection:text-white select-none">
+      {/* Background Animated Gradient Mesh */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute -top-40 -left-40 w-96 h-96 bg-[#FF2D78]/20 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute top-1/2 -right-40 w-96 h-96 bg-[#6BC5F8]/15 rounded-full blur-[140px]" />
+        <div className="absolute -bottom-40 left-1/3 w-[500px] h-[500px] bg-[#FF6B9D]/15 rounded-full blur-[160px]" />
+      </div>
+
+      {/* Walking Cat Paws Easter Egg */}
+      <PawPrints />
+
+      {/* Top Banner Header */}
+      <header className="relative z-10 w-full max-w-6xl mx-auto pt-8 px-6 flex items-center justify-between">
+        <div className="flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
+          <Radio className="w-4 h-4 text-[#FF2D78] animate-pulse" />
+          <span className="text-xs font-space uppercase tracking-widest text-gray-300 font-semibold">
+            HYDERABAD ➔ DELHI // SIBLING STREAM PROTOCOL 🛡️
+          </span>
+        </div>
+
+        {/* Secret Preview Toggle for Midnight Explosion */}
+        <button
+          onClick={() => setTriggerMidnight(true)}
+          className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FF2D78]/20 border border-[#FF2D78]/50 text-[#FF2D78] hover:bg-[#FF2D78] hover:text-white transition-all text-xs font-space font-semibold"
+          title="Instant Preview Midnight Reveal Transition"
+        >
+          <Play className="w-3.5 h-3.5 fill-current" />
+          <span>PREVIEW ZERO HOUR 💥</span>
+        </button>
+      </header>
+
+      {/* Center Cinematic Content */}
+      <main className="relative z-10 w-full max-w-5xl mx-auto px-4 flex flex-col items-center text-center mt-10">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
+          className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#FF2D78]/15 border border-[#FF2D78]/40 text-[#FF6B9D] text-xs font-space font-bold tracking-[0.2em] mb-4 uppercase shadow-sm"
+        >
+          <Sparkles className="w-4 h-4 text-[#FFD93D]" />
+          <span>PROJECT SHREE // COUNTDOWN TO ZERO HOUR 🚀</span>
+        </motion.div>
+
+        <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-fredoka font-bold tracking-tight text-white drop-shadow-[0_5px_30px_rgba(255,45,120,0.5)]">
+          SHREE’S 22ND BIRTHDAY 🎂
+        </h1>
+
+        <p className="mt-3 text-sm sm:text-base font-quicksand text-pink-200/90 max-w-2xl leading-relaxed">
+          A worldwide celebration for the best sister, kindest creator & cat whisperer in the universe! 🌸 <br className="hidden sm:inline" />
+          Synchronizing live from Hyderabad to Delhi at Midnight IST on March 6.
+        </p>
+
+        {/* Marvel Countdown Timer */}
+        <CountdownTimer
+          days={countdown.formattedDays}
+          hours={countdown.formattedHours}
+          minutes={countdown.formattedMinutes}
+          seconds={countdown.formattedSeconds}
+          milliseconds={countdown.milliseconds}
+        />
+
+        {/* Daily Teaser Milestones */}
+        <TeaserUnlocks daysRemaining={countdown.days} />
+      </main>
+
+      {/* Footer */}
+      <footer className="relative z-10 w-full py-6 text-center text-xs font-quicksand text-gray-500 border-t border-white/5">
+        <p className="flex items-center justify-center gap-1.5">
+          Crafted with 100% Brotherly Pride & Support for Shree 🐱🛡️ // Long Distance Sync
+        </p>
+      </footer>
+
+      {/* Midnight Reveal Transition Overlay */}
+      {triggerMidnight && (
+        <MidnightReveal onComplete={onUnlockBirthday} />
+      )}
+    </div>
+  );
+};
