@@ -7,6 +7,7 @@ import { CountdownTimer } from './CountdownTimer';
 import { TeaserUnlocks } from './TeaserUnlocks';
 import { MidnightReveal } from './MidnightReveal';
 import { PawPrints } from '../shared/PawPrints';
+import { ShootingStars } from '../shared/ShootingStars';
 
 interface CountdownPageProps {
   onUnlockBirthday: () => void;
@@ -26,6 +27,7 @@ export const CountdownPage: React.FC<CountdownPageProps> = ({ onUnlockBirthday }
       </div>
 
       {/* Walking Cat Paws Easter Egg */}
+      <ShootingStars />
       <PawPrints />
 
       {/* Top Banner Header */}

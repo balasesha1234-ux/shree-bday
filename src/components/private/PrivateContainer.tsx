@@ -7,6 +7,7 @@ import { GiftUnwrap } from './GiftUnwrap';
 import { ScratchCard } from './ScratchCard';
 import { FriendWishWall } from './FriendWishWall';
 import { TheLetter } from './TheLetter';
+import { ShootingStars } from '../shared/ShootingStars';
 import { PrivateFinale } from './PrivateFinale';
 
 interface PrivateContainerProps {
@@ -23,6 +24,7 @@ export const PrivateContainer: React.FC<PrivateContainerProps> = ({ onReplay }) 
 
   return (
     <div className="relative min-h-screen bg-[#FFF5F5] text-[#2D2D2D]">
+      <ShootingStars />
       <PrivateIntro onStartScroll={scrollToChapterOne} />
       <DistanceTracker />
       <PlaylistSection />

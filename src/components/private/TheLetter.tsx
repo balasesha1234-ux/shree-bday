@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, ShieldCheck } from 'lucide-react';
+import { Sparkles, ShieldCheck, Check } from 'lucide-react';
+import { soundEngine } from '../../utils/soundEffects';
+import { triggerCustomConfetti } from '../shared/Confetti';
 
 export const TheLetter: React.FC = () => {
+  const [sealStamped, setSealStamped] = useState(false);
+
+  const handleSealClick = () => {
+    soundEngine.playSparkle(1.5);
+    soundEngine.playTempleBell();
+    triggerCustomConfetti();
+    setSealStamped(true);
+  };
+
   return (
     <section className="relative w-full max-w-4xl mx-auto px-4 py-24 select-none">
       {/* Background Soft Aura */}
@@ -16,7 +27,7 @@ export const TheLetter: React.FC = () => {
           viewport={{ once: true }}
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-[#D4A84B] font-fredoka text-xs font-semibold shadow-sm border border-[#D4A84B]/30 mb-3"
         >
-          <Sparkles className="w-3.5 h-3.5" />
+          <Sparkles className="w-3.5 h-3.5 text-[#D4A84B]" />
           <span>CHAPTER 05 // A BROTHER’S TRIBUTE</span>
         </motion.div>
 
@@ -24,7 +35,7 @@ export const TheLetter: React.FC = () => {
           From Your Brother’s Heart 💌
         </h2>
         <p className="text-sm sm:text-base font-quicksand text-gray-600 mt-2">
-          Written with the highest respect and deepest pride across the 1,500 km between Hyderabad and Delhi.
+          Written with the highest respect and deepest pride across the distance from Hyderabad to Delhi.
         </p>
       </div>
 
@@ -54,7 +65,7 @@ export const TheLetter: React.FC = () => {
         {/* Letter Body in Caveat Handwriting Font */}
         <div className="font-caveat text-2xl sm:text-3xl text-gray-800 leading-relaxed space-y-6">
           <p>
-            Happy Birthday to the most inspiring, pure-hearted sister figure in my life. 🌸
+            Happy 22nd Birthday to the most inspiring, pure-hearted sister figure in my life. 🌸
           </p>
 
           <p>
@@ -80,17 +91,38 @@ export const TheLetter: React.FC = () => {
             and grant every single dream your heart holds.
           </p>
 
-          {/* Signature */}
-          <div className="pt-8 text-right border-t border-[#D4A84B]/30 mt-8">
-            <p className="font-playfair text-xl sm:text-2xl text-[#3D2040] font-bold">
-              Always in Your Corner,
-            </p>
-            <p className="font-caveat text-3xl sm:text-4xl text-[#D4A84B] font-bold mt-1">
-              Your Brother 🛡️🌸
-            </p>
-            <span className="text-xs font-space text-[#D4A84B] tracking-widest uppercase block mt-1">
-              HYDERABAD ✈️ DELHI // ETERNAL RESPECT & SUPPORT
-            </span>
+          {/* Signature & Interactive Wax Seal */}
+          <div className="pt-8 border-t border-[#D4A84B]/30 mt-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+            {/* 3D Crimson & Gold Sibling Wax Seal */}
+            <motion.div
+              whileHover={{ scale: 1.1, rotate: 5 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={handleSealClick}
+              className="cursor-pointer flex items-center gap-3 bg-gradient-to-r from-[#8B1E2F] via-[#A8283D] to-[#8B1E2F] p-3 pr-5 rounded-full shadow-xl border-2 border-[#D4A84B] text-white"
+              title="Click to stamp the Sibling Seal"
+            >
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#D4A84B] to-[#F5C642] flex items-center justify-center text-2xl shadow-inner border border-amber-200">
+                🛡️
+              </div>
+              <div className="text-left">
+                <span className="text-[10px] font-space tracking-widest uppercase text-amber-200 block">
+                  {sealStamped ? 'PACT SEALED 🌸' : 'SIBLING PACT SEAL'}
+                </span>
+                <span className="text-xs font-fredoka font-bold text-white block">
+                  {sealStamped ? 'Bond of Lifetime Protection' : 'Tap to Seal Pact'}
+                </span>
+              </div>
+            </motion.div>
+
+            {/* Handwritten Signature */}
+            <div className="text-right">
+              <p className="font-playfair text-xl sm:text-2xl text-[#3D2040] font-bold">
+                Always in Your Corner,
+              </p>
+              <p className="font-caveat text-3xl sm:text-4xl text-[#D4A84B] font-bold mt-1">
+                Your Brother in Hyderabad 🛡️🌸
+              </p>
+            </div>
           </div>
         </div>
       </motion.div>
