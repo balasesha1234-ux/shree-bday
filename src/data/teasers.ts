@@ -13,17 +13,18 @@ export interface TeaserMilestone {
 export const TEASER_MILESTONES: TeaserMilestone[] = [
   {
     dayIndex: 1,
-    daysRemaining: 14,
+    daysRemaining: 10,
     title: 'THE QUANTUM SIGNAL',
     subtitle: 'An anomaly detected across the digital cosmos',
     lore: 'Global telemetry sensors have detected a surge of radiant energy. A worldwide celebration frequency is initializing across all networks.',
     type: 'signal',
     hologramIcon: '📡',
+    previewImage: '/assets/serial/2s.jpg',
     easterEgg: '🐾 A stray kitten stepped across the terminal console.'
   },
   {
     dayIndex: 2,
-    daysRemaining: 10,
+    daysRemaining: 7,
     title: 'THE RADIANT SILHOUETTE',
     subtitle: 'Spectral analysis of our favorite creator',
     lore: 'Atmospheric scans reveal a presence defined by pure grace, infectious laughter, and an extraordinary heart of gold. The stars are aligning.',
@@ -34,7 +35,7 @@ export const TEASER_MILESTONES: TeaserMilestone[] = [
   },
   {
     dayIndex: 3,
-    daysRemaining: 7,
+    daysRemaining: 5,
     title: 'THE HARMONY FREQUENCIES',
     subtitle: 'Seven celebratory melodies woven into time',
     lore: 'Audio spectrograms indicate 7 vinyl records preparing to spin. Memories of shared dreams, laughter, and late-night sibling calls.',
