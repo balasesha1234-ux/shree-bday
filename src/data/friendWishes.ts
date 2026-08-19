@@ -51,7 +51,7 @@ export const FRIEND_WISHES_DATA: FriendWish[] = [
     relation: 'Friend',
     avatarEmoji: '😎',
     balloonColor: 'bg-[#A78BFA]',
-    message: 'Happy  Shree! Treat party is pending in Delhi! Wishing you massive creator milestones and endless happiness this year!',
+    message: 'Happy Birthday Shree! Treat party is pending in Delhi! Wishing you massive creator milestones and endless happiness this year!',
     signature: 'Party hard!'
   },
   {
