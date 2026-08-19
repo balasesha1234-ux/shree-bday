@@ -1,4 +1,4 @@
-﻿import React, { useRef } from 'react';
+import React, { useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { Heart, Sparkles, MessageCircleHeart, PartyPopper } from 'lucide-react';
 import { triggerCustomConfetti } from '../shared/Confetti';
@@ -9,7 +9,6 @@ interface PublicHeroProps {
   onWishClick: () => void;
 }
 
-// Background Floating Mini-Polaroid for Hero
 interface HeroBgPolaroidProps {
   image: string;
   rotation: number;
@@ -18,6 +17,7 @@ interface HeroBgPolaroidProps {
   mouseYSpring: any;
   parallaxFactor: number;
   caption: string;
+  floatDelay?: number;
 }
 
 const HeroBgPolaroid: React.FC<HeroBgPolaroidProps> = ({
@@ -27,36 +27,51 @@ const HeroBgPolaroid: React.FC<HeroBgPolaroidProps> = ({
   mouseXSpring,
   mouseYSpring,
   parallaxFactor,
-  caption
+  caption,
+  floatDelay = 0
 }) => {
-  const x = useTransform(mouseXSpring, [-0.5, 0.5], [`${-40 * parallaxFactor}px`, `${40 * parallaxFactor}px`]);
-  const y = useTransform(mouseYSpring, [-0.5, 0.5], [`${-30 * parallaxFactor}px`, `${30 * parallaxFactor}px`]);
+  const x = useTransform(mouseXSpring, [-0.5, 0.5], [`${-55 * parallaxFactor}px`, `${55 * parallaxFactor}px`]);
+  const y = useTransform(mouseYSpring, [-0.5, 0.5], [`${-40 * parallaxFactor}px`, `${40 * parallaxFactor}px`]);
 
   return (
     <motion.div
-      style={{ x, y, rotate: rotation }}
-      whileHover={{
-        scale: 1.15,
-        rotate: 0,
-        opacity: 1,
-        zIndex: 30,
-        transition: { type: 'spring', stiffness: 350, damping: 20 }
-      }}
-      className={`absolute ${className} pointer-events-auto cursor-pointer p-2.5 pb-4 bg-white/80 hover:bg-white rounded-2xl shadow-lg hover:shadow-2xl border border-pink-200/80 backdrop-blur-md transition-all duration-300 select-none group`}
+      style={{ x, y }}
+      className={`absolute ${className} pointer-events-auto cursor-pointer z-10 select-none`}
     >
-      <div className="w-24 sm:w-28 md:w-32 aspect-square rounded-xl overflow-hidden bg-pink-50">
-        <img
-          src={image}
-          alt="Shree"
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-          style={{ objectPosition: '50% 18%' }}
-        />
-      </div>
-      <div className="mt-2 text-center">
-        <span className="font-caveat text-sm font-bold text-gray-700 block truncate">
-          {caption}
-        </span>
-      </div>
+      <motion.div
+        animate={{
+          y: [0, -14, 0],
+          rotate: [rotation - 2, rotation + 2, rotation - 2]
+        }}
+        transition={{
+          duration: 5.5 + floatDelay,
+          repeat: Infinity,
+          ease: 'easeInOut',
+          delay: floatDelay
+        }}
+        whileHover={{
+          scale: 1.18,
+          rotate: 0,
+          zIndex: 40,
+          boxShadow: '0 25px 50px -12px rgba(255, 77, 141, 0.45)',
+          transition: { type: 'spring', stiffness: 300, damping: 18 }
+        }}
+        className="p-2.5 pb-4 bg-white/90 hover:bg-white rounded-2xl shadow-xl border-2 border-pink-200/80 backdrop-blur-md transition-shadow duration-300 group"
+      >
+        <div className="w-24 sm:w-28 md:w-36 aspect-square rounded-xl overflow-hidden bg-pink-50 shadow-inner">
+          <img
+            src={image}
+            alt="Shree"
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            style={{ objectPosition: '50% 18%' }}
+          />
+        </div>
+        <div className="mt-2 text-center">
+          <span className="font-caveat text-sm font-bold text-gray-800 block truncate">
+            {caption}
+          </span>
+        </div>
+      </motion.div>
     </motion.div>
   );
 };
@@ -64,18 +79,17 @@ const HeroBgPolaroid: React.FC<HeroBgPolaroidProps> = ({
 export const PublicHero: React.FC<PublicHeroProps> = ({ onWishClick }) => {
   const containerRef = useRef<HTMLElement>(null);
 
-  // Mouse Parallax Physics
+  // High-inertia fluid spring physics for buttery smooth motion
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const mouseXSpring = useSpring(mouseX, { stiffness: 200, damping: 25 });
-  const mouseYSpring = useSpring(mouseY, { stiffness: 200, damping: 25 });
+  const mouseXSpring = useSpring(mouseX, { stiffness: 75, damping: 24, mass: 0.7 });
+  const mouseYSpring = useSpring(mouseY, { stiffness: 75, damping: 24, mass: 0.7 });
 
-  // 3D Headline Tilt based on cursor
-  const textRotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['10deg', '-10deg']);
-  const textRotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-12deg', '12deg']);
-  const textTranslateX = useTransform(mouseXSpring, [-0.5, 0.5], ['-18px', '18px']);
-  const textTranslateY = useTransform(mouseYSpring, [-0.5, 0.5], ['-14px', '14px']);
+  const textRotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['8deg', '-8deg']);
+  const textRotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-10deg', '10deg']);
+  const textTranslateX = useTransform(mouseXSpring, [-0.5, 0.5], ['-15px', '15px']);
+  const textTranslateY = useTransform(mouseYSpring, [-0.5, 0.5], ['-12px', '12px']);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     if (!containerRef.current) return;
@@ -92,6 +106,11 @@ export const PublicHero: React.FC<PublicHeroProps> = ({ onWishClick }) => {
     mouseY.set(0);
   };
 
+  const handleCelebrationClick = () => {
+    soundEngine.playSparkle(1.5);
+    triggerCustomConfetti();
+  };
+
   return (
     <section
       ref={containerRef}
@@ -99,56 +118,52 @@ export const PublicHero: React.FC<PublicHeroProps> = ({ onWishClick }) => {
       onMouseLeave={handleMouseLeave}
       className="relative min-h-[92vh] flex flex-col items-center justify-center text-center px-4 pt-12 pb-20 overflow-hidden perspective-1000"
     >
-      {/* Soft Ambient Glow Orbs */}
-      <div className="absolute top-1/4 left-1/4 w-80 h-80 bg-pink-200/40 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-amber-100/50 rounded-full blur-[140px] pointer-events-none" />
-
-      {/* ========================================================================= */}
-      {/* BACKGROUND FLOATING REAL POLAROIDS OF SHREE (With Inverse Parallax Drift) */}
-      {/* ========================================================================= */}
+      {/* Dynamic Cursor-Parallax Floating Polaroids */}
       <HeroBgPolaroid
         image="/assets/serial/1s.jpg"
-        rotation={-8}
-        className="top-12 left-4 sm:left-12 opacity-70 sm:opacity-85"
+        rotation={-6}
+        className="top-12 left-4 sm:left-14 opacity-80 sm:opacity-95"
         mouseXSpring={mouseXSpring}
         mouseYSpring={mouseYSpring}
-        parallaxFactor={1.2}
-        caption="Pure Sunshine ✨"
+        parallaxFactor={1.3}
+        caption="Pure Sunshine 🌸"
+        floatDelay={0}
       />
 
       <HeroBgPolaroid
         image="/assets/serial/3s.jpg"
-        rotation={6}
-        className="top-16 right-4 sm:right-16 opacity-70 sm:opacity-85"
+        rotation={7}
+        className="top-14 right-4 sm:right-16 opacity-80 sm:opacity-95"
         mouseXSpring={mouseXSpring}
         mouseYSpring={mouseYSpring}
-        parallaxFactor={-1.1}
+        parallaxFactor={-1.2}
         caption="Devotional Grace 🪷"
+        floatDelay={0.8}
       />
 
       <HeroBgPolaroid
         image="/assets/serial/5s.jpg"
         rotation={-5}
-        className="bottom-14 left-6 sm:left-24 opacity-65 sm:opacity-80 hidden sm:block"
+        className="bottom-12 left-6 sm:left-20 opacity-75 sm:opacity-90 hidden sm:block"
         mouseXSpring={mouseXSpring}
         mouseYSpring={mouseYSpring}
-        parallaxFactor={0.9}
+        parallaxFactor={0.95}
         caption="Golden Hour 🌅"
+        floatDelay={1.4}
       />
 
       <HeroBgPolaroid
         image="/assets/serial/2s.jpg"
         rotation={8}
-        className="bottom-16 right-6 sm:right-28 opacity-65 sm:opacity-80 hidden sm:block"
+        className="bottom-14 right-6 sm:right-24 opacity-75 sm:opacity-90 hidden sm:block"
         mouseXSpring={mouseXSpring}
         mouseYSpring={mouseYSpring}
-        parallaxFactor={-1.3}
-        caption="Cat Lover 🐱"
+        parallaxFactor={-1.35}
+        caption="Cat Whisperer 🐱"
+        floatDelay={0.4}
       />
 
-      {/* ========================================================================= */}
-      {/* INTERACTIVE CURSOR-RESPONSIVE 3D HERO CONTENT */}
-      {/* ========================================================================= */}
+      {/* 3D Headline Content */}
       <motion.div
         style={{
           rotateX: textRotateX,
@@ -159,19 +174,17 @@ export const PublicHero: React.FC<PublicHeroProps> = ({ onWishClick }) => {
         }}
         className="relative z-20 max-w-4xl mx-auto flex flex-col items-center pointer-events-none"
       >
-        {/* Floating Top Badge */}
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ type: 'spring', damping: 12 }}
+          transition={{ type: 'spring', damping: 14 }}
           style={{ transform: 'translateZ(40px)' }}
           className="pointer-events-auto inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/90 backdrop-blur-md shadow-pop border border-pink-200 text-[#FF4D8D] font-fredoka font-semibold text-xs sm:text-sm mb-6"
         >
           <Sparkles className="w-4 h-4 text-[#FFD93D] fill-[#FFD93D]" />
-          <span>MARCH 6 // CELEBRATING <GlitchAge suffix=" YEARS" className="mx-1 text-xs sm:text-sm" /> OF SHREE 🎂</span>
+          <span>MARCH 6 // CELEBRATING <GlitchAge suffix=" CHAPTER" className="mx-1 text-xs sm:text-sm" /> OF SHREE 🎂</span>
         </motion.div>
 
-        {/* Dynamic 3D Cursor Responsive Title */}
         <motion.h1
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -188,47 +201,39 @@ export const PublicHero: React.FC<PublicHeroProps> = ({ onWishClick }) => {
           </span>
         </motion.h1>
 
-        {/* Subtitle */}
         <motion.p
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.6 }}
           style={{ transform: 'translateZ(30px)' }}
-          className="mt-6 text-base sm:text-xl font-quicksand font-semibold text-gray-700 max-w-2xl leading-relaxed"
+          className="mt-6 text-base sm:text-xl font-quicksand text-gray-700 max-w-2xl px-4 leading-relaxed"
         >
-          Celebrating the sweetest soul, cat whisperer, devotional grace, and the kindest creator on the internet. 
-          Move your cursor around and leave a birthday wish! ✨
+          Welcome to the worldwide birthday celebration of our favorite creator, 
+          kindest soul, and cat whisperer! Light a diya, make your wish, and celebrate together! 🪷✨
         </motion.p>
 
-        {/* Interactive Action Buttons */}
+        {/* Action Buttons */}
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.6 }}
-          style={{ transform: 'translateZ(45px)' }}
-          className="mt-8 flex flex-wrap items-center justify-center gap-4 pointer-events-auto"
+          style={{ transform: 'translateZ(50px)' }}
+          className="pointer-events-auto mt-8 flex flex-col sm:flex-row items-center gap-4"
         >
           <button
-            onClick={() => {
-              soundEngine.playSparkle(1.3);
-              triggerCustomConfetti();
-              onWishClick();
-            }}
-            className="flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-[#FF4D8D] hover:bg-[#FF2D78] text-white font-fredoka font-semibold text-base shadow-pop hover:scale-105 active:scale-95 transition-all"
+            onClick={onWishClick}
+            className="flex items-center gap-2.5 px-8 py-4 rounded-full bg-[#FF4D8D] hover:bg-[#FF2D78] text-white font-fredoka font-bold text-base shadow-pop hover:scale-105 active:scale-95 transition-all"
           >
-            <MessageCircleHeart className="w-5 h-5 fill-white/20" />
-            <span>Write a Birthday Wish 💌</span>
+            <MessageCircleHeart className="w-5 h-5" />
+            <span>Post Your Birthday Wish 💌</span>
           </button>
 
           <button
-            onClick={(e) => {
-              soundEngine.playSparkle(1.5);
-              triggerCustomConfetti(e.clientX, e.clientY);
-            }}
-            className="flex items-center gap-2 px-6 py-3.5 rounded-full bg-white/95 hover:bg-pink-50 border border-pink-200 text-[#FF4D8D] font-fredoka font-semibold text-base shadow-sm hover:scale-105 active:scale-95 transition-all"
+            onClick={handleCelebrationClick}
+            className="flex items-center gap-2 px-6 py-4 rounded-full bg-white/90 hover:bg-white text-gray-700 hover:text-[#FF4D8D] font-fredoka font-semibold text-base shadow-md border border-pink-200 hover:scale-105 active:scale-95 transition-all"
           >
-            <PartyPopper className="w-4 h-4" />
-            <span>Shower Confetti 🎉</span>
+            <PartyPopper className="w-5 h-5 text-[#FFD93D]" />
+            <span>Throw Confetti! 🎉</span>
           </button>
         </motion.div>
       </motion.div>

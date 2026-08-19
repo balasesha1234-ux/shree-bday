@@ -1,7 +1,6 @@
-﻿import React from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { Heart, Share2, Sparkles, Send } from 'lucide-react';
-import { triggerCustomConfetti } from '../shared/Confetti';
+import { Heart, Share2, Sparkles, KeyRound } from 'lucide-react';
 import { TapTarget } from '../../hooks/useTapSequence';
 
 interface PublicFinaleProps {
@@ -24,8 +23,7 @@ export const PublicFinale: React.FC<PublicFinaleProps> = ({ onTapTarget, tapStep
   };
 
   return (
-    <footer className="relative w-full bg-gradient-to-b from-[#FFF5F5] to-[#FFE5EC] pt-20 pb-16 px-4 overflow-hidden border-t border-pink-100">
-      {/* Decorative Floating Lotus & Balloons */}
+    <footer className="relative w-full bg-gradient-to-b from-[#FFF5F5] to-[#FFE5EC] pt-20 pb-20 px-4 overflow-hidden border-t border-pink-100 select-none">
       <div className="max-w-4xl mx-auto text-center relative z-10">
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
@@ -45,11 +43,11 @@ export const PublicFinale: React.FC<PublicFinaleProps> = ({ onTapTarget, tapStep
           Thank you for making this world a kinder, sweeter, and more graceful place every day.
         </p>
 
-        {/* Share Buttons */}
+        {/* Share Button */}
         <div className="mt-8 flex items-center justify-center gap-3">
           <button
             onClick={shareWebsite}
-            className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#FF4D8D] hover:bg-[#FF2D78] text-white font-fredoka font-semibold text-sm shadow-pop hover:scale-105 active:scale-95 transition-all"
+            className="flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#FF4D8D] hover:bg-[#FF2D78] text-white font-fredoka font-bold text-sm shadow-pop hover:scale-105 active:scale-95 transition-all"
           >
             <Share2 className="w-4 h-4" />
             <span>Share Celebration 🎈</span>
@@ -57,58 +55,105 @@ export const PublicFinale: React.FC<PublicFinaleProps> = ({ onTapTarget, tapStep
         </div>
 
         {/* ========================================================================= */}
-        {/* SECRET TAP SEQUENCE TARGETS (Innocently embedded in artwork & decorations) */}
-        {/* Sequence: 🐱 Cat -> ⭐ Star -> 💗 Heart */}
+        {/* PROMINENT SECRET TAP CONSTELLATION (Cat -> Star -> Heart) */}
         {/* ========================================================================= */}
-        <div className="mt-16 pt-8 border-t border-pink-200/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-quicksand text-gray-500">
-          <div className="flex items-center gap-2">
-            <span>Made with endless love for Shree</span>
-            {/* HIDDEN TARGET #1: 🐱 Cat */}
-            <button
+        <div className="mt-16 pt-10 border-t border-pink-200/70 flex flex-col items-center">
+          <span className="text-[11px] font-space font-bold tracking-[0.25em] text-pink-400 uppercase mb-4 flex items-center gap-1.5">
+            <KeyRound className="w-3.5 h-3.5 text-[#D4A84B]" />
+            <span>SIBLING CONSTELLATION KEY (TAP SEQUENCE: 🐱 ➔ ⭐ ➔ 💗)</span>
+          </span>
+
+          {/* Glowing 3-Pedestal Tap Target Dock */}
+          <div className="flex items-center justify-center gap-6 sm:gap-10">
+            {/* TARGET 1: 🐱 Kitten */}
+            <motion.button
               type="button"
+              animate={{ y: [0, -6, 0] }}
+              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+              whileHover={{ scale: 1.25, rotate: 5 }}
+              whileTap={{ scale: 0.85 }}
               onClick={(e) => onTapTarget('cat', e)}
-              className="inline-flex items-center justify-center p-1 rounded-full hover:bg-pink-200/40 text-sm transition-transform active:scale-125 focus:outline-none"
-              title="A sweet little kitten"
+              className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center text-3xl sm:text-4xl shadow-pop border-2 transition-all ${
+                tapStep >= 1
+                  ? 'bg-emerald-100 border-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.5)] scale-110'
+                  : 'bg-white/95 border-pink-200 hover:border-[#FF4D8D] hover:shadow-lg'
+              }`}
+              title="Step 1: Tap the Kitten 🐱"
             >
               🐱
-            </button>
-          </div>
+            </motion.button>
 
-          <div className="flex items-center gap-4">
-            {/* HIDDEN TARGET #2: ⭐ Star */}
-            <button
+            {/* Connecting Shimmer Line */}
+            <div className="w-6 sm:w-10 h-0.5 border-t-2 border-dashed border-pink-300" />
+
+            {/* TARGET 2: ⭐ Star */}
+            <motion.button
               type="button"
+              animate={{ y: [0, -6, 0] }}
+              transition={{ duration: 3.4, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
+              whileHover={{ scale: 1.25, rotate: -5 }}
+              whileTap={{ scale: 0.85 }}
               onClick={(e) => onTapTarget('star', e)}
-              className="inline-flex items-center justify-center p-1 rounded-full hover:bg-pink-200/40 text-sm transition-transform active:scale-125 focus:outline-none"
-              title="A twinkling star"
+              className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center text-3xl sm:text-4xl shadow-pop border-2 transition-all ${
+                tapStep >= 2
+                  ? 'bg-amber-100 border-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.5)] scale-110'
+                  : 'bg-white/95 border-pink-200 hover:border-[#FFD93D] hover:shadow-lg'
+              }`}
+              title="Step 2: Tap the Star ⭐"
             >
               ⭐
-            </button>
+            </motion.button>
 
-            <span>Hyderabad ✈️ Delhi</span>
+            {/* Connecting Shimmer Line */}
+            <div className="w-6 sm:w-10 h-0.5 border-t-2 border-dashed border-pink-300" />
 
-            {/* HIDDEN TARGET #3: 💗 Heart */}
-            <button
+            {/* TARGET 3: 💗 Heart */}
+            <motion.button
               type="button"
+              animate={{ y: [0, -6, 0] }}
+              transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
+              whileHover={{ scale: 1.25, rotate: 5 }}
+              whileTap={{ scale: 0.85 }}
               onClick={(e) => onTapTarget('heart', e)}
-              className="inline-flex items-center justify-center p-1 rounded-full hover:bg-pink-200/40 text-sm transition-transform active:scale-125 focus:outline-none"
-              title="A tender heart"
+              className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center text-3xl sm:text-4xl shadow-pop border-2 transition-all ${
+                tapStep >= 3
+                  ? 'bg-pink-100 border-pink-500 shadow-[0_0_25px_rgba(255,77,141,0.6)] scale-110 animate-bounce'
+                  : 'bg-white/95 border-pink-200 hover:border-[#FF4D8D] hover:shadow-lg'
+              }`}
+              title="Step 3: Tap the Heart 💗"
             >
               💗
-            </button>
+            </motion.button>
+          </div>
+
+          {/* Interactive Progress Text */}
+          <div className="mt-4 h-6 text-center">
+            {tapStep === 0 && (
+              <span className="text-xs font-quicksand text-gray-500">
+                Tap the 3 symbols in order to unlock Shree’s Secret Sibling Sanctuary! 🌸
+              </span>
+            )}
+            {tapStep === 1 && (
+              <span className="text-xs font-fredoka font-bold text-emerald-600 animate-pulse">
+                🐾 Step 1/3 Unlocked! Now tap the Star (⭐)...
+              </span>
+            )}
+            {tapStep === 2 && (
+              <span className="text-xs font-fredoka font-bold text-amber-600 animate-pulse">
+                ✨ Step 2/3 Unlocked! Now tap the Heart (💗)...
+              </span>
+            )}
+            {tapStep >= 3 && (
+              <span className="text-xs font-fredoka font-bold text-[#FF4D8D] animate-bounce">
+                🎉 Sanctum Unlocked! Opening Private Sibling Realm...
+              </span>
+            )}
           </div>
         </div>
 
-        {/* Discreet Step Hint (invisible to normal users, helpful if looking closely) */}
-        {tapStep > 0 && tapStep < 3 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="mt-2 text-[10px] font-caveat text-pink-400 tracking-wider"
-          >
-            ✨ The realm resonates... ({tapStep}/3)
-          </motion.div>
-        )}
+        <div className="mt-8 text-xs font-quicksand text-gray-400">
+          <span>MADE WITH 100% RESPECT & DEVOTION • MARCH 6, 2027</span>
+        </div>
       </div>
     </footer>
   );
