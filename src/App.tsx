@@ -28,6 +28,8 @@ import { FloatingNav } from './components/shared/FloatingNav';
 import { LotusPetals } from './components/shared/LotusPetals';
 import { AudioController } from './components/shared/AudioController';
 import { ConfettiEffect, triggerCustomConfetti } from './components/shared/Confetti';
+import { CursorSparkles } from './components/shared/CursorSparkles';
+import { AmbientLotusParticles } from './components/shared/AmbientLotusParticles';
 
 export function App() {
   const [appMode, setAppMode] = useState<AppMode>(() => {

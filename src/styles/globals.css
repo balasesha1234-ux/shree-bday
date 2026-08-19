@@ -107,3 +107,56 @@ html.lenis, html.lenis body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+/* Holographic Shimmer Keyframes */
+@keyframes shimmerSweep {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer-text {
+  background: linear-gradient(90deg, #FF4D8D 0%, #FFD93D 25%, #7CEBC6 50%, #FF4D8D 75%, #D4A84B 100%);
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmerSweep 6s linear infinite;
+}
+
+.glow-box {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.glow-box::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255, 77, 141, 0.4), rgba(255, 217, 61, 0.4), rgba(124, 235, 198, 0.4));
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.glow-box:hover::after {
+  opacity: 1;
+}
+
+/* Subtle Float & Breathing Animations */
+@keyframes softFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+}
+
+.animate-soft-float {
+  animation: softFloat 4s ease-in-out infinite;
+}
