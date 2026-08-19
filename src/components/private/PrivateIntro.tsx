@@ -60,7 +60,7 @@ const PrivateBgPolaroid: React.FC<PrivateBgPolaroidProps> = ({
             src={image}
             alt="Shree"
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-            style={{ objectPosition: '50% 18%' }}
+            style={{ objectPosition: 'center 20%' }}
           />
         </div>
         <div className="mt-2 text-center">

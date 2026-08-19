@@ -1,6 +1,6 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Sparkles, Trophy, Image, Flame, MessageCircleHeart, Lock, Camera, Wind } from 'lucide-react';
+import { Heart, Sparkles, Trophy, Image, Flame, MessageCircleHeart, Lock, Camera, Wind, Images } from 'lucide-react';
 
 interface FloatingNavProps {
   appMode: 'countdown' | 'public' | 'private';
@@ -68,6 +68,14 @@ export const FloatingNav: React.FC<FloatingNavProps> = ({ appMode }) => {
               >
                 <Image className="w-3.5 h-3.5 text-[#FF4D8D]" />
                 <span>Story Card</span>
+              </button>
+
+              <button
+                onClick={() => scrollTo('public-moments')}
+                className="px-3.5 py-1.5 rounded-full hover:bg-pink-50 hover:text-[#FF4D8D] transition-colors flex items-center gap-1.5"
+              >
+                <Images className="w-3.5 h-3.5 text-[#FF4D8D]" />
+                <span>Moments</span>
               </button>
 
               <button

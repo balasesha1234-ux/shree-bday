@@ -37,7 +37,7 @@ export const KindnessTribute: React.FC = () => {
                   src={card.image}
                   alt={card.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  style={{ objectPosition: '50% 18%' }}
+                  style={{ objectPosition: 'center 20%' }}
                 />
               </div>
 

@@ -106,7 +106,7 @@ const FloatingPolaroidCard: React.FC<FloatingPolaroidCardProps> = ({ item, index
             src={item.image}
             alt={item.title}
             loading="lazy"
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+            className="w-full h-full object-cover object-[center_20%] group-hover:scale-110 transition-transform duration-700 ease-out"
           />
 
           {/* Tag & Sticker Badges */}
@@ -217,7 +217,7 @@ export const MemoryLane: React.FC = () => {
                 <img
                   src={selectedPhoto.image}
                   alt={selectedPhoto.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover object-[center_20%]"
                 />
                 <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-black/50 backdrop-blur-md text-xs font-space text-white font-semibold">
                   {selectedPhoto.tag}

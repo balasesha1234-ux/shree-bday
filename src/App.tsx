@@ -11,6 +11,7 @@ import { CountdownPage } from './components/countdown/CountdownPage';
 import { PublicHero } from './components/public/PublicHero';
 import { CandleBlowout } from './components/public/CandleBlowout';
 import { Photobooth } from './components/public/Photobooth';
+import { PublicMoments } from './components/public/PublicMoments';
 import { FanWishWall } from './components/public/FanWishWall';
 import { FloatingDiyaPond } from './components/public/FloatingDiyaPond';
 import { StoryCardGenerator } from './components/public/StoryCardGenerator';
@@ -120,6 +121,7 @@ export function App() {
           <FloatingDiyaPond />
           <StoryCardGenerator />
           <Photobooth />
+          <PublicMoments />
           <KindnessTribute />
           <PetTheCat />
           <BirthdayMiniGame />
