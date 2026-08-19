@@ -10,7 +10,7 @@ export const FriendWishWall: React.FC = () => {
   const [selectedWish, setSelectedWish] = useState<FriendWish | null>(null);
 
   const handlePop = (wish: FriendWish, e: React.MouseEvent) => {
-    soundEngine.playPop();
+    soundEngine.playHarmonicPop(wish.id);
     triggerCustomConfetti(e.clientX, e.clientY);
     setPoppedIds((prev) => new Set([...prev, wish.id]));
     setSelectedWish(wish);

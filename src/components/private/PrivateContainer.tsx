@@ -6,6 +6,7 @@ import { MemoryLane } from './MemoryLane';
 import { GiftUnwrap } from './GiftUnwrap';
 import { ScratchCard } from './ScratchCard';
 import { FriendWishWall } from './FriendWishWall';
+import { SisterCertificate } from './SisterCertificate';
 import { TheLetter } from './TheLetter';
 import { ShootingStars } from '../shared/ShootingStars';
 import { PrivateFinale } from './PrivateFinale';
@@ -32,6 +33,7 @@ export const PrivateContainer: React.FC<PrivateContainerProps> = ({ onReplay }) 
       <GiftUnwrap />
       <ScratchCard />
       <FriendWishWall />
+      <SisterCertificate />
       <TheLetter />
       <PrivateFinale onReplay={onReplay} />
     </div>
