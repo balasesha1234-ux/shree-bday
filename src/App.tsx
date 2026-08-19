@@ -60,7 +60,7 @@ export function App() {
       setTimeout(() => {
         setAppMode('private');
         setCurrentMode('devotional');
-      }, 1200);
+      }, 2400);
     }
   });
 
