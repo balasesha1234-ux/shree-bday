@@ -9,6 +9,8 @@ import { CountdownPage } from './components/countdown/CountdownPage';
 
 // Public Celebration Realm
 import { PublicHero } from './components/public/PublicHero';
+import { CandleBlowout } from './components/public/CandleBlowout';
+import { Photobooth } from './components/public/Photobooth';
 import { FanWishWall } from './components/public/FanWishWall';
 import { FloatingDiyaPond } from './components/public/FloatingDiyaPond';
 import { StoryCardGenerator } from './components/public/StoryCardGenerator';
@@ -110,9 +112,11 @@ export function App() {
         <div className="relative min-h-screen bg-gradient-to-b from-[#FFF5F5] via-[#FFF0F3] to-[#FFE5EC]">
           <ConfettiEffect trigger={true} type="fireworks" />
           <PublicHero onWishClick={handleWishWallScroll} />
+          <CandleBlowout />
           <FanWishWall />
           <FloatingDiyaPond />
           <StoryCardGenerator />
+          <Photobooth />
           <KindnessTribute />
           <PetTheCat />
           <BirthdayMiniGame />

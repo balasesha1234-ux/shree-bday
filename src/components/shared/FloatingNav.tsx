@@ -1,6 +1,6 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Sparkles, Trophy, Image, Flame, MessageCircleHeart, Lock } from 'lucide-react';
+import { Heart, Sparkles, Trophy, Image, Flame, MessageCircleHeart, Lock, Camera, Wind } from 'lucide-react';
 
 interface FloatingNavProps {
   appMode: 'countdown' | 'public' | 'private';
@@ -39,6 +39,14 @@ export const FloatingNav: React.FC<FloatingNavProps> = ({ appMode }) => {
           {appMode === 'public' ? (
             <>
               <button
+                onClick={() => scrollTo('make-a-wish')}
+                className="px-3.5 py-1.5 rounded-full hover:bg-pink-50 hover:text-[#FF4D8D] transition-colors flex items-center gap-1.5"
+              >
+                <Wind className="w-3.5 h-3.5 text-[#FFD93D]" />
+                <span>Make a Wish</span>
+              </button>
+
+              <button
                 onClick={() => scrollTo('wish-wall')}
                 className="px-3.5 py-1.5 rounded-full hover:bg-pink-50 hover:text-[#FF4D8D] transition-colors flex items-center gap-1.5"
               >
@@ -60,6 +68,14 @@ export const FloatingNav: React.FC<FloatingNavProps> = ({ appMode }) => {
               >
                 <Image className="w-3.5 h-3.5 text-[#FF4D8D]" />
                 <span>Story Card</span>
+              </button>
+
+              <button
+                onClick={() => scrollTo('photobooth')}
+                className="px-3.5 py-1.5 rounded-full hover:bg-pink-50 hover:text-[#FF4D8D] transition-colors flex items-center gap-1.5"
+              >
+                <Camera className="w-3.5 h-3.5 text-[#FF4D8D]" />
+                <span>Photobooth</span>
               </button>
 
               <button
