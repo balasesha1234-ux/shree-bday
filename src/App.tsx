@@ -18,6 +18,7 @@ import { KindnessTribute } from './components/public/KindnessTribute';
 import { PetTheCat } from './components/public/PetTheCat';
 import { BirthdayMiniGame } from './components/shared/BirthdayMiniGame';
 import { PublicFinale } from './components/public/PublicFinale';
+import { SecretFloatingEasterEggs } from './components/public/SecretFloatingEasterEggs';
 import { TapSequenceOverlay } from './components/public/TapSequenceOverlay';
 
 // Private Sanctuary Realm
@@ -122,7 +123,8 @@ export function App() {
           <KindnessTribute />
           <PetTheCat />
           <BirthdayMiniGame />
-          <PublicFinale onTapTarget={handleTapTarget} tapStep={currentStep} />
+          <SecretFloatingEasterEggs onTapTarget={handleTapTarget} />
+          <PublicFinale />
           <TapSequenceOverlay isUnlocked={isTapUnlocked} />
         </div>
       )}
