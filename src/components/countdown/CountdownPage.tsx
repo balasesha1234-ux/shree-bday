@@ -76,6 +76,19 @@ export const CountdownPage: React.FC<CountdownPageProps> = ({ onUnlockBirthday }
           milliseconds={countdown.milliseconds}
         />
 
+        {/* Local Dev Simulator Button */}
+        {import.meta.env.DEV && (
+          <div className="my-6">
+            <button
+              onClick={() => setTriggerMidnight(true)}
+              className="px-6 py-2.5 rounded-full bg-gradient-to-r from-[#FF2D78] to-[#FF6B9D] hover:scale-105 active:scale-95 text-white font-fredoka font-bold text-xs shadow-[0_0_20px_rgba(255,45,120,0.6)] border border-pink-300 transition-all flex items-center gap-2 mx-auto"
+            >
+              <Sparkles className="w-4 h-4 text-[#FFD93D]" />
+              <span>💥 [DEV ONLY] Trigger Zero Hour Simulation</span>
+            </button>
+          </div>
+        )}
+
         {/* Daily Teaser Milestones */}
         <TeaserUnlocks daysRemaining={countdown.days} />
       </main>

@@ -1,30 +1,48 @@
-﻿import React from 'react';
-import { motion } from 'framer-motion';
-import { Lock, Unlock, Sparkles, Music, Cat, Heart } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Lock, Unlock, Sparkles, Terminal, Radio, Shield, Disc, Flame } from 'lucide-react';
 import { TEASER_MILESTONES, TeaserMilestone } from '../../data/teasers';
+import { soundEngine } from '../../utils/soundEffects';
 
 interface TeaserUnlocksProps {
   daysRemaining: number;
 }
 
 export const TeaserUnlocks: React.FC<TeaserUnlocksProps> = ({ daysRemaining }) => {
+  const [decryptedIds, setDecryptedIds] = useState<{ [key: number]: boolean }>({ 1: true });
+  const [scramblingId, setScramblingId] = useState<number | null>(null);
+
+  const handleDecrypt = (id: number) => {
+    soundEngine.playSparkle(1.8);
+    setScramblingId(id);
+
+    setTimeout(() => {
+      setDecryptedIds((prev) => ({ ...prev, [id]: true }));
+      setScramblingId(null);
+    }, 600);
+  };
+
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 mt-12 mb-20">
+    <div className="w-full max-w-4xl mx-auto px-4 mt-12 mb-20 select-none">
       <div className="text-center mb-8">
-        <span className="text-xs font-space tracking-[0.3em] uppercase text-[#FF2D78] font-bold">
-          [ TRANSMISSION PROTOCOLS ]
-        </span>
-        <h3 className="text-2xl sm:text-3xl font-fredoka text-white mt-1">
-          Daily Teaser Milestones
+        <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-[#FF2D78]/15 border border-[#FF2D78]/40 text-[#FF6B9D] text-xs font-space font-bold tracking-[0.25em] uppercase mb-2">
+          <Radio className="w-3.5 h-3.5 animate-pulse text-[#FF2D78]" />
+          <span>TRANSMISSION PROTOCOLS // DECRYPTED MILESTONES</span>
+        </div>
+        <h3 className="text-2xl sm:text-4xl font-fredoka text-white font-bold">
+          Daily Teaser Transmissions 📡
         </h3>
         <p className="text-sm font-quicksand text-gray-400 mt-1 max-w-md mx-auto">
-          Secret chapters unlock automatically as Zero Hour approaches in IST.
+          Secret encrypted transmissions unlock automatically as Zero Hour approaches in IST.
         </p>
       </div>
 
       <div className="space-y-4">
         {TEASER_MILESTONES.map((teaser, idx) => {
-          const isUnlocked = daysRemaining <= teaser.daysRemaining;
+          // Unlocked if days remaining is less than or equal to milestone threshold, or Day 1 is always unlocked
+          const isUnlockedByTime = daysRemaining <= teaser.daysRemaining || teaser.dayIndex === 1;
+          const isDecrypted = decryptedIds[teaser.dayIndex];
+          const isScrambling = scramblingId === teaser.dayIndex;
 
           return (
             <motion.div
@@ -32,68 +50,102 @@ export const TeaserUnlocks: React.FC<TeaserUnlocksProps> = ({ daysRemaining }) =
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: idx * 0.1 }}
-              className={`relative rounded-2xl p-5 border transition-all duration-500 overflow-hidden ${
-                isUnlocked
-                  ? 'bg-[#161638]/80 border-[#FF2D78]/50 shadow-[0_0_20px_rgba(255,45,120,0.2)]'
-                  : 'bg-[#0E0E24]/60 border-gray-800 opacity-60'
+              className={`relative rounded-3xl p-5 sm:p-6 border transition-all duration-500 overflow-hidden ${
+                isUnlockedByTime
+                  ? 'bg-gradient-to-r from-[#14122C]/90 via-[#1D163A]/90 to-[#14122C]/90 border-[#FF2D78]/50 shadow-[0_0_25px_rgba(255,45,120,0.25)]'
+                  : 'bg-[#0B0A18]/60 border-gray-800/80 opacity-50'
               }`}
             >
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              {/* Scanline Background Texture */}
+              <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_50%,rgba(0,0,0,0.4)_51%)] bg-[size:100%_4px] pointer-events-none opacity-40" />
+
+              <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
+                {/* Left Side: Badge, Icon & Title */}
                 <div className="flex items-center gap-4">
+                  {/* Hologram Icon Pod */}
                   <div
-                    className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${
-                      isUnlocked
-                        ? 'bg-[#FF2D78]/20 text-[#FF2D78] border border-[#FF2D78]/40'
-                        : 'bg-gray-900 text-gray-600 border border-gray-800'
+                    className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 text-2xl shadow-lg border ${
+                      isUnlockedByTime
+                        ? 'bg-gradient-to-br from-[#FF2D78]/30 to-[#FF6B9D]/20 text-white border-[#FF2D78]/60 shadow-[0_0_15px_rgba(255,45,120,0.4)]'
+                        : 'bg-gray-900/80 text-gray-600 border-gray-800'
                     }`}
                   >
-                    {isUnlocked ? (
-                      teaser.type === 'cat' ? <Cat className="w-6 h-6" /> :
-                      teaser.type === 'audio' ? <Music className="w-6 h-6" /> :
-                      <Unlock className="w-6 h-6" />
-                    ) : (
-                      <Lock className="w-6 h-6" />
-                    )}
+                    {isUnlockedByTime ? teaser.hologramIcon : <Lock className="w-6 h-6 text-gray-500" />}
                   </div>
 
-                  <div>
+                  <div className="text-left">
                     <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-space px-2 py-0.5 rounded bg-pink-950/60 text-[#FF2D78] border border-[#FF2D78]/30 uppercase font-bold">
-                        T-{teaser.daysRemaining} DAYS
+                      <span className="text-[10px] font-space px-2.5 py-0.5 rounded-full bg-pink-950/80 text-[#FF6B9D] border border-[#FF2D78]/40 uppercase font-bold tracking-wider">
+                        MILESTONE 0{teaser.dayIndex} • T-{teaser.daysRemaining} DAYS
                       </span>
-                      <h4 className="font-fredoka text-lg text-white font-semibold">
-                        {isUnlocked ? teaser.title : 'ENCRYPTED FREQUENCY'}
-                      </h4>
+                      <span className={`text-[10px] font-space font-bold uppercase ${isUnlockedByTime ? 'text-emerald-400' : 'text-gray-600'}`}>
+                        {isUnlockedByTime ? '● ACTIVE' : '○ LOCKED'}
+                      </span>
                     </div>
+
+                    <h4 className="font-fredoka text-lg sm:text-xl text-white font-bold mt-1">
+                      {isUnlockedByTime
+                        ? isScrambling
+                          ? 'ᔑ ʖ ᓵ [DECRYPTING] ᖱ ᒷ'
+                          : teaser.title
+                        : 'ENCRYPTED QUANTUM FREQUENCY'}
+                    </h4>
+
                     <p className="text-xs font-quicksand text-pink-200/70 mt-0.5">
-                      {isUnlocked ? teaser.subtitle : 'Unlock condition not yet fulfilled.'}
+                      {isUnlockedByTime ? teaser.subtitle : 'Transmission locked until threshold date in IST.'}
                     </p>
                   </div>
                 </div>
 
-                <div className="text-left sm:text-right">
-                  <span
-                    className={`text-xs font-space font-semibold uppercase ${
-                      isUnlocked ? 'text-[#7CEBC6]' : 'text-gray-500'
-                    }`}
-                  >
-                    {isUnlocked ? '● DECRYPTED' : '○ LOCKED'}
-                  </span>
+                {/* Right Side: Hologram Fragment or Decrypt Action */}
+                <div className="w-full md:w-auto flex items-center justify-end gap-3">
+                  {isUnlockedByTime ? (
+                    isDecrypted ? (
+                      teaser.previewImage && (
+                        <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden border-2 border-pink-400/60 shadow-pop shrink-0">
+                          <img
+                            src={teaser.previewImage}
+                            alt="Hologram Fragment"
+                            className="w-full h-full object-cover object-[center_20%] filter contrast-125 brightness-110"
+                          />
+                          <div className="absolute inset-0 bg-pink-500/20 mix-blend-color" />
+                          <div className="absolute bottom-0 inset-x-0 bg-black/60 text-[8px] font-space text-pink-300 text-center font-bold">
+                            FRAGMENT
+                          </div>
+                        </div>
+                      )
+                    ) : (
+                      <button
+                        onClick={() => handleDecrypt(teaser.dayIndex)}
+                        disabled={isScrambling}
+                        className="w-full md:w-auto flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF2D78] to-[#FF6B9D] hover:scale-105 active:scale-95 text-white font-space font-bold text-xs shadow-pop border border-pink-300 transition-all"
+                      >
+                        <Terminal className="w-4 h-4" />
+                        <span>{isScrambling ? 'DECODING...' : 'DECRYPT 📡'}</span>
+                      </button>
+                    )
+                  ) : (
+                    <span className="text-xs font-space text-gray-500 uppercase tracking-widest">
+                      LOCKED
+                    </span>
+                  )}
                 </div>
               </div>
 
-              {isUnlocked && (
+              {/* Decrypted Lore Box */}
+              {isUnlockedByTime && isDecrypted && (
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
-                  className="mt-4 pt-4 border-t border-pink-500/20 text-xs font-quicksand text-gray-300 space-y-1.5"
+                  className="relative z-10 mt-4 pt-4 border-t border-pink-500/20 text-xs font-quicksand text-gray-300 space-y-2 text-left"
                 >
-                  <p className="italic text-pink-100/90">"{teaser.lore}"</p>
-                  {teaser.easterEgg && (
-                    <p className="text-[11px] text-[#FFD93D] flex items-center gap-1 font-caveat text-sm">
-                      ✨ Secret Note: {teaser.easterEgg}
-                    </p>
-                  )}
+                  <p className="font-caveat text-xl sm:text-2xl text-pink-100/90 leading-snug">
+                    "{teaser.lore}"
+                  </p>
+                  <div className="flex items-center gap-2 text-[11px] text-[#FFD93D] font-space font-semibold">
+                    <Sparkles className="w-3.5 h-3.5 text-[#FFD93D]" />
+                    <span>ENCRYPTED FOOTNOTE: {teaser.easterEgg}</span>
+                  </div>
                 </motion.div>
               )}
             </motion.div>

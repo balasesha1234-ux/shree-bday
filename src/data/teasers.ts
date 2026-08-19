@@ -1,63 +1,68 @@
-﻿export interface TeaserMilestone {
+export interface TeaserMilestone {
   dayIndex: number;
   daysRemaining: number;
   title: string;
   subtitle: string;
   lore: string;
-  unlocked: boolean;
-  type: 'text' | 'image' | 'audio' | 'clue' | 'cat';
-  easterEgg?: string;
+  type: 'signal' | 'silhouette' | 'audio' | 'shield' | 'zero_hour';
+  hologramIcon: string;
+  previewImage?: string;
+  easterEgg: string;
 }
 
 export const TEASER_MILESTONES: TeaserMilestone[] = [
   {
     dayIndex: 1,
     daysRemaining: 14,
-    title: 'THE TRANSMISSION BEGINS',
-    subtitle: 'A quantum frequency across the universe',
-    lore: 'An anomaly in spacetime has been detected. Synchronizing clocks across realms.',
-    unlocked: true,
-    type: 'text',
-    easterEgg: '🐾 A pair of tiny kitten paws stepped across the monitor.'
+    title: 'THE QUANTUM SIGNAL',
+    subtitle: 'An anomaly detected across the digital cosmos',
+    lore: 'Global telemetry sensors have detected a surge of radiant energy. A worldwide celebration frequency is initializing across all networks.',
+    type: 'signal',
+    hologramIcon: '📡',
+    easterEgg: '🐾 A stray kitten stepped across the terminal console.'
   },
   {
     dayIndex: 2,
     daysRemaining: 10,
-    title: 'THE RADIANCE AWAKENS',
-    subtitle: 'A silhouette surrounded by pink stardust',
-    lore: 'The stars are aligning to celebrate a presence that brought boundless warmth to thousands.',
-    unlocked: false,
-    type: 'image',
+    title: 'THE RADIANT SILHOUETTE',
+    subtitle: 'Spectral analysis of our favorite creator',
+    lore: 'Atmospheric scans reveal a presence defined by pure grace, infectious laughter, and an extraordinary heart of gold. The stars are aligning.',
+    type: 'silhouette',
+    hologramIcon: '🌸',
+    previewImage: '/assets/serial/6s.jpg',
     easterEgg: '🪷 Fragrance of lotus blooms faintly in the air.'
   },
   {
     dayIndex: 3,
     daysRemaining: 7,
-    title: 'THE HARMONY RISES',
-    subtitle: 'Frequencies of melody and laughter',
-    lore: 'Seven songs have been woven into the tapestry of time. Each holding a secret memory.',
-    unlocked: false,
+    title: 'THE HARMONY FREQUENCIES',
+    subtitle: 'Seven celebratory melodies woven into time',
+    lore: 'Audio spectrograms indicate 7 vinyl records preparing to spin. Memories of shared dreams, laughter, and late-night sibling calls.',
     type: 'audio',
-    easterEgg: '🎵 She hums a tune when no one is looking.'
+    hologramIcon: '🎵',
+    previewImage: '/assets/serial/25s.jpg',
+    easterEgg: '✨ She hums a tune when nobody is looking.'
   },
   {
     dayIndex: 4,
     daysRemaining: 3,
-    title: 'THE INVITATION TO SANCTUARY',
-    subtitle: 'Only the pure of heart may enter',
-    lore: 'Look closely at the final constellation. A cat, a star, and a heart hold the ancient key.',
-    unlocked: false,
-    type: 'cat',
-    easterEgg: '🐱 Look for the whiskered guardian.'
+    title: 'THE GUARDIAN SHIELD',
+    subtitle: 'A confidential sanctuary prepares to awaken',
+    lore: 'Beyond the public celebration for millions, a private sanctuary built with unconditional brotherly loyalty and pride is locking into coordinate position.',
+    type: 'shield',
+    hologramIcon: '🛡️',
+    previewImage: '/assets/serial/1s.jpg',
+    easterEgg: '🔒 Some bonds remain unshakeable across any distance.'
   },
   {
     dayIndex: 5,
     daysRemaining: 1,
-    title: 'THE EVE OF CELEBRATION',
-    subtitle: 'Zero Hour approaches at midnight IST',
-    lore: 'Tonight, the public realm shall rejoice. And beyond it, a secret world awaits only for her.',
-    unlocked: false,
-    type: 'text',
-    easterEgg: '✨ Special Chapter of pure magic.'
+    title: 'THE EVE OF ZERO HOUR',
+    subtitle: 'Midnight IST synchronization imminent',
+    lore: 'All quantum systems calibrated. Floating diyas lit, stardust arcade charged, candles ready to be blown. The universe celebrates Shree tomorrow at midnight!',
+    type: 'zero_hour',
+    hologramIcon: '🎂',
+    previewImage: '/assets/serial/23s.jpg',
+    easterEgg: '🎉 Get ready to celebrate our favorite human.'
   }
 ];
