@@ -192,7 +192,7 @@ export const CosmicConstellation: React.FC = () => {
           <Orbit className="w-4 h-4 text-[#FFD93D] animate-spin" style={{ animationDuration: '10s' }} />
           <span>SHREE’S CELESTIAL GALAXY // 6 GUIDING STARS</span>
         </div>
-        <h3 className="text-3xl sm:text-6xl font-playfair font-bold text-white tracking-wide drop-shadow-[0_5px_25px_rgba(255,45,120,0.4)]">
+        <h3 className="text-2xl sm:text-5xl md:text-6xl font-playfair font-bold text-white tracking-wide drop-shadow-[0_5px_25px_rgba(255,45,120,0.4)] px-2">
           The Constellation of Grace 🌌
         </h3>
         <p className="text-sm sm:text-base font-quicksand text-pink-100/80 mt-2 max-w-xl mx-auto leading-relaxed">

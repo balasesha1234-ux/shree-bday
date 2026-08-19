@@ -46,7 +46,7 @@ export const AudioController: React.FC<AudioControllerProps> = ({
 
   return (
     <>
-      <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 select-none">
+      <div className="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 z-40 flex items-center gap-3 select-none">
         {/* Main Floating Audio Pill */}
         <motion.button
           whileHover={{ scale: 1.05 }}
@@ -108,7 +108,7 @@ export const AudioController: React.FC<AudioControllerProps> = ({
             initial={{ opacity: 0, y: 30, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 30, scale: 0.95 }}
-            className="fixed bottom-20 right-6 z-50 w-80 sm:w-96 bg-white/95 backdrop-blur-xl rounded-3xl p-5 shadow-2xl border-2 border-pink-200 select-none overflow-hidden"
+            className="fixed bottom-16 sm:bottom-20 right-4 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-96 max-w-md bg-white/95 backdrop-blur-xl rounded-3xl p-4 sm:p-5 shadow-2xl border-2 border-pink-200 select-none overflow-hidden"
           >
             <div className="flex items-center justify-between pb-3 border-b border-pink-100">
               <div className="flex items-center gap-2">

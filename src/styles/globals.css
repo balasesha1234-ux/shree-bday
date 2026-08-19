@@ -160,3 +160,31 @@ html.lenis, html.lenis body {
 .animate-soft-float {
   animation: softFloat 4s ease-in-out infinite;
 }
+
+
+/* Mobile UI/UX Optimizations */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Prevent text size adjustment on orientation change in iOS */
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Smooth horizontal scrolling for mobile navigation without ugly scrollbars */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Safe area padding for modern bezel-less iPhones */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 1rem);
+}
