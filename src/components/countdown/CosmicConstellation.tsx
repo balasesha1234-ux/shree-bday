@@ -119,64 +119,84 @@ export const CosmicConstellation: React.FC = () => {
   const [showShockwave, setShowShockwave] = useState<boolean>(false);
   const mapRef = useRef<HTMLDivElement>(null);
 
-  // Big Stardust Explosion Trigger
+    // Jaw-Dropping 4-Wave Stardust Cascade & Golden Aurora Shockwave
   const triggerBigStardustExplosion = (e?: React.MouseEvent) => {
-    soundEngine.playSparkle(1.5);
+    soundEngine.playSparkle(1.6);
     soundEngine.playTempleBell();
 
     setShowShockwave(true);
-    setTimeout(() => setShowShockwave(false), 1200);
+    setTimeout(() => setShowShockwave(false), 1400);
 
     setStardustCount((prev) => prev + 1);
 
-    // Massive Multi-Stage Stardust Screen Coverage
     const originX = e ? e.clientX / window.innerWidth : 0.5;
     const originY = e ? e.clientY / window.innerHeight : 0.5;
 
-    // Center Gold & Pink Stardust Burst
+    // Wave 1: Central Golden Diamond & Star Burst (Immediate)
     confetti({
-      particleCount: 140,
-      spread: 160,
+      particleCount: 160,
+      spread: 180,
       origin: { x: originX, y: originY },
-      colors: ['#FFD93D', '#FF4D8D', '#7CEBC6', '#6BC5F8', '#FFFFFF', '#FF85A1'],
-      ticks: 240,
-      gravity: 0.8,
-      scalar: 1.4,
+      colors: ['#FFD93D', '#FFE58F', '#FFFFFF', '#FF4D8D', '#FF85A1', '#7CEBC6'],
+      ticks: 300,
+      gravity: 0.7,
+      scalar: 1.5,
       shapes: ['star', 'circle']
     });
 
-    // Outer Expanding Ring Bursts spanning the screen
+    // Wave 2: Dual Cosmic Side Cannons (Left & Right Horizon)
     setTimeout(() => {
       confetti({
-        particleCount: 90,
-        angle: 60,
+        particleCount: 100,
+        angle: 55,
         spread: 90,
-        origin: { x: 0.05, y: 0.6 },
-        colors: ['#FFD93D', '#FF4D8D', '#E0D4F0'],
-        scalar: 1.3,
+        origin: { x: 0.05, y: 0.7 },
+        colors: ['#FFD93D', '#FF4D8D', '#E0D4F0', '#FFFFFF'],
+        ticks: 280,
+        gravity: 0.65,
+        scalar: 1.4,
         shapes: ['star']
       });
       confetti({
-        particleCount: 90,
-        angle: 120,
+        particleCount: 100,
+        angle: 125,
         spread: 90,
-        origin: { x: 0.95, y: 0.6 },
-        colors: ['#FFD93D', '#7CEBC6', '#6BC5F8'],
-        scalar: 1.3,
+        origin: { x: 0.95, y: 0.7 },
+        colors: ['#FFD93D', '#7CEBC6', '#6BC5F8', '#FFFFFF'],
+        ticks: 280,
+        gravity: 0.65,
+        scalar: 1.4,
         shapes: ['star']
       });
     }, 180);
 
+    // Wave 3: High-Altitude Stardust Celestial Fountain
     setTimeout(() => {
       confetti({
-        particleCount: 120,
-        spread: 180,
-        origin: { x: 0.5, y: 0.25 },
-        colors: ['#FFD93D', '#FF6B9D', '#FFFFFF', '#7CEBC6'],
-        gravity: 0.6,
-        scalar: 1.5
+        particleCount: 140,
+        spread: 200,
+        origin: { x: 0.5, y: 0.2 },
+        colors: ['#FFD93D', '#FF6B9D', '#FFFFFF', '#7CEBC6', '#FFE58F'],
+        ticks: 320,
+        gravity: 0.5,
+        scalar: 1.6,
+        shapes: ['star', 'circle']
       });
     }, 380);
+
+    // Wave 4: Gentle Floating Cosmic Glitter Rain
+    setTimeout(() => {
+      confetti({
+        particleCount: 80,
+        spread: 140,
+        origin: { x: 0.5, y: 0.1 },
+        colors: ['#FFD93D', '#FFFFFF', '#E0D4F0'],
+        ticks: 400,
+        gravity: 0.35,
+        scalar: 1.2,
+        shapes: ['star']
+      });
+    }, 600);
   };
 
   const handleStarClick = (star: ConstellationStar) => {
@@ -210,7 +230,10 @@ export const CosmicConstellation: React.FC = () => {
             transition={{ duration: 1.2, ease: 'easeOut' }}
             className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center"
           >
-            <div className="w-[75vw] h-[75vw] rounded-full border-4 border-[#FFD93D] shadow-[0_0_120px_#FF4D8D,inset_0_0_90px_#FFD93D] bg-gradient-to-r from-[#FF4D8D]/25 via-[#FFD93D]/35 to-[#7CEBC6]/25 backdrop-blur-sm" />
+            <div className="relative flex items-center justify-center">
+              <div className="w-[85vw] h-[85vw] rounded-full border-4 border-[#FFD93D] shadow-[0_0_150px_#FF4D8D,inset_0_0_100px_#FFD93D] bg-gradient-to-r from-[#FF4D8D]/30 via-[#FFD93D]/40 to-[#7CEBC6]/30 backdrop-blur-md" />
+              <div className="absolute w-[65vw] h-[65vw] rounded-full border-2 border-white/60 shadow-[0_0_80px_#FFFFFF]" />
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -41,6 +41,7 @@ export function App() {
   // Preview Switcher is strictly enabled only during local npm run dev
   const showPreviewToolbar = import.meta.env.DEV;
   const [devToolbarOpen, setDevToolbarOpen] = useState<boolean>(true);
+  const [viewportMode, setViewportMode] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
 
   // Initialize Lenis smooth scroll with ice-glide physics
   useLenis(true);
@@ -83,116 +84,180 @@ export function App() {
   };
 
   return (
-    <div className="relative min-h-screen selection:bg-[#FF4D8D] selection:text-white">
-      {/* Floating Pill Navigation */}
-      <FloatingNav appMode={appMode} />
+    <div
+      className={`min-h-screen transition-all duration-500 ${
+        viewportMode === 'desktop'
+          ? 'bg-[#FFF0F3]'
+          : 'bg-[#0B091A] p-2 sm:p-6 flex flex-col items-center justify-center'
+      }`}
+    >
+      {/* Device Bezel Simulator Container */}
+      <div
+        className={`w-full transition-all duration-500 text-gray-800 relative selection:bg-pink-300 selection:text-pink-900 ${
+          viewportMode === 'mobile'
+            ? 'max-w-[390px] min-h-[844px] my-6 rounded-[3rem] border-[12px] border-[#1F2937] shadow-[0_25px_70px_rgba(0,0,0,0.85)] overflow-x-hidden bg-[#FFF0F3]'
+            : viewportMode === 'tablet'
+            ? 'max-w-[768px] min-h-[1024px] my-6 rounded-[2.5rem] border-[12px] border-[#1F2937] shadow-[0_25px_70px_rgba(0,0,0,0.85)] overflow-x-hidden bg-[#FFF0F3]'
+            : 'min-h-screen bg-[#FFF0F3]'
+        }`}
+      >
+        {/* Floating Pill Navigation */}
+        <FloatingNav appMode={appMode} />
 
-      {/* Floating Lotus & Devotional Ambient Petals */}
-      <LotusPetals devotional={appMode === 'private'} />
+        {/* Floating Lotus & Devotional Ambient Petals */}
+        <LotusPetals devotional={appMode === 'private'} />
 
-      {/* Floating Audio Controller */}
-      <AudioController
-        isPlaying={isPlaying}
-        onToggle={toggleAudio}
-        mode={appMode === 'countdown' ? 'countdown' : appMode === 'private' ? 'devotional' : 'party'}
-      />
-
-      {/* ========================================================================= */}
-      {/* REALM 1: COUNTDOWN STREAM */}
-      {/* ========================================================================= */}
-      {appMode === 'countdown' && (
-        <CountdownPage
-          onUnlockBirthday={() => {
-            setAppMode('public');
-            setCurrentMode('party');
-          }}
+        {/* Floating Audio Controller */}
+        <AudioController
+          isPlaying={isPlaying}
+          onToggle={toggleAudio}
+          mode={appMode === 'countdown' ? 'countdown' : appMode === 'private' ? 'devotional' : 'party'}
         />
-      )}
 
-      {/* ========================================================================= */}
-      {/* REALM 2: PUBLIC BIRTHDAY CELEBRATION */}
-      {/* ========================================================================= */}
-      {appMode === 'public' && (
-        <div className="relative min-h-screen bg-gradient-to-b from-[#FFF5F5] via-[#FFF0F3] to-[#FFE5EC]">
-          <ConfettiEffect trigger={true} type="fireworks" />
-          <PublicHero onWishClick={handleWishWallScroll} />
-          <CandleBlowout />
-          <FanWishWall />
-          <FloatingDiyaPond />
-          <StoryCardGenerator />
-          <Photobooth />
-          <PublicMoments />
-          <KindnessTribute />
-          <PetTheCat />
-          <BirthdayMiniGame />
-          <SecretFloatingEasterEggs onTapTarget={handleTapTarget} />
-          <PublicFinale />
-          <TapSequenceOverlay isUnlocked={isTapUnlocked} />
-        </div>
-      )}
+        {/* ========================================================================= */}
+        {/* REALM 1: COUNTDOWN STREAM */}
+        {/* ========================================================================= */}
+        {appMode === 'countdown' && (
+          <CountdownPage
+            onUnlockBirthday={() => {
+              setAppMode('public');
+              setCurrentMode('party');
+            }}
+          />
+        )}
 
-      {/* ========================================================================= */}
-      {/* REALM 3: PRIVATE INTIMATE SANCTUARY */}
-      {/* ========================================================================= */}
-      {appMode === 'private' && (
-        <div className="relative min-h-screen bg-gradient-to-b from-[#FFF0F3] via-[#FFF5F5] to-[#FFE0E8]">
-          <ConfettiEffect trigger={true} type="burst" />
+        {/* ========================================================================= */}
+        {/* REALM 2: PUBLIC BIRTHDAY CELEBRATION */}
+        {/* ========================================================================= */}
+        {appMode === 'public' && (
+          <main className="relative overflow-hidden">
+            <PublicHero onWishClick={handleWishWallScroll} />
+            <CandleBlowout />
+            <Photobooth />
+            <PublicMoments />
+            <KindnessTribute />
+            <FloatingDiyaPond />
+            <StoryCardGenerator />
+            <PetTheCat />
+            <BirthdayMiniGame />
+            <FanWishWall />
+            <PublicFinale />
+
+            {/* Secret Easter Egg Bubbles scattered across scroll depths */}
+            <SecretFloatingEasterEggs onTapTarget={handleTapTarget} />
+          </main>
+        )}
+
+        {/* ========================================================================= */}
+        {/* REALM 3: PRIVATE SIBLING SANCTUARY */}
+        {/* ========================================================================= */}
+        {appMode === 'private' && (
           <PrivateContainer onReplay={handleReplay} />
-        </div>
-      )}
+        )}
+
+        {/* Global Canvas Layers */}
+        <CursorSparkles />
+        <AmbientLotusParticles />
+        <ConfettiEffect />
+
+        {/* Cinematic Golden Lotus Portal Transition Overlay */}
+        <TapSequenceOverlay isUnlocked={isTapUnlocked} />
+      </div>
 
       {/* ========================================================================= */}
-      {/* REALM PREVIEW QUICK-SWITCHER TOOLBAR (Visible in dev or with ?preview=1) */}
+      {/* DEV-ONLY FLOATING PREVIEW & VIEWPORT TOOLBAR */}
       {/* ========================================================================= */}
       {showPreviewToolbar && (
-        <div className="fixed top-4 right-4 z-50 select-none">
+        <div className="fixed top-3 right-3 sm:top-5 sm:right-5 z-50 select-none">
           {devToolbarOpen ? (
-            <div className="bg-white/95 backdrop-blur-md rounded-2xl p-2.5 sm:p-3 shadow-2xl border-2 border-pink-300 text-xs font-quicksand flex items-center gap-2">
+            <div className="bg-white/95 backdrop-blur-md rounded-2xl p-2 sm:p-3 shadow-2xl border-2 border-pink-300 text-xs font-quicksand flex flex-wrap items-center gap-2">
               <span className="font-fredoka font-bold text-[#FF4D8D] hidden sm:inline">
                 🛠️ Preview:
               </span>
 
-              <button
-                onClick={() => {
-                  setAppMode('countdown');
-                  setCurrentMode('countdown');
-                }}
-                className={`px-3 py-1.5 rounded-xl font-fredoka font-bold text-xs transition-all ${
-                  appMode === 'countdown'
-                    ? 'bg-[#0A0A1A] text-[#FF2D78] border border-[#FF2D78] shadow-sm'
-                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
-                }`}
-              >
-                ⏳ Countdown
-              </button>
+              {/* Mode Switcher */}
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={() => {
+                    setAppMode('countdown');
+                    setCurrentMode('countdown');
+                  }}
+                  className={`px-2.5 py-1.5 rounded-xl font-fredoka font-bold text-xs transition-all ${
+                    appMode === 'countdown'
+                      ? 'bg-[#0A0A1A] text-[#FF2D78] border border-[#FF2D78] shadow-sm'
+                      : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                  }`}
+                >
+                  ⏳ Countdown
+                </button>
 
-              <button
-                onClick={() => {
-                  setAppMode('public');
-                  setCurrentMode('party');
-                }}
-                className={`px-3 py-1.5 rounded-xl font-fredoka font-bold text-xs transition-all ${
-                  appMode === 'public'
-                    ? 'bg-[#FF4D8D] text-white shadow-pop'
-                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
-                }`}
-              >
-                🎉 Public
-              </button>
+                <button
+                  onClick={() => {
+                    setAppMode('public');
+                    setCurrentMode('party');
+                  }}
+                  className={`px-2.5 py-1.5 rounded-xl font-fredoka font-bold text-xs transition-all ${
+                    appMode === 'public'
+                      ? 'bg-[#FF4D8D] text-white shadow-pop'
+                      : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                  }`}
+                >
+                  🎉 Public
+                </button>
 
-              <button
-                onClick={() => {
-                  setAppMode('private');
-                  setCurrentMode('devotional');
-                }}
-                className={`px-3 py-1.5 rounded-xl font-fredoka font-bold text-xs transition-all ${
-                  appMode === 'private'
-                    ? 'bg-[#D4A84B] text-[#3D2040] shadow-sm'
-                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
-                }`}
-              >
-                🔒 Private (🐱⭐💗)
-              </button>
+                <button
+                  onClick={() => {
+                    setAppMode('private');
+                    setCurrentMode('devotional');
+                  }}
+                  className={`px-2.5 py-1.5 rounded-xl font-fredoka font-bold text-xs transition-all ${
+                    appMode === 'private'
+                      ? 'bg-[#D4A84B] text-[#3D2040] shadow-sm'
+                      : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                  }`}
+                >
+                  🔒 Private
+                </button>
+              </div>
+
+              <div className="h-4 w-px bg-pink-200 mx-1 hidden sm:block" />
+
+              {/* Viewport Device Switcher */}
+              <div className="flex items-center gap-1 bg-gray-100 p-1 rounded-xl">
+                <button
+                  onClick={() => setViewportMode('desktop')}
+                  className={`px-2 py-1 rounded-lg text-xs font-fredoka font-bold transition-all ${
+                    viewportMode === 'desktop'
+                      ? 'bg-white text-gray-900 shadow-sm'
+                      : 'text-gray-500 hover:text-gray-800'
+                  }`}
+                  title="Desktop (100% Full Width)"
+                >
+                  🖥️ Full
+                </button>
+                <button
+                  onClick={() => setViewportMode('tablet')}
+                  className={`px-2 py-1 rounded-lg text-xs font-fredoka font-bold transition-all ${
+                    viewportMode === 'tablet'
+                      ? 'bg-white text-gray-900 shadow-sm'
+                      : 'text-gray-500 hover:text-gray-800'
+                  }`}
+                  title="Tablet (768px iPad)"
+                >
+                  📱 Tablet
+                </button>
+                <button
+                  onClick={() => setViewportMode('mobile')}
+                  className={`px-2 py-1 rounded-lg text-xs font-fredoka font-bold transition-all ${
+                    viewportMode === 'mobile'
+                      ? 'bg-white text-gray-900 shadow-sm'
+                      : 'text-gray-500 hover:text-gray-800'
+                  }`}
+                  title="Mobile (390px iPhone)"
+                >
+                  📱 Mobile
+                </button>
+              </div>
 
               <button
                 onClick={() => setDevToolbarOpen(false)}
