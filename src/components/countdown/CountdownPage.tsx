@@ -33,7 +33,7 @@ export const CountdownPage: React.FC<CountdownPageProps> = ({ onUnlockBirthday }
         <div className="flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
           <Radio className="w-4 h-4 text-[#FF2D78] animate-pulse" />
           <span className="text-xs font-space uppercase tracking-widest text-gray-300 font-semibold">
-            HYDERABAD ➔ DELHI // SIBLING STREAM PROTOCOL 🛡️
+            GLOBAL BROADCAST // WORLDWIDE CELEBRATION PROTOCOL 🌸
           </span>
         </div>
 
@@ -62,7 +62,7 @@ export const CountdownPage: React.FC<CountdownPageProps> = ({ onUnlockBirthday }
 
         <p className="mt-3 text-sm sm:text-base font-quicksand text-pink-200/90 max-w-2xl leading-relaxed">
           A worldwide celebration for the best sister, kindest creator & cat whisperer in the universe! 🌸 <br className="hidden sm:inline" />
-          Synchronizing live from Hyderabad to Delhi at Midnight IST on March 6.
+          Synchronizing live worldwide at Midnight IST on March 6.
         </p>
 
         {/* Marvel Countdown Timer */}

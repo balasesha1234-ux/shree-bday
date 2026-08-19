@@ -14,7 +14,7 @@ export const TEASER_MILESTONES: TeaserMilestone[] = [
     dayIndex: 1,
     daysRemaining: 14,
     title: 'THE TRANSMISSION BEGINS',
-    subtitle: 'A quantum frequency from Hyderabad to Delhi',
+    subtitle: 'A quantum frequency across the universe',
     lore: 'An anomaly in spacetime has been detected. Synchronizing clocks across realms.',
     unlocked: true,
     type: 'text',
