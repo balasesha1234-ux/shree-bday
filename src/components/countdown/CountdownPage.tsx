@@ -4,7 +4,7 @@ import { Sparkles, Radio, Shield } from 'lucide-react';
 import { GlitchAge } from '../shared/GlitchAge';
 import { useCountdown } from '../../hooks/useCountdown';
 import { CountdownTimer } from './CountdownTimer';
-import { TeaserUnlocks } from './TeaserUnlocks';
+import { CosmicConstellation } from './CosmicConstellation';
 import { MidnightReveal } from './MidnightReveal';
 import { PawPrints } from '../shared/PawPrints';
 import { ShootingStars } from '../shared/ShootingStars';
@@ -90,7 +90,7 @@ export const CountdownPage: React.FC<CountdownPageProps> = ({ onUnlockBirthday }
         )}
 
         {/* Daily Teaser Milestones */}
-        <TeaserUnlocks daysRemaining={countdown.days} />
+        <CosmicConstellation />
       </main>
 
       {/* Footer */}
