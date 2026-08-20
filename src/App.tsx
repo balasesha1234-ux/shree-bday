@@ -21,6 +21,7 @@ import { BirthdayMiniGame } from './components/shared/BirthdayMiniGame';
 import { PublicFinale } from './components/public/PublicFinale';
 import { SecretFloatingEasterEggs } from './components/public/SecretFloatingEasterEggs';
 import { TapSequenceOverlay } from './components/public/TapSequenceOverlay';
+import { NotFoundPage } from './components/shared/NotFoundPage';
 
 // Private Sanctuary Realm
 import { PrivateContainer } from './components/private/PrivateContainer';
@@ -34,7 +35,7 @@ import { CursorSparkles } from './components/shared/CursorSparkles';
 import { AmbientLotusParticles } from './components/shared/AmbientLotusParticles';
 
 export function App() {
-  const [appMode, setAppMode] = useState<AppMode>(() => {
+  const [appMode, setAppMode] = useState<AppMode | '404'>(() => {
     return isBirthdayActive() ? 'public' : 'countdown';
   });
 
@@ -102,7 +103,7 @@ export function App() {
         }`}
       >
         {/* Floating Pill Navigation */}
-        <FloatingNav appMode={appMode} />
+        <FloatingNav appMode={appMode === '404' ? 'countdown' : appMode} />
 
         {/* Floating Lotus & Devotional Ambient Petals */}
         <LotusPetals devotional={appMode === 'private'} />
@@ -149,6 +150,13 @@ export function App() {
         )}
 
         {/* ========================================================================= */}
+        {/* REALM 4: 404 LOST IN DEEP SPACE */}
+        {/* ========================================================================= */}
+        {appMode === '404' && (
+          <NotFoundPage onGoHome={() => setAppMode('countdown')} />
+        )}
+
+        {/* ========================================================================= */}
         {/* REALM 3: PRIVATE SIBLING SANCTUARY */}
         {/* ========================================================================= */}
         {appMode === 'private' && (
@@ -157,7 +165,7 @@ export function App() {
 
         {/* Global Canvas Layers */}
         <CursorSparkles />
-        <AmbientLotusParticles />
+        {appMode !== 'countdown' && <AmbientLotusParticles />}
         <ConfettiEffect />
 
         {/* Cinematic Golden Lotus Portal Transition Overlay */}
@@ -205,6 +213,16 @@ export function App() {
                   🎉 Public
                 </button>
 
+                <button
+                  onClick={() => setAppMode('404')}
+                  className={`px-2.5 py-1.5 rounded-xl font-fredoka font-bold text-xs transition-all ${
+                    appMode === '404'
+                      ? 'bg-[#060412] text-[#FFD93D] border border-[#FFD93D] shadow-sm'
+                      : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                  }`}
+                >
+                  🛸 404
+                </button>
                 <button
                   onClick={() => {
                     setAppMode('private');

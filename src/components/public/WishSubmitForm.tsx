@@ -22,6 +22,8 @@ export const WishSubmitForm: React.FC<WishSubmitFormProps> = ({ isOpen, onClose,
   const [name, setName] = useState('');
   const [city, setCity] = useState('');
   const [message, setMessage] = useState('');
+  const [honeypot, setHoneypot] = useState('');
+  const formOpenTime = React.useRef(Date.now());
   const [selectedEmoji, setSelectedEmoji] = useState('🌸');
   const [cooldownError, setCooldownError] = useState<string | null>(null);
 
@@ -35,6 +37,11 @@ export const WishSubmitForm: React.FC<WishSubmitFormProps> = ({ isOpen, onClose,
     const cleanMessage = sanitizeInput(message);
     const cleanCity = sanitizeInput(city);
 
+    // Honeypot Bot Trap Check
+    if (honeypot && honeypot.trim().length > 0) {
+      onClose();
+      return;
+    }
     if (!cleanName || !cleanMessage) return;
 
     // Rate Limiting (Anti-Spam Flooding Guard)

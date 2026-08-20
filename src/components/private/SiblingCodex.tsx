@@ -94,7 +94,7 @@ export const SiblingCodex: React.FC = () => {
 
   const handleUnseal = (id: number) => {
     soundEngine.playTap();
-    soundEngine.playTempleBell();
+    soundEngine.playWaxSealCrack();
     triggerCustomConfetti();
     setUnsealedIds((prev) => ({ ...prev, [id]: true }));
   };

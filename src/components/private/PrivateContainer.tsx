@@ -1,8 +1,10 @@
-﻿import React from 'react';
+import React from 'react';
 import { PrivateIntro } from './PrivateIntro';
 import { DistanceTracker } from './DistanceTracker';
 import { SiblingCodex } from './SiblingCodex';
 import { MemoryLane } from './MemoryLane';
+import { TimeCapsule } from './TimeCapsule';
+import { WhiskerLounge } from './WhiskerLounge';
 import { GiftUnwrap } from './GiftUnwrap';
 import { ScratchCard } from './ScratchCard';
 import { FriendWishWall } from './FriendWishWall';
@@ -30,6 +32,8 @@ export const PrivateContainer: React.FC<PrivateContainerProps> = ({ onReplay }) 
       <DistanceTracker />
       <SiblingCodex />
       <MemoryLane />
+      <TimeCapsule />
+      <WhiskerLounge />
       <GiftUnwrap />
       <ScratchCard />
       <FriendWishWall />

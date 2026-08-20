@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, Radio, Shield } from 'lucide-react';
-import { GlitchAge } from '../shared/GlitchAge';
+import { Sparkles } from 'lucide-react';
 import { useCountdown } from '../../hooks/useCountdown';
 import { CountdownTimer } from './CountdownTimer';
-import { CosmicConstellation } from './CosmicConstellation';
+import { LokiGlitchAge } from '../shared/GlitchAge';
+import { CosmicLotusNebula } from './CosmicLotusNebula';
+import { OrbitalAstrolabe } from './OrbitalAstrolabe';
 import { MidnightReveal } from './MidnightReveal';
 import { PawPrints } from '../shared/PawPrints';
 import { ShootingStars } from '../shared/ShootingStars';
+import { DeepSpaceVoyage } from './DeepSpaceVoyage';
+import { CosmicStardustFloating } from './CosmicStardustFloating';
 
 interface CountdownPageProps {
   onUnlockBirthday: () => void;
@@ -18,85 +21,88 @@ export const CountdownPage: React.FC<CountdownPageProps> = ({ onUnlockBirthday }
   const [triggerMidnight, setTriggerMidnight] = useState<boolean>(false);
 
   return (
-    <div className="relative min-h-screen bg-[#0A0A1A] text-white flex flex-col items-center justify-between overflow-hidden selection:bg-[#FF2D78] selection:text-white select-none">
-      {/* Background Animated Gradient Mesh */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute -top-40 -left-40 w-96 h-96 bg-[#FF2D78]/20 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute top-1/2 -right-40 w-96 h-96 bg-[#6BC5F8]/15 rounded-full blur-[140px]" />
-        <div className="absolute -bottom-40 left-1/3 w-[500px] h-[500px] bg-[#FF6B9D]/15 rounded-full blur-[160px]" />
-      </div>
+    <div className="relative min-h-screen bg-[#060412] text-white flex flex-col items-center justify-between overflow-x-hidden selection:bg-[#FF2D78] selection:text-white select-none">
+      {/* Immersive 3D Starfield Warp & Volumetric Nebula Voyage */}
+      <DeepSpaceVoyage />
+      <CosmicStardustFloating />
 
-      {/* Walking Cat Paws Easter Egg */}
+      {/* Cosmic Shooting Stars & Subtle Cat Paws */}
       <ShootingStars />
       <PawPrints />
 
-      {/* Top Banner Header */}
-      <header className="relative z-10 w-full max-w-6xl mx-auto pt-8 px-6 flex items-center justify-between">
-        <div className="flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
-          <Radio className="w-4 h-4 text-[#FF2D78] animate-pulse" />
-          <span className="text-xs font-space uppercase tracking-widest text-gray-300 font-semibold">
-            GLOBAL BROADCAST // WORLDWIDE CELEBRATION PROTOCOL 🌸
-          </span>
-        </div>
-
-        {/* Live Status Indicator */}
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-space font-semibold">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span>LIVE BROADCAST READY</span>
-        </div>
-      </header>
-
       {/* Center Cinematic Content */}
-      <main className="relative z-10 w-full max-w-5xl mx-auto px-4 flex flex-col items-center text-center mt-10">
+      <main className="relative z-10 w-full max-w-4xl mx-auto px-4 flex flex-col items-center text-center pt-12 sm:pt-16 pb-12">
+        {/* Elegant Top Badge */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8 }}
-          className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#FF2D78]/15 border border-[#FF2D78]/40 text-[#FF6B9D] text-xs font-space font-bold tracking-[0.2em] mb-4 uppercase shadow-sm"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-pink-400/30 text-pink-200 text-xs font-space font-semibold tracking-widest uppercase mb-5 backdrop-blur-md shadow-sm"
         >
-          <Sparkles className="w-4 h-4 text-[#FFD93D]" />
-          <span>PROJECT SHREE // COUNTDOWN TO ZERO HOUR 🚀</span>
+          <Sparkles className="w-3.5 h-3.5 text-[#FFD93D]" />
+          <span>MARCH 6 • MIDNIGHT IST COUNTDOWN 🌸</span>
         </motion.div>
 
-        <h1 className="text-3xl sm:text-5xl md:text-7xl font-fredoka font-bold tracking-tight text-white drop-shadow-[0_5px_30px_rgba(255,45,120,0.5)] leading-tight">
-          SHREE’S <GlitchAge suffix="TH" className="mx-2 text-3xl sm:text-5xl md:text-6xl align-middle" /> BIRTHDAY 🎂
-        </h1>
+        {/* Clean Single-Line Unbroken Title with Compact Minecraft Rune Cipher */}
+        <motion.h1
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.7 }}
+          className="text-[1.35rem] sm:text-4xl md:text-5xl lg:text-6xl font-fredoka font-bold tracking-tight text-white drop-shadow-[0_4px_25px_rgba(255,77,141,0.4)] leading-none flex items-center justify-center flex-nowrap whitespace-nowrap gap-1.5 sm:gap-3 w-full max-w-full overflow-hidden"
+        >
+          <span className="shrink-0">SHREE’S</span>
+          <LokiGlitchAge />
+          <span className="shrink-0">BIRTHDAY 🎂</span>
+        </motion.h1>
 
-        <p className="mt-3 text-sm sm:text-base font-quicksand text-pink-200/90 max-w-2xl leading-relaxed">
-          A worldwide celebration for the best sister, kindest creator & cat whisperer in the universe! 🌸 <br className="hidden sm:inline" />
-          Synchronizing live worldwide at Midnight IST on March 6.
+        <p className="mt-3 text-sm sm:text-base font-quicksand text-pink-100/80 max-w-xl leading-relaxed">
+          A worldwide celebration for the kindest creator, animal lover & best sister in the universe. Synchronizing live at Midnight IST! 🌸✨
         </p>
 
-        {/* Marvel Countdown Timer */}
-        <CountdownTimer
-          days={countdown.formattedDays}
-          hours={countdown.formattedHours}
-          minutes={countdown.formattedMinutes}
-          seconds={countdown.formattedSeconds}
-          milliseconds={countdown.milliseconds}
-        />
+        {/* Concept 4: The Fluid Gravitational Cosmic Lotus Nebula */}
+        <div className="relative w-full -my-8 z-0">
+          <CosmicLotusNebula />
+        </div>
+
+        {/* Clean Floating Zero-Gravity Countdown Timer */}
+        <div className="relative z-10 w-full">
+          <CountdownTimer
+            days={countdown.formattedDays}
+            hours={countdown.formattedHours}
+            minutes={countdown.formattedMinutes}
+            seconds={countdown.formattedSeconds}
+            milliseconds={countdown.milliseconds}
+          />
+        </div>
+
+        {/* Concept 1: The 3D Interactive Celestial Orbital Astrolabe */}
+        <div className="relative z-10 w-full mt-4">
+          <OrbitalAstrolabe
+            days={countdown.formattedDays}
+            hours={countdown.formattedHours}
+            minutes={countdown.formattedMinutes}
+            seconds={countdown.formattedSeconds}
+          />
+        </div>
 
         {/* Local Dev Simulator Button */}
         {import.meta.env.DEV && (
-          <div className="my-6">
+          <div className="my-5">
             <button
               onClick={() => setTriggerMidnight(true)}
-              className="px-6 py-2.5 rounded-full bg-gradient-to-r from-[#FF2D78] to-[#FF6B9D] hover:scale-105 active:scale-95 text-white font-fredoka font-bold text-xs shadow-[0_0_20px_rgba(255,45,120,0.6)] border border-pink-300 transition-all flex items-center gap-2 mx-auto"
+              className="px-5 py-2 rounded-full bg-pink-950/60 hover:bg-pink-900/80 text-pink-300 border border-pink-500/40 text-xs font-space font-bold transition-all flex items-center gap-2 mx-auto"
             >
-              <Sparkles className="w-4 h-4 text-[#FFD93D]" />
-              <span>💥 [DEV ONLY] Trigger Zero Hour Simulation</span>
+              <Sparkles className="w-3.5 h-3.5 text-[#FFD93D]" />
+              <span>[DEV ONLY] Simulate Zero Hour</span>
             </button>
           </div>
         )}
-
-        {/* Daily Teaser Milestones */}
-        <CosmicConstellation />
       </main>
 
-      {/* Footer */}
+      {/* Clean Minimalist Footer */}
       <footer className="relative z-10 w-full py-6 text-center text-xs font-quicksand text-gray-500 border-t border-white/5">
         <p className="flex items-center justify-center gap-1.5">
-          Crafted with 100% Brotherly Pride & Support for Shree 🐱🛡️ // Long Distance Sync
+          Crafted with 100% Brotherly Pride & Support for Shree 🐱🛡️
         </p>
       </footer>
 

@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Shield, Sparkles, Radio, Sun, CloudSun, Clock, Heart } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Shield, Sparkles, Radio, Sun, CloudSun, Clock, Heart, Zap, Send } from 'lucide-react';
+import { soundEngine } from '../../utils/soundEffects';
+import confetti from 'canvas-confetti';
 
 export const DistanceTracker: React.FC = () => {
   const [timeString, setTimeString] = useState<string>('');
+  const [isPulseActive, setIsPulseActive] = useState<boolean>(false);
+  const [pulseCount, setPulseCount] = useState<number>(1420);
+  const [pulseDelivered, setPulseDelivered] = useState<boolean>(false);
 
   useEffect(() => {
     const updateTime = () => {
@@ -23,8 +28,37 @@ export const DistanceTracker: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const handleSendProtectionPulse = () => {
+    if (isPulseActive) return;
+
+    soundEngine.playLaserPulse();
+    soundEngine.playTap();
+    setIsPulseActive(true);
+    setPulseDelivered(false);
+    setPulseCount((prev) => prev + 1);
+
+    // Laser traverses along arc, then arrives in Delhi after 1.2s
+    setTimeout(() => {
+      soundEngine.playSparkle(1.6);
+      setPulseDelivered(true);
+
+      confetti({
+        particleCount: 50,
+        spread: 90,
+        origin: { x: 0.75, y: 0.6 },
+        colors: ['#FFD93D', '#FF4D8D', '#FFFFFF', '#7CEBC6']
+      });
+
+      setTimeout(() => {
+        setIsPulseActive(false);
+        setPulseDelivered(false);
+      }, 2000);
+    }, 1200);
+  };
+
   return (
     <section className="relative w-full max-w-5xl mx-auto px-4 py-20 select-none">
+      {/* Header */}
       <div className="text-center max-w-xl mx-auto mb-12">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-[#D4A84B] font-fredoka text-xs font-semibold shadow-sm border border-[#D4A84B]/30 mb-2">
           <Radio className="w-3.5 h-3.5 animate-pulse text-[#D4A84B]" />
@@ -98,76 +132,104 @@ export const DistanceTracker: React.FC = () => {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
           <div className="p-4 rounded-2xl bg-pink-50/60 border border-pink-100 text-center">
             <span className="text-[10px] font-space font-bold text-gray-500 uppercase block">FLIGHT DISTANCE</span>
-            <span className="text-xl sm:text-2xl font-space font-bold text-[#FF4D8D]">1,250 KM</span>
+            <span className="font-space font-bold text-2xl text-[#FF4D8D] block mt-1">1,250 KM</span>
+            <span className="text-[11px] font-quicksand text-gray-600">~2h 15m nonstop</span>
           </div>
 
-          <div className="p-4 rounded-2xl bg-pink-50/60 border border-pink-100 text-center">
+          <div className="p-4 rounded-2xl bg-amber-50/60 border border-amber-100 text-center">
+            <span className="text-[10px] font-space font-bold text-gray-500 uppercase block">HEART LATENCY</span>
+            <span className="font-space font-bold text-2xl text-[#D4A84B] block mt-1">0.00 MS</span>
+            <span className="text-[11px] font-quicksand text-gray-600">Always 1 call away</span>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-100 text-center">
             <span className="text-[10px] font-space font-bold text-gray-500 uppercase block">BROTHERLY SUPPORT</span>
-            <span className="text-xl sm:text-2xl font-space font-bold text-[#7CEBC6] drop-shadow-sm">0.00 MS</span>
+            <span className="font-space font-bold text-2xl text-emerald-600 block mt-1">100%</span>
+            <span className="text-[11px] font-quicksand text-gray-600">Unconditional loyalty</span>
           </div>
 
-          <div className="p-4 rounded-2xl bg-pink-50/60 border border-pink-100 text-center">
-            <span className="text-[10px] font-space font-bold text-gray-500 uppercase block">SIBLING BOND</span>
-            <span className="text-xl sm:text-2xl font-space font-bold text-[#FFD93D]">100% LIFELONG</span>
-          </div>
-
-          <div className="p-4 rounded-2xl bg-pink-50/60 border border-pink-100 text-center">
-            <span className="text-[10px] font-space font-bold text-gray-500 uppercase block">DIVINE BLESSINGS</span>
-            <span className="text-xl sm:text-2xl font-space font-bold text-purple-400">RADHARANI 🪷</span>
+          <div className="p-4 rounded-2xl bg-purple-50/60 border border-purple-100 text-center">
+            <span className="text-[10px] font-space font-bold text-gray-500 uppercase block">PROTECTION GUARANTEE</span>
+            <span className="font-space font-bold text-2xl text-purple-600 block mt-1">24/7/365</span>
+            <span className="text-[11px] font-quicksand text-gray-600">Lifelong Sibling Shield</span>
           </div>
         </div>
 
-        {/* Animated Connecting Radar Map */}
-        <div className="relative w-full h-44 sm:h-52 bg-gradient-to-r from-[#FFF0F3] via-white to-[#FFE5EC] rounded-2xl border border-pink-200/80 p-6 flex items-center justify-between overflow-hidden">
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,77,141,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,77,141,0.05)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+        {/* Interactive Laser Radar Map Graphic */}
+        <div className="relative w-full h-44 sm:h-52 rounded-2xl bg-gradient-to-r from-amber-900/10 via-pink-900/10 to-rose-900/10 border border-pink-200/80 p-6 flex flex-col justify-between overflow-hidden">
+          <div className="flex items-center justify-between text-xs font-space font-bold text-gray-700 z-10">
+            <span className="flex items-center gap-1.5 bg-white/90 px-3 py-1 rounded-full shadow-sm">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#D4A84B] animate-ping" />
+              <span>HYDERABAD (COMMAND 🛡️)</span>
+            </span>
 
-          {/* Hyderabad Pin (Brother) */}
-          <div className="relative z-10 flex flex-col items-center">
-            <div className="w-12 h-12 rounded-2xl bg-[#D4A84B] text-white flex items-center justify-center shadow-lg border-2 border-white">
-              <Shield className="w-6 h-6" />
-            </div>
-            <span className="mt-2 font-fredoka font-bold text-gray-800 text-sm">Hyderabad Base</span>
-            <span className="text-[11px] font-caveat font-bold text-[#D4A84B]">Brother's Shield 🛡️</span>
+            <span className="flex items-center gap-1.5 bg-white/90 px-3 py-1 rounded-full shadow-sm">
+              <span>DELHI (SANCTUARY 🌸)</span>
+              <span className="w-2.5 h-2.5 rounded-full bg-[#FF4D8D] animate-ping" />
+            </span>
           </div>
 
-          {/* Animated Connecting Line */}
-          <div className="flex-1 relative mx-6 h-12 flex items-center">
-            <div className="w-full h-0.5 border-t-2 border-dashed border-[#D4A84B]/40" />
+          {/* SVG Laser Arc Telemetry */}
+          <svg className="absolute inset-0 w-full h-full pointer-events-none">
+            <defs>
+              <linearGradient id="laserGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#D4A84B" />
+                <stop offset="50%" stopColor="#FF4D8D" />
+                <stop offset="100%" stopColor="#FF2D78" />
+              </linearGradient>
+            </defs>
 
+            {/* Background Arc */}
+            <path
+              d="M 60 140 Q 500 20 950 140"
+              fill="none"
+              stroke="rgba(255, 77, 141, 0.25)"
+              strokeWidth="3"
+              strokeDasharray="6 6"
+            />
+
+            {/* Active Protection Laser Pulse */}
+            {isPulseActive && (
+              <motion.path
+                d="M 60 140 Q 500 20 950 140"
+                fill="none"
+                stroke="url(#laserGradient)"
+                strokeWidth="6"
+                initial={{ pathLength: 0, opacity: 1 }}
+                animate={{ pathLength: 1, opacity: [1, 1, 0] }}
+                transition={{ duration: 1.2, ease: 'easeInOut' }}
+                style={{ filter: 'drop-shadow(0 0 12px #FFD93D)' }}
+              />
+            )}
+          </svg>
+
+          {/* Pulse Delivered Celebration Badge in Delhi */}
+          {pulseDelivered && (
             <motion.div
-              animate={{
-                x: ['0%', '100%', '0%']
-              }}
-              transition={{
-                duration: 6,
-                repeat: Infinity,
-                ease: 'easeInOut'
-              }}
-              className="absolute left-0 -ml-4 flex flex-col items-center"
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1.2, opacity: 1 }}
+              className="absolute top-10 right-10 z-20 px-3 py-1 rounded-full bg-gradient-to-r from-[#FFD93D] to-[#FF4D8D] text-white font-fredoka font-bold text-xs shadow-lg"
             >
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#D4A84B] to-[#FF4D8D] text-white flex items-center justify-center shadow-pop">
-                <span className="text-xs">🛡️</span>
-              </div>
-              <span className="text-[9px] font-space font-bold text-[#D4A84B] whitespace-nowrap mt-0.5">
-                Always In Your Corner ✈️
-              </span>
+              <span>Protection Pulse Delivered! 🛡️✨</span>
             </motion.div>
-          </div>
+          )}
 
-          {/* Delhi Pin (Sister) */}
-          <div className="relative z-10 flex flex-col items-center">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FF4D8D] to-[#FF2D78] text-white flex items-center justify-center shadow-lg border-2 border-white">
-              <Sparkles className="w-6 h-6 fill-current" />
-            </div>
-            <span className="mt-2 font-fredoka font-bold text-gray-800 text-sm">Delhi Realm</span>
-            <span className="text-[11px] font-caveat font-bold text-[#FF4D8D]">Where You Shine 🌸</span>
-          </div>
-        </div>
+          {/* Bottom Telemetry & Trigger Button */}
+          <div className="flex items-center justify-between z-10">
+            <span className="text-[11px] font-space text-gray-500">
+              ✨ <strong className="text-[#D4A84B]">{pulseCount}</strong> Protection Pulses Synced
+            </span>
 
-        <div className="mt-6 pt-6 border-t border-pink-100 text-center">
-          <p className="font-caveat text-xl sm:text-2xl text-gray-700 leading-relaxed">
-            "No matter how far Delhi is from Hyderabad, whenever you need advice, cheering up, or a protective shield — your brother is always right here."
-          </p>
+            <button
+              type="button"
+              onClick={handleSendProtectionPulse}
+              disabled={isPulseActive}
+              className="flex items-center gap-2 px-5 py-2 rounded-full bg-gradient-to-r from-[#D4A84B] via-[#F5C642] to-[#FF4D8D] text-[#2D1B00] font-fredoka font-bold text-xs shadow-pop hover:scale-105 active:scale-95 transition-all"
+            >
+              <Zap className="w-3.5 h-3.5 fill-[#2D1B00]" />
+              <span>{isPulseActive ? 'Firing Supersonic Pulse...' : 'Send Protection Pulse 🛡️'}</span>
+            </button>
+          </div>
         </div>
       </div>
     </section>
