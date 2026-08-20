@@ -58,7 +58,7 @@ export const CountdownPage: React.FC<CountdownPageProps> = ({ onUnlockBirthday }
           <span>PROJECT SHREE // COUNTDOWN TO ZERO HOUR 🚀</span>
         </motion.div>
 
-        <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-fredoka font-bold tracking-tight text-white drop-shadow-[0_5px_30px_rgba(255,45,120,0.5)]">
+        <h1 className="text-3xl sm:text-5xl md:text-7xl font-fredoka font-bold tracking-tight text-white drop-shadow-[0_5px_30px_rgba(255,45,120,0.5)] leading-tight">
           SHREE’S <GlitchAge suffix="TH" className="mx-2 text-3xl sm:text-5xl md:text-6xl align-middle" /> BIRTHDAY 🎂
         </h1>
 

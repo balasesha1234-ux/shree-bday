@@ -93,27 +93,43 @@ export const SisterCertificate: React.FC = () => {
         ctx.fillText(line, width / 2, 630 + i * 45);
       });
 
-      // Photo Portrait in Center
+      // Photo Portrait in Center with Flawless Aspect Ratio Face Crop
       const img = new Image();
       img.crossOrigin = 'anonymous';
       img.src = '/assets/serial/6s.jpg';
       await new Promise((resolve) => {
-        img.onload = resolve;
-        img.onerror = resolve;
+        if (img.complete) resolve(true);
+        else {
+          img.onload = () => resolve(true);
+          img.onerror = () => resolve(false);
+        }
       });
 
+      // Draw Gold Foil Outer Ring
       ctx.save();
+      ctx.shadowColor = 'rgba(212, 168, 75, 0.4)';
+      ctx.shadowBlur = 20;
+      ctx.strokeStyle = '#D4A84B';
+      ctx.lineWidth = 10;
       ctx.beginPath();
-      ctx.arc(width / 2, 940, 110, 0, Math.PI * 2);
-      ctx.clip();
-      ctx.drawImage(img, width / 2 - 110, 830, 220, 220);
+      ctx.arc(width / 2, 940, 125, 0, Math.PI * 2);
+      ctx.stroke();
       ctx.restore();
 
-      ctx.strokeStyle = '#D4A84B';
-      ctx.lineWidth = 6;
+      // Clip Circle and Draw Perfectly Centered Portrait
+      ctx.save();
       ctx.beginPath();
-      ctx.arc(width / 2, 940, 110, 0, Math.PI * 2);
-      ctx.stroke();
+      ctx.arc(width / 2, 940, 120, 0, Math.PI * 2);
+      ctx.clip();
+
+      const nw = img.naturalWidth || 800;
+      const nh = img.naturalHeight || 1000;
+      const cropSize = Math.min(nw, nh);
+      const cropX = (nw - cropSize) / 2;
+      const cropY = Math.max(0, nh * 0.12);
+
+      ctx.drawImage(img, cropX, cropY, cropSize, cropSize, width / 2 - 120, 820, 240, 240);
+      ctx.restore();
 
       // Signatures
       ctx.fillStyle = '#2D3748';

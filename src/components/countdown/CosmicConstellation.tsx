@@ -24,8 +24,8 @@ const CONSTELLATION_STARS: ConstellationStar[] = [
     name: 'Star of Radiant Kindness',
     theme: 'COMPASSION & WARMTH 🌸',
     emoji: '🌸',
-    x: 20,
-    y: 32,
+    x: 18,
+    y: 28,
     size: 26,
     glowColor: '#FF4D8D',
     tribute: 'A constant beacon of empathy. She never passes someone in need without offering warmth, gentle words, and a listening heart.',
@@ -50,8 +50,8 @@ const CONSTELLATION_STARS: ConstellationStar[] = [
     name: 'The Whiskered Guardian',
     theme: 'ANIMAL LOVER & PURRS 🐾',
     emoji: '🐱',
-    x: 80,
-    y: 30,
+    x: 82,
+    y: 28,
     size: 26,
     glowColor: '#7CEBC6',
     tribute: 'The greatest friend every stray kitten could ask for. Her tender care for little street animals shows the purity of her spirit.',
@@ -63,8 +63,8 @@ const CONSTELLATION_STARS: ConstellationStar[] = [
     name: 'Star of Creative Brilliance',
     theme: 'ARTISTRY & PASSION 🚀',
     emoji: '✨',
-    x: 28,
-    y: 72,
+    x: 24,
+    y: 65,
     size: 28,
     glowColor: '#6BC5F8',
     tribute: 'Bringing imagination to life with tireless dedication, storytelling talent, and a creative spark that inspires thousands every single day.',
@@ -76,8 +76,8 @@ const CONSTELLATION_STARS: ConstellationStar[] = [
     name: 'Star of Golden Laughter',
     theme: 'JOY & CANDID SMILES 🎭',
     emoji: '🎭',
-    x: 72,
-    y: 68,
+    x: 76,
+    y: 65,
     size: 28,
     glowColor: '#E0D4F0',
     tribute: 'Those priceless bursts of laughter that light up whole rooms. Unfiltered, contagious joy that makes everyone around her feel at home.',
@@ -90,7 +90,7 @@ const CONSTELLATION_STARS: ConstellationStar[] = [
     theme: 'THE BRIGHT FUTURE 🌟',
     emoji: '🌟',
     x: 50,
-    y: 86,
+    y: 78,
     size: 34,
     glowColor: '#FF6B9D',
     tribute: 'Standing on the threshold of an extraordinary new chapter. Guided by courage, supported by everyone who loves her, and destined for greatness.',
@@ -241,7 +241,7 @@ export const CosmicConstellation: React.FC = () => {
       {/* Interactive Constellation Star Map Container */}
       <div
         ref={mapRef}
-        className="relative w-full aspect-[4/3] sm:aspect-[16/10] bg-gradient-to-b from-[#0F0C22]/95 via-[#181335]/95 to-[#0B091A]/95 rounded-3xl sm:rounded-[2.5rem] border-2 border-pink-500/40 shadow-[0_0_50px_rgba(255,45,120,0.3)] overflow-hidden p-6"
+        className="relative w-full min-h-[480px] sm:min-h-[540px] aspect-auto sm:aspect-[16/10] bg-gradient-to-b from-[#0F0C22]/95 via-[#181335]/95 to-[#0B091A]/95 rounded-3xl sm:rounded-[2.5rem] border-2 border-pink-500/40 shadow-[0_0_50px_rgba(255,45,120,0.3)] overflow-hidden p-4 sm:p-6"
       >
         {/* Deep Space Star Dust Background Texture */}
         <div className="absolute inset-0 bg-[radial-gradient(#FF6B9D_1px,transparent_1px)] [background-size:24px_24px] opacity-25 pointer-events-none" />

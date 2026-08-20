@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import { PrivateIntro } from './PrivateIntro';
 import { DistanceTracker } from './DistanceTracker';
-import { PlaylistSection } from './PlaylistSection';
+import { SiblingCodex } from './SiblingCodex';
 import { MemoryLane } from './MemoryLane';
 import { GiftUnwrap } from './GiftUnwrap';
 import { ScratchCard } from './ScratchCard';
@@ -28,7 +28,7 @@ export const PrivateContainer: React.FC<PrivateContainerProps> = ({ onReplay }) 
       <ShootingStars />
       <PrivateIntro onStartScroll={scrollToChapterOne} />
       <DistanceTracker />
-      <PlaylistSection />
+      <SiblingCodex />
       <MemoryLane />
       <GiftUnwrap />
       <ScratchCard />

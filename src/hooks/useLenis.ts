@@ -1,19 +1,27 @@
-﻿import { useEffect } from 'react';
+import { useEffect } from 'react';
 import Lenis from 'lenis';
 
 export function useLenis(enabled: boolean = true) {
   useEffect(() => {
     if (!enabled || typeof window === 'undefined') return;
 
-    // Ice-skate glide physics (long glide duration + exponential deceleration)
+    // Detect if device has primary touch input (e.g. mobile/tablet)
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+    // On mobile devices, let native 120Hz momentum scrolling handle it without lag
+    if (isTouchDevice && window.innerWidth < 768) {
+      return;
+    }
+
+    // Snappy, silky-smooth desktop scroll physics
     const lenis = new Lenis({
-      duration: 1.5,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      duration: 0.8,
+      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -8 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1.05,
-      touchMultiplier: 1.2,
+      wheelMultiplier: 1.0,
+      touchMultiplier: 0, // Never hijack mobile touch
       infinite: false,
     });
 
