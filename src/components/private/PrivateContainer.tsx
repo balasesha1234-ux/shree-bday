@@ -3,6 +3,7 @@ import { PrivateIntro } from './PrivateIntro';
 import { DistanceTracker } from './DistanceTracker';
 import { SiblingCodex } from './SiblingCodex';
 import { MemoryLane } from './MemoryLane';
+import { ChildhoodPolaroid } from './ChildhoodPolaroid';
 import { TimeCapsule } from './TimeCapsule';
 import { WhiskerLounge } from './WhiskerLounge';
 import { GiftUnwrap } from './GiftUnwrap';
@@ -31,7 +32,8 @@ export const PrivateContainer: React.FC<PrivateContainerProps> = ({ onReplay }) 
       <PrivateIntro onStartScroll={scrollToChapterOne} />
       <DistanceTracker />
       <SiblingCodex />
-      <MemoryLane />
+      <ChildhoodPolaroid />
+        <MemoryLane />
       <TimeCapsule />
       <WhiskerLounge />
       <GiftUnwrap />
