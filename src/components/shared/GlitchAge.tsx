@@ -53,33 +53,37 @@ export const LokiGlitchAge: React.FC<LokiGlitchAgeProps> = ({
 
   return (
     <span
-      className={`inline-flex items-center justify-center gap-0.5 px-1.5 sm:px-2.5 py-0.5 rounded-lg sm:rounded-xl bg-black/75 border border-emerald-400/60 shadow-[0_0_15px_rgba(34,197,94,0.4)] backdrop-blur-md select-none shrink-0 align-middle ${className}`}
+      className={`inline-flex items-center justify-center w-12 sm:w-16 md:w-20 h-6 sm:h-9 md:h-11 mx-1 sm:mx-2 rounded-lg sm:rounded-xl bg-black/80 border border-emerald-400/60 shadow-[0_0_15px_rgba(34,197,94,0.45)] backdrop-blur-md select-none shrink-0 overflow-hidden align-middle ${className}`}
       title="[AGE CONCEALED: MINECRAFT SGA CIPHER]"
     >
-      {/* Rune 1 */}
-      <span
-        style={{
-          fontFamily: s1.font,
-          fontWeight: s1.weight,
-          color: s1.color,
-          textShadow: s1.textShadow
-        }}
-        className="inline-block text-xs sm:text-xl md:text-2xl leading-none text-center transform-gpu"
-      >
-        {char1.rune}
+      {/* Rune 1 - Fixed width container */}
+      <span className="w-5 sm:w-8 md:w-9 flex items-center justify-center text-center">
+        <span
+          style={{
+            fontFamily: s1.font,
+            fontWeight: s1.weight,
+            color: s1.color,
+            textShadow: s1.textShadow
+          }}
+          className="text-sm sm:text-2xl md:text-3xl leading-none transform-gpu"
+        >
+          {char1.rune}
+        </span>
       </span>
 
-      {/* Rune 2 */}
-      <span
-        style={{
-          fontFamily: s2.font,
-          fontWeight: s2.weight,
-          color: s2.color,
-          textShadow: s2.textShadow
-        }}
-        className="inline-block text-xs sm:text-xl md:text-2xl leading-none text-center transform-gpu"
-      >
-        {char2.rune}
+      {/* Rune 2 - Fixed width container */}
+      <span className="w-5 sm:w-8 md:w-9 flex items-center justify-center text-center">
+        <span
+          style={{
+            fontFamily: s2.font,
+            fontWeight: s2.weight,
+            color: s2.color,
+            textShadow: s2.textShadow
+          }}
+          className="text-sm sm:text-2xl md:text-3xl leading-none transform-gpu"
+        >
+          {char2.rune}
+        </span>
       </span>
 
       {suffix && (

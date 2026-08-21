@@ -40,7 +40,7 @@ export const CosmicStardustFloating: React.FC = () => {
     window.addEventListener('resize', handleResize);
 
     // Spawn 35 zero-gravity floating stardust photon motes
-    const count = 35;
+    const count = 14;
     const motes: StardustMote[] = Array.from({ length: count }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,

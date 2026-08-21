@@ -4,7 +4,6 @@ import { Sparkles } from 'lucide-react';
 import { useCountdown } from '../../hooks/useCountdown';
 import { CountdownTimer } from './CountdownTimer';
 import { LokiGlitchAge } from '../shared/GlitchAge';
-import { CosmicLotusNebula } from './CosmicLotusNebula';
 import { OrbitalAstrolabe } from './OrbitalAstrolabe';
 import { MidnightReveal } from './MidnightReveal';
 import { PawPrints } from '../shared/PawPrints';
@@ -22,7 +21,7 @@ export const CountdownPage: React.FC<CountdownPageProps> = ({ onUnlockBirthday }
 
   return (
     <div className="relative min-h-screen bg-[#060412] text-white flex flex-col items-center justify-between overflow-x-hidden selection:bg-[#FF2D78] selection:text-white select-none">
-      {/* Immersive 3D Starfield Warp & Volumetric Nebula Voyage */}
+      {/* Immersive 3D Starfield Warp (Clean & Airy) */}
       <DeepSpaceVoyage />
       <CosmicStardustFloating />
 
@@ -30,42 +29,39 @@ export const CountdownPage: React.FC<CountdownPageProps> = ({ onUnlockBirthday }
       <ShootingStars />
       <PawPrints />
 
-      {/* Center Cinematic Content */}
-      <main className="relative z-10 w-full max-w-4xl mx-auto px-4 flex flex-col items-center text-center pt-12 sm:pt-16 pb-12">
+      {/* ========================================================================= */}
+      {/* MASSIVE CENTERED HERO COUNTDOWN VIEWPORT */}
+      {/* ========================================================================= */}
+      <main className="relative z-10 w-full min-h-[92vh] max-w-5xl mx-auto px-4 flex flex-col items-center justify-center text-center py-10 sm:py-16">
         {/* Elegant Top Badge */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-pink-400/30 text-pink-200 text-xs font-space font-semibold tracking-widest uppercase mb-5 backdrop-blur-md shadow-sm"
+          className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 border border-pink-400/30 text-pink-200 text-xs sm:text-sm font-space font-bold tracking-widest uppercase mb-5 sm:mb-7 backdrop-blur-md shadow-lg"
         >
-          <Sparkles className="w-3.5 h-3.5 text-[#FFD93D]" />
+          <Sparkles className="w-4 h-4 text-[#FFD93D]" />
           <span>MARCH 6 • MIDNIGHT IST COUNTDOWN 🌸</span>
         </motion.div>
 
-        {/* Clean Single-Line Unbroken Title with Compact Minecraft Rune Cipher */}
+        {/* Grand Bold Single-Line Title with Minecraft Cipher */}
         <motion.h1
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7 }}
-          className="text-[1.35rem] sm:text-4xl md:text-5xl lg:text-6xl font-fredoka font-bold tracking-tight text-white drop-shadow-[0_4px_25px_rgba(255,77,141,0.4)] leading-none flex items-center justify-center flex-nowrap whitespace-nowrap gap-1.5 sm:gap-3 w-full max-w-full overflow-hidden"
+          className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-fredoka font-bold tracking-tight text-white drop-shadow-[0_4px_35px_rgba(255,77,141,0.55)] leading-normal flex items-center justify-center flex-nowrap whitespace-nowrap w-full max-w-full px-2 py-1"
         >
           <span className="shrink-0">SHREE’S</span>
           <LokiGlitchAge />
           <span className="shrink-0">BIRTHDAY 🎂</span>
         </motion.h1>
 
-        <p className="mt-3 text-sm sm:text-base font-quicksand text-pink-100/80 max-w-xl leading-relaxed">
+        <p className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg font-quicksand text-pink-100/85 max-w-2xl leading-relaxed">
           A worldwide celebration for the kindest creator, animal lover & best sister in the universe. Synchronizing live at Midnight IST! 🌸✨
         </p>
 
-        {/* Concept 4: The Fluid Gravitational Cosmic Lotus Nebula */}
-        <div className="relative w-full -my-8 z-0">
-          <CosmicLotusNebula />
-        </div>
-
-        {/* Clean Floating Zero-Gravity Countdown Timer */}
-        <div className="relative z-10 w-full">
+        {/* Massive Centered Countdown Timer */}
+        <div className="w-full flex justify-center mt-2 sm:mt-4">
           <CountdownTimer
             days={countdown.formattedDays}
             hours={countdown.formattedHours}
@@ -75,22 +71,12 @@ export const CountdownPage: React.FC<CountdownPageProps> = ({ onUnlockBirthday }
           />
         </div>
 
-        {/* Concept 1: The 3D Interactive Celestial Orbital Astrolabe */}
-        <div className="relative z-10 w-full mt-4">
-          <OrbitalAstrolabe
-            days={countdown.formattedDays}
-            hours={countdown.formattedHours}
-            minutes={countdown.formattedMinutes}
-            seconds={countdown.formattedSeconds}
-          />
-        </div>
-
         {/* Local Dev Simulator Button */}
         {import.meta.env.DEV && (
-          <div className="my-5">
+          <div className="mt-4 sm:mt-6">
             <button
               onClick={() => setTriggerMidnight(true)}
-              className="px-5 py-2 rounded-full bg-pink-950/60 hover:bg-pink-900/80 text-pink-300 border border-pink-500/40 text-xs font-space font-bold transition-all flex items-center gap-2 mx-auto"
+              className="px-5 py-2.5 rounded-full bg-pink-950/70 hover:bg-pink-900/90 text-pink-300 border border-pink-500/50 text-xs font-space font-bold transition-all flex items-center gap-2 mx-auto shadow-md hover:scale-105 active:scale-95"
             >
               <Sparkles className="w-3.5 h-3.5 text-[#FFD93D]" />
               <span>[DEV ONLY] Simulate Zero Hour</span>
@@ -98,6 +84,18 @@ export const CountdownPage: React.FC<CountdownPageProps> = ({ onUnlockBirthday }
           </div>
         )}
       </main>
+
+      {/* ========================================================================= */}
+      {/* 3D CELESTIAL ORBITAL ASTROLABE (SCROLL-REVEAL SECTION) */}
+      {/* ========================================================================= */}
+      <section className="relative z-10 w-full max-w-5xl mx-auto px-4 py-12 sm:py-16 flex flex-col items-center">
+        <OrbitalAstrolabe
+          days={countdown.formattedDays}
+          hours={countdown.formattedHours}
+          minutes={countdown.formattedMinutes}
+          seconds={countdown.formattedSeconds}
+        />
+      </section>
 
       {/* Clean Minimalist Footer */}
       <footer className="relative z-10 w-full py-6 text-center text-xs font-quicksand text-gray-500 border-t border-white/5">

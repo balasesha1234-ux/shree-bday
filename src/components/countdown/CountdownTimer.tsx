@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface CountdownTimerProps {
   days: string;
@@ -18,41 +18,52 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({
 }) => {
   const units = [
     { label: 'DAYS', value: days, delay: 0 },
-    { label: 'HOURS', value: hours, delay: 0.15 },
-    { label: 'MINUTES', value: minutes, delay: 0.3 },
-    { label: 'SECONDS', value: seconds, delay: 0.45 }
+    { label: 'HOURS', value: hours, delay: 0.12 },
+    { label: 'MINUTES', value: minutes, delay: 0.24 },
+    { label: 'SECONDS', value: seconds, delay: 0.36 }
   ];
 
   return (
-    <div className="flex flex-col items-center justify-center my-6 sm:my-8 w-full max-w-3xl px-2 select-none">
-      {/* 4 Zero-Gravity Floating Holographic Aerospace Glass Pods */}
-      <div className="grid grid-cols-4 gap-2.5 sm:gap-4 md:gap-5 w-full">
+    <div className="flex flex-col items-center justify-center my-6 sm:my-10 w-full max-w-5xl px-2 sm:px-4 select-none">
+      {/* 4 Massive Zero-Gravity Floating Holographic Aerospace Glass Pods */}
+      <div className="grid grid-cols-4 gap-3 sm:gap-5 md:gap-7 w-full">
         {units.map((unit, index) => (
           <motion.div
             key={unit.label}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{
               opacity: 1,
-              y: [0, -6, 0]
+              y: [0, -10, 0]
             }}
             transition={{
               opacity: { delay: index * 0.08, duration: 0.5 },
-              y: { repeat: Infinity, duration: 4.5 + unit.delay, ease: 'easeInOut', delay: unit.delay }
+              y: { repeat: Infinity, duration: 4.8 + unit.delay, ease: 'easeInOut', delay: unit.delay }
             }}
             className="flex flex-col items-center group"
           >
-            <div className="relative w-full py-4 sm:py-7 bg-gradient-to-b from-[#1C1635]/80 via-[#16112C]/90 to-[#0D091D]/95 rounded-2xl sm:rounded-3xl border border-white/20 shadow-[0_10px_35px_rgba(0,0,0,0.6),0_0_20px_rgba(255,77,141,0.25)] flex flex-col items-center justify-center overflow-hidden backdrop-blur-2xl transition-all duration-300 group-hover:border-pink-400/50 group-hover:shadow-[0_0_30px_rgba(255,77,141,0.5)]">
+            <div className="relative w-full py-6 sm:py-10 md:py-14 bg-gradient-to-b from-[#1E1738]/90 via-[#16102D]/95 to-[#0C081B]/98 rounded-2xl sm:rounded-[2.5rem] border-2 border-white/25 shadow-[0_15px_50px_rgba(0,0,0,0.8),0_0_30px_rgba(255,77,141,0.35)] flex flex-col items-center justify-center overflow-hidden backdrop-blur-3xl transition-all duration-300 group-hover:border-pink-400/70 group-hover:shadow-[0_0_50px_rgba(255,77,141,0.65)]">
               {/* Holographic Laser Sheen on top border */}
-              <div className="absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#FFD93D] to-transparent shadow-[0_0_12px_#FFD93D]" />
+              <div className="absolute top-0 inset-x-0 h-[2.5px] bg-gradient-to-r from-transparent via-[#FFD93D] to-transparent shadow-[0_0_20px_#FFD93D]" />
 
-              {/* Number with Laser Hologram Glow */}
-              <span className="font-space font-bold text-2xl sm:text-5xl md:text-6xl text-white tracking-tight drop-shadow-[0_0_20px_rgba(255,77,141,0.7)]">
-                {unit.value}
-              </span>
+              {/* Number Container with Kinetic Flip / Slide Transition */}
+              <div className="relative h-12 sm:h-24 md:h-28 lg:h-32 w-full flex items-center justify-center overflow-hidden">
+                <AnimatePresence mode="popLayout" initial={false}>
+                  <motion.span
+                    key={unit.value}
+                    initial={{ y: -35, opacity: 0, scale: 0.85, filter: 'blur(4px)' }}
+                    animate={{ y: 0, opacity: 1, scale: 1, filter: 'blur(0px)' }}
+                    exit={{ y: 35, opacity: 0, scale: 0.85, filter: 'blur(4px)' }}
+                    transition={{ duration: 0.35, ease: [0.23, 1, 0.32, 1] }}
+                    className="font-space font-extrabold text-4xl sm:text-7xl md:text-8xl lg:text-9xl text-white tracking-tight drop-shadow-[0_0_30px_rgba(255,77,141,0.8)] leading-none text-center"
+                  >
+                    {unit.value}
+                  </motion.span>
+                </AnimatePresence>
+              </div>
             </div>
 
             {/* Aerospace Label Pill */}
-            <span className="mt-2.5 px-3 py-0.5 rounded-full bg-white/5 border border-white/10 text-[9px] sm:text-xs font-space tracking-[0.2em] text-pink-200 font-bold uppercase text-center backdrop-blur-md">
+            <span className="mt-3.5 sm:mt-4 px-4 py-1 rounded-full bg-white/10 border border-white/20 text-[10px] sm:text-xs md:text-sm font-space tracking-[0.25em] text-pink-200 font-extrabold uppercase text-center backdrop-blur-md shadow-md">
               {unit.label}
             </span>
           </motion.div>
@@ -60,10 +71,10 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({
       </div>
 
       {/* Zero-Latency Quantum Sync Pill */}
-      <div className="mt-5 flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/15 text-[11px] font-space text-pink-200/80 backdrop-blur-md shadow-sm">
-        <span className="w-2 h-2 rounded-full bg-[#FF4D8D] animate-ping" />
-        <span>LIVE QUANTUM SYNC:</span>
-        <span className="font-bold text-[#FFD93D] tracking-wider">{milliseconds} ms</span>
+      <div className="mt-7 sm:mt-8 flex items-center gap-2.5 px-5 py-2 rounded-full bg-white/10 border border-white/20 text-xs sm:text-sm font-space text-pink-200 backdrop-blur-md shadow-lg">
+        <span className="w-2.5 h-2.5 rounded-full bg-[#FF4D8D] animate-ping" />
+        <span className="font-semibold">LIVE QUANTUM SYNC:</span>
+        <span className="font-extrabold text-[#FFD93D] tracking-wider">{milliseconds} ms</span>
       </div>
     </div>
   );

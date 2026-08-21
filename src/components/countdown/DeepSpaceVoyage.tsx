@@ -48,7 +48,7 @@ export const DeepSpaceVoyage: React.FC = () => {
     window.addEventListener('mousemove', handleMouseMove);
 
     // Initialize 3D Stars
-    const STAR_COUNT = 750;
+    const STAR_COUNT = 280;
     const STAR_COLORS = ['#FFFFFF', '#FFE6AA', '#FFB3C6', '#7CEBC6', '#FFD93D'];
     const stars: Star[] = [];
 
@@ -116,7 +116,7 @@ export const DeepSpaceVoyage: React.FC = () => {
       // 3. Render 3D Starfield Warp
       const cx = width / 2 + mousePos.current.x;
       const cy = height / 2 + mousePos.current.y;
-      const warpSpeed = 1.4;
+      const warpSpeed = 1.1;
 
       ctx.save();
       for (let i = 0; i < stars.length; i++) {
