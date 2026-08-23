@@ -165,7 +165,7 @@ export const SisterCertificate: React.FC = () => {
           <Award className="w-3.5 h-3.5" />
           <span>OFFICIAL SISTERHOOD MERIT & HONOURS 🏆</span>
         </div>
-        <h2 className="text-3xl sm:text-5xl font-playfair font-bold text-[#3D2040]">
+        <h2 className="text-3xl sm:text-5xl font-cinzel font-bold text-amber-900 tracking-wide">
           Best Sister in the Universe
         </h2>
         <p className="text-sm font-quicksand text-gray-600 mt-2">
@@ -198,7 +198,7 @@ export const SisterCertificate: React.FC = () => {
             This highest distinction of lifelong brotherly protection is conferred upon
           </p>
 
-          <h3 className="text-4xl sm:text-6xl font-fredoka font-bold text-gradient-pink tracking-wide">
+          <h3 className="text-4xl sm:text-6xl font-cinzel font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#D4A84B] via-[#FF2D78] to-[#D4A84B] tracking-wider drop-shadow-sm">
             SHREE 🌸
           </h3>
 

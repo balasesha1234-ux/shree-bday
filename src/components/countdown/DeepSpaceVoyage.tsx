@@ -48,7 +48,8 @@ export const DeepSpaceVoyage: React.FC = () => {
     window.addEventListener('mousemove', handleMouseMove);
 
     // Initialize 3D Stars
-    const STAR_COUNT = 280;
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+  const STAR_COUNT = isMobile ? 120 : 280;
     const STAR_COLORS = ['#FFFFFF', '#FFE6AA', '#FFB3C6', '#7CEBC6', '#FFD93D'];
     const stars: Star[] = [];
 
