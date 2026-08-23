@@ -57,14 +57,11 @@ export function App() {
     currentStep,
     isUnlocked: isTapUnlocked,
     handleTap,
+    resetSequence,
   } = useTapSequence({
     onUnlock: () => {
       playEffect('sparkle', 1.5);
       triggerCustomConfetti();
-      setTimeout(() => {
-        setAppMode('private');
-        setCurrentMode('devotional');
-      }, 2400);
     }
   });
 
@@ -169,7 +166,7 @@ export function App() {
         <ConfettiEffect />
 
         {/* Cinematic Golden Lotus Portal Transition Overlay */}
-        <TapSequenceOverlay isUnlocked={isTapUnlocked} />
+        <TapSequenceOverlay isUnlocked={isTapUnlocked} onComplete={() => { setAppMode("private"); resetSequence(); }} />
       </div>
 
       {/* ========================================================================= */}

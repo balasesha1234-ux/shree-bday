@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 export type TapTarget = 'cat' | 'star' | 'heart';
 
@@ -7,7 +7,7 @@ interface UseTapSequenceProps {
   resetTimeoutMs?: number;
 }
 
-export function useTapSequence({ onUnlock, resetTimeoutMs = 5000 }: UseTapSequenceProps) {
+export function useTapSequence({ onUnlock, resetTimeoutMs = 6000 }: UseTapSequenceProps) {
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [lastTapped, setLastTapped] = useState<TapTarget | null>(null);
   const [isUnlocked, setIsUnlocked] = useState<boolean>(false);
@@ -15,22 +15,25 @@ export function useTapSequence({ onUnlock, resetTimeoutMs = 5000 }: UseTapSequen
 
   const EXPECTED_SEQUENCE: TapTarget[] = ['cat', 'star', 'heart'];
 
-  // Auto-reset sequence after timeout
+  const resetSequence = useCallback(() => {
+    setCurrentStep(0);
+    setLastTapped(null);
+    setIsUnlocked(false);
+  }, []);
+
   useEffect(() => {
     if (currentStep === 0 || isUnlocked) return;
 
     const timer = setTimeout(() => {
-      setCurrentStep(0);
-      setLastTapped(null);
+      resetSequence();
     }, resetTimeoutMs);
 
     return () => clearTimeout(timer);
-  }, [currentStep, isUnlocked, resetTimeoutMs]);
+  }, [currentStep, isUnlocked, resetTimeoutMs, resetSequence]);
 
   const handleTap = useCallback((target: TapTarget, event?: React.MouseEvent) => {
     if (isUnlocked) return;
 
-    // Trigger subtle sparkle position if event available
     if (event) {
       setFeedbackEffect({
         x: event.clientX,
@@ -45,7 +48,6 @@ export function useTapSequence({ onUnlock, resetTimeoutMs = 5000 }: UseTapSequen
       setCurrentStep(nextStep);
       setLastTapped(target);
 
-      // Trigger soft vibration on supported mobile devices
       if ('vibrate' in navigator) {
         try {
           navigator.vibrate(50);
@@ -59,22 +61,19 @@ export function useTapSequence({ onUnlock, resetTimeoutMs = 5000 }: UseTapSequen
             navigator.vibrate([100, 50, 150]);
           } catch (_) {}
         }
-        setTimeout(() => {
-          onUnlock();
-        }, 600);
+        onUnlock();
       }
     } else {
-      // Wrong tap -> silent reset
-      setCurrentStep(0);
-      setLastTapped(null);
+      resetSequence();
     }
-  }, [currentStep, isUnlocked, onUnlock]);
+  }, [currentStep, isUnlocked, onUnlock, resetSequence]);
 
   return {
     currentStep,
     lastTapped,
     isUnlocked,
     handleTap,
+    resetSequence,
     feedbackEffect,
     totalSteps: EXPECTED_SEQUENCE.length
   };

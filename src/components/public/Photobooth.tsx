@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Camera, Upload, Sparkles, Download, RotateCcw, Trash2, Check, RefreshCw, ZoomIn } from 'lucide-react';
+import { Camera, Upload, Sparkles, Download, RotateCcw, Trash2, Check, RefreshCw } from 'lucide-react';
 import { soundEngine } from '../../utils/soundEffects';
 import { triggerCustomConfetti } from '../shared/Confetti';
 
@@ -22,6 +22,7 @@ export const Photobooth: React.FC = () => {
   const [isCameraActive, setIsCameraActive] = useState<boolean>(false);
   const [isExporting, setIsExporting] = useState<boolean>(false);
   const [exportSuccess, setExportSuccess] = useState<boolean>(false);
+  const [cameraLoading, setCameraLoading] = useState<boolean>(false);
   const [cameraError, setCameraError] = useState<string | null>(null);
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -32,6 +33,9 @@ export const Photobooth: React.FC = () => {
   // Start Camera Stream Reliably
   const startCamera = async () => {
     setCameraError(null);
+    setCameraLoading(true);
+    soundEngine.playPop();
+
     try {
       if (streamRef.current) {
         streamRef.current.getTracks().forEach((t) => t.stop());
@@ -48,26 +52,22 @@ export const Photobooth: React.FC = () => {
 
       streamRef.current = stream;
       setIsCameraActive(true);
-      soundEngine.playPop();
+      setCameraLoading(false);
 
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
+        videoRef.current.onloadedmetadata = () => {
+          videoRef.current?.play().catch(() => {});
+        };
         await videoRef.current.play().catch(() => {});
       }
     } catch (err) {
       console.warn('Camera access denied or unavailable', err);
+      setCameraLoading(false);
       setCameraError('Camera access unavailable. Please upload a photo!');
       if (fileInputRef.current) fileInputRef.current.click();
     }
   };
-
-  // Re-attach video stream if videoRef changes or state updates
-  useEffect(() => {
-    if (isCameraActive && videoRef.current && streamRef.current) {
-      videoRef.current.srcObject = streamRef.current;
-      videoRef.current.play().catch(() => {});
-    }
-  }, [isCameraActive]);
 
   const stopCamera = () => {
     if (streamRef.current) {
@@ -173,8 +173,8 @@ export const Photobooth: React.FC = () => {
       // 2. Realistic White Textured Polaroid Frame with Soft Shadow
       ctx.save();
       ctx.fillStyle = '#FFFFFF';
-      ctx.shadowColor = 'rgba(0,0,0,0.22)';
-      ctx.shadowBlur = 45;
+      ctx.shadowColor = 'rgba(0,0,0,0.25)';
+      ctx.shadowBlur = 50;
       ctx.shadowOffsetY = 25;
       ctx.beginPath();
       ctx.roundRect(100, 80, 880, 1190, 32);
@@ -237,7 +237,7 @@ export const Photobooth: React.FC = () => {
           ? 'Devotional Grace & Radiance 🪷'
           : frame === 'kitty'
           ? 'Certified Cat Whisperer Club 🐱'
-          : 'Amethyst Dreams & Magic ✨';
+          : 'Amethyst Radiance ✨';
       ctx.fillText(title, 540, 1020);
 
       ctx.fillStyle = '#718096';
@@ -273,7 +273,7 @@ export const Photobooth: React.FC = () => {
           Retro Birthday Photobooth
         </h2>
         <p className="text-sm font-quicksand text-gray-600 mt-2">
-          Take a selfie or upload a photo, decorate with cute stickers, and download your commemorative Polaroid!
+          Take a selfie with your camera or upload a picture, decorate with cute stickers, and download your Polaroid!
         </p>
       </div>
 
@@ -297,17 +297,21 @@ export const Photobooth: React.FC = () => {
 
             {/* Camera / Photo Canvas Viewport */}
             <div className="relative w-full aspect-square bg-gray-900 rounded-2xl overflow-hidden shadow-inner flex items-center justify-center">
-              {isCameraActive ? (
-                <video
-                  ref={videoRef}
-                  autoPlay
-                  playsInline
-                  muted
-                  className="w-full h-full object-cover transform -scale-x-100"
-                />
-              ) : photoSrc ? (
+              {/* Permanent Video Element for Rock-Solid Stream Attachment */}
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                muted
+                className={`w-full h-full object-cover transform -scale-x-100 ${isCameraActive ? 'block' : 'hidden'}`}
+              />
+
+              {/* Photo Image when not using live camera */}
+              {!isCameraActive && photoSrc && (
                 <img src={photoSrc} alt="Captured" className="w-full h-full object-cover" />
-              ) : (
+              )}
+
+              {!isCameraActive && !photoSrc && (
                 <div className="flex flex-col items-center text-center p-6 text-gray-400 space-y-2">
                   <Camera className="w-12 h-12 text-pink-300 animate-bounce" />
                   <span className="font-fredoka text-sm text-gray-300">No Photo Selected</span>
@@ -376,7 +380,7 @@ export const Photobooth: React.FC = () => {
                 }`}
               >
                 <Camera className="w-4 h-4" />
-                <span>{isCameraActive ? 'Stop Camera' : 'Live Camera 📸'}</span>
+                <span>{cameraLoading ? 'Starting...' : isCameraActive ? 'Stop Camera' : 'Live Camera 📸'}</span>
               </button>
 
               <button

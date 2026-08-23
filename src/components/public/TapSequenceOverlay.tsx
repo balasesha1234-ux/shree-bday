@@ -1,28 +1,47 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Heart, Shield, Lock } from 'lucide-react';
+import { soundEngine } from '../../utils/soundEffects';
+import { triggerCustomConfetti } from '../shared/Confetti';
 
 interface TapSequenceOverlayProps {
   isUnlocked: boolean;
+  onComplete?: () => void;
 }
 
-export const TapSequenceOverlay: React.FC<TapSequenceOverlayProps> = ({ isUnlocked }) => {
+export const TapSequenceOverlay: React.FC<TapSequenceOverlayProps> = ({ isUnlocked, onComplete }) => {
+  useEffect(() => {
+    if (isUnlocked) {
+      soundEngine.playTempleBell();
+      triggerCustomConfetti();
+
+      // Automatically transition to private realm after 2.4 seconds
+      const timer = setTimeout(() => {
+        if (onComplete) {
+          onComplete();
+        }
+      }, 2400);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isUnlocked, onComplete]);
+
   return (
     <AnimatePresence>
       {isUnlocked && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
+          exit={{ opacity: 0, transition: { duration: 0.6 } }}
           className="fixed inset-0 z-50 pointer-events-auto flex items-center justify-center overflow-hidden select-none"
         >
           {/* Ethereal Dark/Rose Backdrop Blur */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="absolute inset-0 bg-black/60 backdrop-blur-2xl"
+            className="absolute inset-0 bg-black/70 backdrop-blur-2xl"
           />
 
           {/* Golden Shockwave Expanding Rings */}
@@ -40,24 +59,30 @@ export const TapSequenceOverlay: React.FC<TapSequenceOverlayProps> = ({ isUnlock
             className="absolute w-96 h-96 rounded-full border-2 border-[#FF4D8D] shadow-[0_0_60px_#FF4D8D] pointer-events-none"
           />
 
-          {/* Left Rose-Velvet Curtain */}
+          {/* Left Rose-Velvet Curtain (Opens Outward at 1.8s) */}
           <motion.div
             initial={{ x: '-100%' }}
-            animate={{ x: '0%' }}
-            exit={{ x: '-100%' }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-[#241228] via-[#3D1E42] to-[#FF4D8D] border-r-4 border-[#D4A84B] shadow-2xl flex items-center justify-end pr-6"
+            animate={{ x: ['-100%', '0%', '0%', '-100%'] }}
+            transition={{
+              duration: 2.4,
+              times: [0, 0.25, 0.75, 1],
+              ease: [0.22, 1, 0.36, 1]
+            }}
+            className="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-[#241228] via-[#3D1E42] to-[#FF4D8D] border-r-4 border-[#D4A84B] shadow-2xl flex items-center justify-end pr-6 z-10"
           >
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,168,75,0.15),transparent)] pointer-events-none" />
           </motion.div>
 
-          {/* Right Rose-Velvet Curtain */}
+          {/* Right Rose-Velvet Curtain (Opens Outward at 1.8s) */}
           <motion.div
             initial={{ x: '100%' }}
-            animate={{ x: '0%' }}
-            exit={{ x: '100%' }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute inset-y-0 right-0 w-1/2 bg-gradient-to-l from-[#241228] via-[#3D1E42] to-[#FF4D8D] border-l-4 border-[#D4A84B] shadow-2xl flex items-center justify-start pl-6"
+            animate={{ x: ['100%', '0%', '0%', '100%'] }}
+            transition={{
+              duration: 2.4,
+              times: [0, 0.25, 0.75, 1],
+              ease: [0.22, 1, 0.36, 1]
+            }}
+            className="absolute inset-y-0 right-0 w-1/2 bg-gradient-to-l from-[#241228] via-[#3D1E42] to-[#FF4D8D] border-l-4 border-[#D4A84B] shadow-2xl flex items-center justify-start pl-6 z-10"
           >
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,168,75,0.15),transparent)] pointer-events-none" />
           </motion.div>
@@ -65,8 +90,13 @@ export const TapSequenceOverlay: React.FC<TapSequenceOverlayProps> = ({ isUnlock
           {/* Center Golden Lotus Seal & Portal Emblem */}
           <motion.div
             initial={{ scale: 0, rotate: -180, opacity: 0 }}
-            animate={{ scale: 1, rotate: 0, opacity: 1 }}
-            transition={{ delay: 0.35, duration: 0.8, type: 'spring', damping: 14 }}
+            animate={{ scale: [0, 1, 1, 1.1, 0], opacity: [0, 1, 1, 1, 0] }}
+            transition={{
+              duration: 2.4,
+              times: [0, 0.3, 0.75, 0.9, 1],
+              type: 'spring',
+              damping: 14
+            }}
             className="relative z-20 flex flex-col items-center justify-center text-center p-8 sm:p-12 max-w-lg mx-4 rounded-3xl bg-gradient-to-b from-[#FFFDF8] to-[#FFF0F3] border-4 border-[#D4A84B] shadow-[0_0_80px_rgba(212,168,75,0.7)]"
           >
             {/* Spinning Golden Lotus Aura */}
@@ -110,7 +140,7 @@ export const TapSequenceOverlay: React.FC<TapSequenceOverlayProps> = ({ isUnlock
               <motion.div
                 initial={{ x: '-100%' }}
                 animate={{ x: '0%' }}
-                transition={{ duration: 1.8, ease: 'easeInOut' }}
+                transition={{ duration: 2.0, ease: 'easeInOut' }}
                 className="w-full h-full bg-gradient-to-r from-[#D4A84B] via-[#FF4D8D] to-[#D4A84B]"
               />
             </div>

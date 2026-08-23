@@ -1,28 +1,27 @@
-// Hyper-Realistic Studio Sound Synthesis & Diverse Acoustic Audio Library
+// Hyper-Realistic Studio Sound Synthesis & High-Fidelity Audio Engine
 
 class SoundEngine {
-  private volume: number = Number(localStorage.getItem('shree_audio_volume') || 0.5);
-
-  public setVolume(level: number): void {
-    this.volume = Math.max(0, Math.min(1, level));
-    localStorage.setItem('shree_audio_volume', String(this.volume));
-
-    if (this.currentAudioElement) {
-      this.currentAudioElement.volume = this.volume;
-    }
-    if (this.bgmGain && this.ctx) {
-      this.bgmGain.gain.setValueAtTime(this.volume * 0.15, this.ctx.currentTime);
-    }
-  }
-
-  public getVolume(): number {
-    return this.volume;
-  }
   private ctx: AudioContext | null = null;
   private bgmGain: GainNode | null = null;
   private isBgmPlaying: boolean = false;
   private currentAudioElement: HTMLAudioElement | null = null;
-  private currentTrackUrl: string = '/assets/audio/ambient.mp3';
+  private currentTrackUrl: string = '/assets/audio/sacred_flute.mp3';
+  private volume: number = Number(localStorage.getItem('shree_audio_volume') || 0.6);
+
+  constructor() {
+    // Auto-resume AudioContext on first user interaction across the entire window
+    if (typeof window !== 'undefined') {
+      const unlockAudio = () => {
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      };
+      window.addEventListener('pointerdown', unlockAudio, { once: true });
+      window.addEventListener('touchstart', unlockAudio, { once: true });
+      window.addEventListener('click', unlockAudio, { once: true });
+      window.addEventListener('keydown', unlockAudio, { once: true });
+    }
+  }
 
   private getContext(): AudioContext {
     if (!this.ctx) {
@@ -35,7 +34,23 @@ class SoundEngine {
     return this.ctx;
   }
 
-  // 1. Ultra-Soft Soothing Glass Raindrop Tap (Standard UI Touch)
+  public setVolume(level: number): void {
+    this.volume = Math.max(0, Math.min(1, level));
+    localStorage.setItem('shree_audio_volume', String(this.volume));
+
+    if (this.currentAudioElement) {
+      this.currentAudioElement.volume = this.volume;
+    }
+    if (this.bgmGain && this.ctx) {
+      this.bgmGain.gain.setValueAtTime(this.volume * 0.25, this.ctx.currentTime);
+    }
+  }
+
+  public getVolume(): number {
+    return this.volume;
+  }
+
+  // 1. Crisp Glass Raindrop Tap (Punchy & Audible)
   public playTap() {
     try {
       const ctx = this.getContext();
@@ -46,25 +61,239 @@ class SoundEngine {
       const filter = ctx.createBiquadFilter();
 
       osc.type = 'sine';
-      osc.frequency.setValueAtTime(480, now);
-      osc.frequency.exponentialRampToValueAtTime(240, now + 0.035);
+      osc.frequency.setValueAtTime(520, now);
+      osc.frequency.exponentialRampToValueAtTime(260, now + 0.06);
 
       filter.type = 'lowpass';
-      filter.frequency.value = 1100;
+      filter.frequency.value = 1600;
 
-      gain.gain.setValueAtTime(0.05, now);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.035);
+      gain.gain.setValueAtTime(0.35, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
 
       osc.connect(filter);
       filter.connect(gain);
       gain.connect(ctx.destination);
 
       osc.start(now);
-      osc.stop(now + 0.04);
+      osc.stop(now + 0.07);
     } catch (_) {}
   }
 
-  // 2. Realistic Supersonic Laser Pulse (For 1,250 KM Distance Tracker)
+  // 2. High-Impact Bubble Pop SFX
+  public playPop() {
+    try {
+      const ctx = this.getContext();
+      const now = ctx.currentTime;
+
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(320, now);
+      osc.frequency.exponentialRampToValueAtTime(840, now + 0.05);
+
+      gain.gain.setValueAtTime(0.4, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.08);
+    } catch (_) {}
+  }
+
+  // 3. Shimmering Crystal Sparkle Sound (Chimes)
+  public playSparkle(pitchMultiplier: number = 1.0) {
+    try {
+      const ctx = this.getContext();
+      const now = ctx.currentTime;
+      const baseFreqs = [784, 988, 1175, 1568, 1976];
+
+      baseFreqs.forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq * pitchMultiplier, now + idx * 0.04);
+
+        gain.gain.setValueAtTime(0.22, now + idx * 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.04 + 0.35);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(now + idx * 0.04);
+        osc.stop(now + idx * 0.04 + 0.36);
+      });
+    } catch (_) {}
+  }
+
+  // 4. Loud & Cute Cat Meow SFX (Dual-Formant Harmonic)
+  public playMeow() {
+    try {
+      const ctx = this.getContext();
+      const now = ctx.currentTime;
+
+      // Primary meow oscillator
+      const osc1 = ctx.createOscillator();
+      const osc2 = ctx.createOscillator();
+      const gain = ctx.createGain();
+      const filter = ctx.createBiquadFilter();
+
+      osc1.type = 'sawtooth';
+      osc2.type = 'sine';
+
+      // Expressive cat pitch curve (Rise -> Hold -> Gentle fall)
+      osc1.frequency.setValueAtTime(450, now);
+      osc1.frequency.linearRampToValueAtTime(820, now + 0.14);
+      osc1.frequency.exponentialRampToValueAtTime(580, now + 0.42);
+
+      osc2.frequency.setValueAtTime(454, now);
+      osc2.frequency.linearRampToValueAtTime(824, now + 0.14);
+      osc2.frequency.exponentialRampToValueAtTime(584, now + 0.42);
+
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(950, now);
+      filter.frequency.linearRampToValueAtTime(1400, now + 0.18);
+      filter.Q.value = 4.0;
+
+      gain.gain.setValueAtTime(0.01, now);
+      gain.gain.linearRampToValueAtTime(0.48, now + 0.08);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+
+      osc1.connect(filter);
+      osc2.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc1.start(now);
+      osc2.start(now);
+      osc1.stop(now + 0.46);
+      osc2.stop(now + 0.46);
+    } catch (_) {}
+  }
+
+  // 5. Deep Resonant Cat Purr Rumble (Audible in Headphones & Speakers)
+  public playCatPurr() {
+    try {
+      const ctx = this.getContext();
+      const now = ctx.currentTime;
+
+      // Low carrier oscillator (deep body rumble)
+      const carrier = ctx.createOscillator();
+      const lfo = ctx.createOscillator();
+      const lfoGain = ctx.createGain();
+      const mainGain = ctx.createGain();
+
+      carrier.type = 'triangle';
+      carrier.frequency.setValueAtTime(45, now);
+
+      // 24Hz amplitude modulation (rhythmic purring throat flutter)
+      lfo.type = 'sine';
+      lfo.frequency.setValueAtTime(24, now);
+
+      lfoGain.gain.setValueAtTime(0.35, now);
+      lfo.connect(lfoGain.gain);
+
+      mainGain.gain.setValueAtTime(0.01, now);
+      mainGain.gain.linearRampToValueAtTime(0.45, now + 0.15);
+      mainGain.gain.setValueAtTime(0.45, now + 0.65);
+      mainGain.gain.exponentialRampToValueAtTime(0.001, now + 0.95);
+
+      carrier.connect(mainGain);
+      mainGain.connect(ctx.destination);
+
+      lfo.start(now);
+      carrier.start(now);
+      lfo.stop(now + 1.0);
+      carrier.stop(now + 1.0);
+    } catch (_) {}
+  }
+
+  // 6. Mechanical Camera Shutter Snap
+  public playCameraShutter() {
+    try {
+      const ctx = this.getContext();
+      const now = ctx.currentTime;
+
+      // First snap
+      const osc1 = ctx.createOscillator();
+      const gain1 = ctx.createGain();
+      osc1.type = 'square';
+      osc1.frequency.setValueAtTime(650, now);
+      gain1.gain.setValueAtTime(0.38, now);
+      gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+      osc1.connect(gain1);
+      gain1.connect(ctx.destination);
+      osc1.start(now);
+      osc1.stop(now + 0.045);
+
+      // Second release click
+      const osc2 = ctx.createOscillator();
+      const gain2 = ctx.createGain();
+      osc2.type = 'sine';
+      osc2.frequency.setValueAtTime(320, now + 0.06);
+      gain2.gain.setValueAtTime(0.35, now + 0.06);
+      gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+      osc2.connect(gain2);
+      gain2.connect(ctx.destination);
+      osc2.start(now + 0.06);
+      osc2.stop(now + 0.15);
+    } catch (_) {}
+  }
+
+  // 7. Sacred Temple Bell Resonance
+  public playTempleBell() {
+    try {
+      const ctx = this.getContext();
+      const now = ctx.currentTime;
+      const bellFreqs = [440, 880, 1320, 1760];
+
+      bellFreqs.forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now);
+
+        gain.gain.setValueAtTime(0.35 / (idx + 1), now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + 2.6);
+      });
+    } catch (_) {}
+  }
+
+  // 8. Wax Seal Snap Crack SFX
+  public playWaxSealCrack() {
+    try {
+      const ctx = this.getContext();
+      const now = ctx.currentTime;
+
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(800, now);
+      osc.frequency.exponentialRampToValueAtTime(120, now + 0.1);
+
+      gain.gain.setValueAtTime(0.42, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.13);
+    } catch (_) {}
+  }
+
+  // 9. Supersonic Laser Pulse SFX
   public playLaserPulse() {
     try {
       const ctx = this.getContext();
@@ -76,17 +305,17 @@ class SoundEngine {
 
       osc.type = 'sawtooth';
       osc.frequency.setValueAtTime(220, now);
-      osc.frequency.exponentialRampToValueAtTime(1400, now + 0.12);
+      osc.frequency.exponentialRampToValueAtTime(1600, now + 0.12);
       osc.frequency.exponentialRampToValueAtTime(320, now + 0.35);
 
       filter.type = 'bandpass';
-      filter.frequency.setValueAtTime(600, now);
-      filter.frequency.exponentialRampToValueAtTime(2200, now + 0.15);
-      filter.Q.value = 3.5;
+      filter.frequency.setValueAtTime(700, now);
+      filter.frequency.exponentialRampToValueAtTime(2400, now + 0.15);
+      filter.Q.value = 4.0;
 
       gain.gain.setValueAtTime(0.01, now);
-      gain.gain.linearRampToValueAtTime(0.12, now + 0.05);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.4);
+      gain.gain.linearRampToValueAtTime(0.45, now + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
 
       osc.connect(filter);
       filter.connect(gain);
@@ -97,403 +326,54 @@ class SoundEngine {
     } catch (_) {}
   }
 
-  // 3. Mechanical Vault / Time Capsule Unlock (For Time Capsule)
+  // 10. Mechanical Capsule Unlock
   public playCapsuleUnlock() {
     try {
       const ctx = this.getContext();
       const now = ctx.currentTime;
 
-      // Heavy click 1 (Gear latch)
-      const osc1 = ctx.createOscillator();
-      const gain1 = ctx.createGain();
-      osc1.type = 'triangle';
-      osc1.frequency.setValueAtTime(800, now);
-      osc1.frequency.exponentialRampToValueAtTime(120, now + 0.04);
-      gain1.gain.setValueAtTime(0.15, now);
-      gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
-      osc1.connect(gain1);
-      gain1.connect(ctx.destination);
-      osc1.start(now);
-      osc1.stop(now + 0.05);
-
-      // Heavy click 2 (Vault door release after 80ms)
-      setTimeout(() => {
-        try {
-          const now2 = ctx.currentTime;
-          const osc2 = ctx.createOscillator();
-          const gain2 = ctx.createGain();
-          osc2.type = 'sine';
-          osc2.frequency.setValueAtTime(300, now2);
-          osc2.frequency.exponentialRampToValueAtTime(60, now2 + 0.08);
-          gain2.gain.setValueAtTime(0.2, now2);
-          gain2.gain.exponentialRampToValueAtTime(0.001, now2 + 0.08);
-          osc2.connect(gain2);
-          gain2.connect(ctx.destination);
-          osc2.start(now2);
-          osc2.stop(now2 + 0.09);
-        } catch (_) {}
-      }, 80);
-    } catch (_) {}
-  }
-
-  // 4. Parchment & Wax Seal Crack (For Sibling Rules & Letters)
-  public playWaxSealCrack() {
-    try {
-      const ctx = this.getContext();
-      const now = ctx.currentTime;
-
-      // Noise burst for paper / wax snap
-      const bufferSize = ctx.sampleRate * 0.04;
-      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-      const output = buffer.getChannelData(0);
-      for (let i = 0; i < bufferSize; i++) {
-        output[i] = Math.random() * 2 - 1;
-      }
-
-      const whiteNoise = ctx.createBufferSource();
-      whiteNoise.buffer = buffer;
-
-      const filter = ctx.createBiquadFilter();
-      filter.type = 'bandpass';
-      filter.frequency.value = 1800;
-
-      const gain = ctx.createGain();
-      gain.gain.setValueAtTime(0.15, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
-
-      whiteNoise.connect(filter);
-      filter.connect(gain);
-      gain.connect(ctx.destination);
-
-      whiteNoise.start(now);
-      whiteNoise.stop(now + 0.045);
-    } catch (_) {}
-  }
-
-  // 5. Authentic Kitten Purr Vibration (For Whisker Lounge)
-  public playCatPurr() {
-    try {
-      const ctx = this.getContext();
-      const now = ctx.currentTime;
-
-      // Deep 42Hz rhythmic motor purr
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      const lfo = ctx.createOscillator();
-      const lfoGain = ctx.createGain();
-
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(42, now); // Low feline vocal vibration
-
-      lfo.frequency.setValueAtTime(24, now); // 24Hz purr cadence modulation
-      lfoGain.gain.setValueAtTime(0.08, now);
-
-      lfo.connect(lfoGain);
-      lfoGain.connect(gain.gain);
-
-      gain.gain.setValueAtTime(0.12, now);
-      gain.gain.linearRampToValueAtTime(0.16, now + 0.4);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-
-      osc.start(now);
-      lfo.start(now);
-      osc.stop(now + 1.25);
-      lfo.stop(now + 1.25);
-    } catch (_) {}
-  }
-
-  // 6. Treat Munch & Nibble Click (For Whisker Lounge Feeding)
-  public playTreatMunch() {
-    try {
-      const ctx = this.getContext();
-      const now = ctx.currentTime;
-
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
 
       osc.type = 'triangle';
-      osc.frequency.setValueAtTime(650, now);
-      osc.frequency.exponentialRampToValueAtTime(180, now + 0.05);
+      osc.frequency.setValueAtTime(220, now);
+      osc.frequency.linearRampToValueAtTime(440, now + 0.1);
+      osc.frequency.linearRampToValueAtTime(660, now + 0.2);
 
-      gain.gain.setValueAtTime(0.14, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-
-      osc.start(now);
-      osc.stop(now + 0.06);
-    } catch (_) {}
-  }
-
-  // 7. Grand Cosmic Stardust Explosion Whoosh (For Cosmic Constellation Starburst)
-  public playStardustExplosion() {
-    try {
-      const ctx = this.getContext();
-      const now = ctx.currentTime;
-
-      // Deep sub-bass impact
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(140, now);
-      osc.frequency.exponentialRampToValueAtTime(35, now + 0.5);
-
-      gain.gain.setValueAtTime(0.25, now);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.6);
+      gain.gain.setValueAtTime(0.38, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
 
       osc.connect(gain);
       gain.connect(ctx.destination);
 
       osc.start(now);
-      osc.stop(now + 0.65);
-
-      // Shimmering starburst trail
-      this.playSparkle(1.5);
+      osc.stop(now + 0.36);
     } catch (_) {}
   }
 
-  // 8. Sacred Temple Singing Bowl (STRICTLY RESERVED for Diya Pond Offerings)
-  public playTempleBell() {
+  // Background Flute Music System
+  public startAmbientMusic(_mode?: string) {
     try {
-      const ctx = this.getContext();
-      const now = ctx.currentTime;
-      const fundamental = 432;
+      this.stopAmbientMusic();
+      const trackUrl = '/assets/audio/sacred_flute.mp3';
+      this.currentTrackUrl = trackUrl;
 
-      const harmonics = [1.0, 2.76, 5.4];
-      const decays = [2.8, 1.8, 1.0];
-      const amps = [0.12, 0.05, 0.02];
-
-      harmonics.forEach((ratio, i) => {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(fundamental * ratio, now);
-
-        gain.gain.setValueAtTime(amps[i], now);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + decays[i]);
-
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-
-        osc.start(now);
-        osc.stop(now + decays[i] + 0.1);
-      });
-    } catch (_) {}
-  }
-
-  // 9. Soft Organic Bubble Pop
-  public playPop() {
-    try {
-      const ctx = this.getContext();
-      const now = ctx.currentTime;
-
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(320, now);
-      osc.frequency.exponentialRampToValueAtTime(90, now + 0.06);
-
-      gain.gain.setValueAtTime(0.08, now);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.06);
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-
-      osc.start(now);
-      osc.stop(now + 0.07);
-    } catch (_) {}
-  }
-
-  // 10. Harmonic Musical Chime (For balloon pops & sky drawing)
-  public playHarmonicPop(index: number = 0) {
-    try {
-      this.playPop();
-      const ctx = this.getContext();
-      const now = ctx.currentTime;
-
-      const SCALE = [523.25, 587.33, 659.25, 783.99, 880.00, 1046.50]; // C5, D5, E5, G5, A5, C6
-      const freq = SCALE[index % SCALE.length];
-
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, now);
-
-      gain.gain.setValueAtTime(0.08, now);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.6);
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-
-      osc.start(now);
-      osc.stop(now + 0.65);
-    } catch (_) {}
-  }
-
-  // 11. Delicate Shimmering Stardust Chimes
-  public playSparkle(pitchMultiplier: number = 1) {
-    try {
-      const ctx = this.getContext();
-      const now = ctx.currentTime;
-
-      const frequencies = [880.00, 1046.50, 1318.51, 1567.98];
-      frequencies.forEach((freq, idx) => {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        const startTime = now + idx * 0.04;
-
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq * pitchMultiplier, startTime);
-
-        gain.gain.setValueAtTime(0.05 / (idx + 1), startTime);
-        gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.4);
-
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-
-        osc.start(startTime);
-        osc.stop(startTime + 0.45);
-      });
-    } catch (_) {}
-  }
-
-  // 12. Cute Soft Kitten Meow
-  public playMeow() {
-    try {
-      const ctx = this.getContext();
-      const now = ctx.currentTime;
-
-      const osc = ctx.createOscillator();
-      const filter = ctx.createBiquadFilter();
-      const gain = ctx.createGain();
-
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(540, now);
-      osc.frequency.exponentialRampToValueAtTime(740, now + 0.15);
-      osc.frequency.exponentialRampToValueAtTime(460, now + 0.4);
-
-      filter.type = 'bandpass';
-      filter.frequency.setValueAtTime(1200, now);
-      filter.Q.value = 3.0;
-
-      gain.gain.setValueAtTime(0.001, now);
-      gain.gain.linearRampToValueAtTime(0.1, now + 0.1);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.42);
-
-      osc.connect(filter);
-      filter.connect(gain);
-      gain.connect(ctx.destination);
-
-      osc.start(now);
-      osc.stop(now + 0.45);
-    } catch (_) {}
-  }
-
-  // 13. Mechanical Camera Shutter
-  public playCameraShutter() {
-    try {
-      this.playTap();
-      setTimeout(() => this.playTap(), 100);
-    } catch (_) {}
-  }
-
-  // 14. Granular Coin Scratch
-  public playCoinScratch() {
-    try {
-      const ctx = this.getContext();
-      const now = ctx.currentTime;
-
-      const bufferSize = ctx.sampleRate * 0.05;
-      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-      const output = buffer.getChannelData(0);
-      for (let i = 0; i < bufferSize; i++) {
-        output[i] = Math.random() * 2 - 1;
-      }
-
-      const whiteNoise = ctx.createBufferSource();
-      whiteNoise.buffer = buffer;
-
-      const filter = ctx.createBiquadFilter();
-      filter.type = 'bandpass';
-      filter.frequency.value = 2200;
-
-      const gain = ctx.createGain();
-      gain.gain.setValueAtTime(0.06, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
-
-      whiteNoise.connect(filter);
-      filter.connect(gain);
-      gain.connect(ctx.destination);
-
-      whiteNoise.start(now);
-      whiteNoise.stop(now + 0.05);
-    } catch (_) {}
-  }
-
-  // 15. Background BGM Playback
-  public playTrack(trackUrl: string) {
-    this.stopAmbientMusic();
-    this.currentTrackUrl = trackUrl;
-
-    try {
       const audio = new Audio(trackUrl);
-      audio.volume = 0.4;
       audio.loop = true;
+      audio.volume = this.volume;
 
-      const playPromise = audio.play();
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            this.currentAudioElement = audio;
-            this.isBgmPlaying = true;
-          })
-          .catch(() => {
-            this.startSynthesizedAmbient('party');
-          });
-      }
-    } catch (_) {
-      this.startSynthesizedAmbient('party');
-    }
-  }
-
-  private startSynthesizedAmbient(mode: 'countdown' | 'party' | 'devotional' = 'party') {
-    try {
-      const ctx = this.getContext();
-      this.bgmGain = ctx.createGain();
-      this.bgmGain.gain.setValueAtTime(0.01, ctx.currentTime);
-      this.bgmGain.gain.linearRampToValueAtTime(0.05, ctx.currentTime + 2.0);
-      this.bgmGain.connect(ctx.destination);
-
-      const frequencies = mode === 'countdown' 
-        ? [110, 164.81, 220, 329.63]
-        : mode === 'devotional'
-        ? [216, 288, 324, 432]
-        : [261.63, 329.63, 392.00, 523.25];
-
-      frequencies.forEach((freq) => {
-        const osc = ctx.createOscillator();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, ctx.currentTime);
-
-        if (this.bgmGain) {
-          osc.connect(this.bgmGain);
-        }
-        osc.start();
+      audio.play().then(() => {
+        this.isBgmPlaying = true;
+      }).catch(() => {
+        this.startProceduralDrone();
+        this.isBgmPlaying = true;
       });
 
+      this.currentAudioElement = audio;
+    } catch (_) {
+      this.startProceduralDrone();
       this.isBgmPlaying = true;
-    } catch (_) {}
-  }
-
-  public startAmbientMusic(mode: 'countdown' | 'party' | 'devotional' = 'party') {
-    const defaultTrack = mode === 'devotional' ? '/assets/audio/ambient.mp3' : '/assets/audio/background.mp3';
-    this.playTrack(defaultTrack);
+    }
   }
 
   public stopAmbientMusic() {
@@ -504,7 +384,7 @@ class SoundEngine {
     this.isBgmPlaying = false;
   }
 
-  public toggleMusic(mode?: 'countdown' | 'party' | 'devotional'): boolean {
+  public toggleMusic(mode?: any): boolean {
     if (this.isBgmPlaying) {
       this.stopAmbientMusic();
       return false;
@@ -518,8 +398,43 @@ class SoundEngine {
     return this.isBgmPlaying;
   }
 
-  public getCurrentTrack(): string {
-    return this.currentTrackUrl;
+
+  // Additional Studio SFX & Legacy Compatibility
+  public playHarmonicPop(freq: number = 520) {
+    this.playPop();
+  }
+
+  public playStardustExplosion() {
+    this.playSparkle(1.6);
+  }
+
+  public playTreatMunch() {
+    this.playPop();
+  }
+
+  public playTrack(trackUrl: string) {
+    this.startAmbientMusic();
+  }
+
+  private startProceduralDrone() {
+    try {
+      const ctx = this.getContext();
+      const now = ctx.currentTime;
+
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(216, now); // 432Hz harmonic half
+
+      gain.gain.setValueAtTime(this.volume * 0.2, now);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      this.bgmGain = gain;
+    } catch (_) {}
   }
 }
 
