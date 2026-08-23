@@ -399,9 +399,42 @@ class SoundEngine {
   }
 
 
-  // Additional Studio SFX & Legacy Compatibility
-  public playHarmonicPop(freq: number = 520) {
-    this.playPop();
+  // 3D Celestial Harmonic Chime (For 3D Celestial Sky Drawing & Astrolabe)
+  public playHarmonicPop(indexOrFreq: number = 0) {
+    try {
+      const ctx = this.getContext();
+      const now = ctx.currentTime;
+
+      // Ethereal Pentatonic Harmonic Scale (A4, B4, C#5, E5, F#5, A5)
+      const celestialNotes = [440, 493.88, 554.37, 659.25, 739.99, 880];
+      const freq =
+        typeof indexOrFreq === 'number' && indexOrFreq >= 0 && indexOrFreq < celestialNotes.length
+          ? celestialNotes[indexOrFreq]
+          : typeof indexOrFreq === 'number' && indexOrFreq > 20
+          ? indexOrFreq
+          : 554.37;
+
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      const filter = ctx.createBiquadFilter();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, now);
+      osc.frequency.exponentialRampToValueAtTime(freq * 1.008, now + 0.08);
+
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(3200, now);
+
+      gain.gain.setValueAtTime(0.38, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.95);
+
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 1.0);
+    } catch (_) {}
   }
 
   public playStardustExplosion() {
