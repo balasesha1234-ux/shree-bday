@@ -1,6 +1,23 @@
 // Hyper-Realistic Studio Sound Synthesis & Diverse Acoustic Audio Library
 
 class SoundEngine {
+  private volume: number = Number(localStorage.getItem('shree_audio_volume') || 0.5);
+
+  public setVolume(level: number): void {
+    this.volume = Math.max(0, Math.min(1, level));
+    localStorage.setItem('shree_audio_volume', String(this.volume));
+
+    if (this.currentAudioElement) {
+      this.currentAudioElement.volume = this.volume;
+    }
+    if (this.bgmGain && this.ctx) {
+      this.bgmGain.gain.setValueAtTime(this.volume * 0.15, this.ctx.currentTime);
+    }
+  }
+
+  public getVolume(): number {
+    return this.volume;
+  }
   private ctx: AudioContext | null = null;
   private bgmGain: GainNode | null = null;
   private isBgmPlaying: boolean = false;
