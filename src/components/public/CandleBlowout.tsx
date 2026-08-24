@@ -6,7 +6,8 @@ import { triggerCustomConfetti } from '../shared/Confetti';
 
 export const CandleBlowout: React.FC = () => {
   const [candlesLit, setCandlesLit] = useState<boolean[]>([true, true, true, true, true]);
-  const [isBlownOut, setIsBlownOut] = useState<boolean>(false);
+  const [isExtinguished, setIsExtinguished] = useState<boolean>(false);
+  const [showWishReward, setShowWishReward] = useState<boolean>(false);
   const [isListeningMic, setIsListeningMic] = useState<boolean>(false);
   const [micVolume, setMicVolume] = useState<number>(0);
   const [holdProgress, setHoldProgress] = useState<number>(0);
@@ -41,7 +42,7 @@ export const CandleBlowout: React.FC = () => {
       const dataArray = new Uint8Array(bufferLength);
 
       const checkAudio = () => {
-        if (!analyserRef.current || isBlownOut) return;
+        if (!analyserRef.current || isExtinguished) return;
 
         analyserRef.current.getByteFrequencyData(dataArray);
         let sum = 0;
@@ -80,18 +81,24 @@ export const CandleBlowout: React.FC = () => {
   };
 
   const extinguishCandles = () => {
-    if (isBlownOut) return;
-    setIsBlownOut(true);
+    if (isExtinguished) return;
+    setIsExtinguished(true);
     setCandlesLit([false, false, false, false, false]);
     stopMicDetection();
 
-    soundEngine.playSparkle(1.5);
-    soundEngine.playTempleBell();
-    triggerCustomConfetti();
+    soundEngine.playPop();
+
+    // 0.65s Momentary quiet suspense before joyous light burst and blessing
+    setTimeout(() => {
+      setShowWishReward(true);
+      soundEngine.playSparkle(1.5);
+      soundEngine.playTempleBell();
+      triggerCustomConfetti();
+    }, 650);
   };
 
   const handleHoldStart = () => {
-    if (isBlownOut) return;
+    if (isExtinguished) return;
     let progress = 0;
     holdIntervalRef.current = setInterval(() => {
       progress += 5;
@@ -112,7 +119,8 @@ export const CandleBlowout: React.FC = () => {
   };
 
   const handleRelight = () => {
-    setIsBlownOut(false);
+    setIsExtinguished(false);
+    setShowWishReward(false);
     setCandlesLit([true, true, true, true, true]);
     setWishMade('');
     soundEngine.playPop();
@@ -210,11 +218,12 @@ export const CandleBlowout: React.FC = () => {
         </div>
 
         {/* Controls & Wish Actions */}
-        {!isBlownOut ? (
+        {!showWishReward ? (
           <div className="space-y-4 pt-4">
             <div className="flex flex-wrap items-center justify-center gap-3">
               {/* Mic Detection Button */}
               <button
+                disabled={isExtinguished}
                 onClick={isListeningMic ? stopMicDetection : startMicDetection}
                 className={`flex items-center gap-2 px-5 py-3 rounded-full font-fredoka font-semibold text-xs transition-all shadow-sm ${
                   isListeningMic
@@ -237,11 +246,12 @@ export const CandleBlowout: React.FC = () => {
 
               {/* Tap & Hold Fallback Button */}
               <button
+                disabled={isExtinguished}
                 onMouseDown={handleHoldStart}
                 onMouseUp={handleHoldEnd}
                 onTouchStart={handleHoldStart}
                 onTouchEnd={handleHoldEnd}
-                className="relative overflow-hidden flex items-center gap-2 px-6 py-3 rounded-full bg-[#FF4D8D] hover:bg-[#FF2D78] text-white font-fredoka font-bold text-xs shadow-pop hover:scale-105 active:scale-95 transition-all"
+                className="relative overflow-hidden flex items-center gap-2 px-6 py-3 rounded-full bg-[#FF4D8D] hover:bg-[#FF2D78] text-white font-fredoka font-bold text-xs shadow-pop hover:scale-105 active:scale-95 transition-all disabled:opacity-50"
               >
                 {holdProgress > 0 && (
                   <div
@@ -250,19 +260,20 @@ export const CandleBlowout: React.FC = () => {
                   />
                 )}
                 <Wind className="w-4 h-4" />
-                <span>{holdProgress > 0 ? `Blowing... ${holdProgress}%` : 'Hold to Blow 💨'}</span>
+                <span>{holdProgress > 0 ? `Blowing... ${holdProgress}%` : isExtinguished ? 'Wish Rising... ✨' : 'Hold to Blow 💨'}</span>
               </button>
             </div>
 
             <p className="text-[11px] font-quicksand text-gray-400">
-              Hold the button for 1.5 seconds or blow softly into your phone's microphone!
+              {isExtinguished ? 'The universe is catching your wish...' : "Hold the button for 1.5 seconds or blow softly into your phone's microphone!"}
             </p>
           </div>
         ) : (
           /* Wish Granted Celebration Reveal */
           <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
+            initial={{ scale: 0.85, opacity: 0, y: 15 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            transition={{ type: 'spring', damping: 20, stiffness: 280 }}
             className="space-y-4 pt-4"
           >
             <div className="p-6 rounded-2xl bg-gradient-to-r from-pink-50 via-rose-50 to-amber-50 border border-pink-200 text-center space-y-2">

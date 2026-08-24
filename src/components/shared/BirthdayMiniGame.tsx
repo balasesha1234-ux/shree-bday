@@ -468,21 +468,34 @@ export const BirthdayMiniGame: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="flex gap-2">
-                    <button
-                      onClick={handleStartPlaying}
-                      className="flex-1 flex items-center justify-center gap-1.5 py-3 rounded-full bg-[#FF4D8D] hover:bg-[#FF2D78] text-white font-fredoka font-bold text-xs shadow-pop transition-all"
-                    >
-                      <RotateCcw className="w-3.5 h-3.5" />
-                      <span>Play Again 🎮</span>
-                    </button>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex gap-2">
+                      <button
+                        onClick={handleStartPlaying}
+                        className="flex-1 flex items-center justify-center gap-1.5 py-3 rounded-full bg-[#FF4D8D] hover:bg-[#FF2D78] text-white font-fredoka font-bold text-xs shadow-pop transition-all"
+                      >
+                        <RotateCcw className="w-3.5 h-3.5" />
+                        <span>Play Again 🎮</span>
+                      </button>
+
+                      <button
+                        onClick={() => setActiveTab('leaderboard')}
+                        className="flex-1 flex items-center justify-center gap-1.5 py-3 rounded-full bg-[#D4A84B] hover:bg-[#B88F35] text-[#3D2040] font-fredoka font-bold text-xs shadow-md transition-all"
+                      >
+                        <Trophy className="w-3.5 h-3.5" />
+                        <span>View Ranks 🏆</span>
+                      </button>
+                    </div>
 
                     <button
-                      onClick={() => setActiveTab('leaderboard')}
-                      className="flex-1 flex items-center justify-center gap-1.5 py-3 rounded-full bg-[#D4A84B] hover:bg-[#B88F35] text-[#3D2040] font-fredoka font-bold text-xs shadow-md transition-all"
+                      onClick={() => {
+                        const wishWall = document.getElementById('wish-wall');
+                        if (wishWall) wishWall.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                      className="w-full py-2.5 rounded-full bg-white/15 hover:bg-white/25 border border-pink-300/40 text-pink-200 hover:text-white font-fredoka font-semibold text-xs transition-all flex items-center justify-center gap-1.5"
                     >
-                      <Trophy className="w-3.5 h-3.5" />
-                      <span>View Ranks 🏆</span>
+                      <Sparkles className="w-3.5 h-3.5 text-[#FFD93D]" />
+                      <span>Turn Your Stars into a Birthday Wish 🌸</span>
                     </button>
                   </div>
                 </motion.div>

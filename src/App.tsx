@@ -102,8 +102,8 @@ export function App() {
         {/* Floating Pill Navigation */}
         <FloatingNav appMode={appMode === '404' ? 'countdown' : appMode} />
 
-        {/* Floating Lotus & Devotional Ambient Petals */}
-        <LotusPetals devotional={appMode === 'private'} />
+        {/* Floating Lotus & Devotional Ambient Petals with Story Scroll Modulation */}
+        <LotusPetals devotional={appMode === 'private'} isCountdown={appMode === 'countdown'} />
 
         {/* Floating Audio Controller */}
         <AudioController

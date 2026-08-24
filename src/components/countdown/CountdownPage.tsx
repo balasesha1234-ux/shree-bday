@@ -35,20 +35,20 @@ export const CountdownPage: React.FC<CountdownPageProps> = ({ onUnlockBirthday }
       <main className="relative z-10 w-full min-h-[92vh] max-w-5xl mx-auto px-4 flex flex-col items-center justify-center text-center py-10 sm:py-16">
         {/* Elegant Top Badge */}
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 0, y: -15, filter: 'blur(6px)' }}
+          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 border border-pink-400/30 text-pink-200 text-xs sm:text-sm font-space font-bold tracking-widest uppercase mb-5 sm:mb-7 backdrop-blur-md shadow-lg"
         >
           <Sparkles className="w-4 h-4 text-[#FFD93D]" />
           <span>MARCH 6 • MIDNIGHT IST COUNTDOWN 🌸</span>
         </motion.div>
 
-        {/* Grand Bold Single-Line Title with Minecraft Cipher */}
+        {/* Grand Bold Single-Line Title with Film-Like Cinematic Blur Reveal */}
         <motion.h1
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7 }}
+          initial={{ opacity: 0, scale: 0.92, filter: 'blur(14px)' }}
+          animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+          transition={{ duration: 1.1, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-fredoka font-bold tracking-tight text-white drop-shadow-[0_4px_35px_rgba(255,77,141,0.55)] leading-normal flex flex-wrap items-center justify-center gap-1.5 sm:gap-3 w-full max-w-full px-2 py-1"
         >
           <span className="shrink-0">SHREE’S</span>
@@ -56,12 +56,22 @@ export const CountdownPage: React.FC<CountdownPageProps> = ({ onUnlockBirthday }
           <span className="shrink-0">BIRTHDAY 🎂</span>
         </motion.h1>
 
-        <p className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg font-quicksand text-pink-100/85 max-w-2xl leading-relaxed">
+        <motion.p
+          initial={{ opacity: 0, y: 10, filter: 'blur(4px)' }}
+          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          transition={{ duration: 0.9, delay: 1.1, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg font-quicksand text-pink-100/85 max-w-2xl leading-relaxed"
+        >
           A worldwide celebration for the kindest creator, animal lover & best sister in the universe. Synchronizing live at Midnight IST! 🌸✨
-        </p>
+        </motion.p>
 
-        {/* Massive Centered Countdown Timer */}
-        <div className="w-full flex justify-center mt-2 sm:mt-4">
+        {/* Massive Centered Countdown Timer with Staggered Entrance */}
+        <motion.div
+          initial={{ opacity: 0, y: 25, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 1.0, delay: 1.4, ease: [0.16, 1, 0.3, 1] }}
+          className="w-full flex justify-center mt-2 sm:mt-4"
+        >
           <CountdownTimer
             days={countdown.formattedDays}
             hours={countdown.formattedHours}
@@ -69,7 +79,7 @@ export const CountdownPage: React.FC<CountdownPageProps> = ({ onUnlockBirthday }
             seconds={countdown.formattedSeconds}
             milliseconds={countdown.milliseconds}
           />
-        </div>
+        </motion.div>
 
         {/* Local Dev Simulator Button */}
         {import.meta.env.DEV && (

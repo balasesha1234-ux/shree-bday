@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, RotateCcw, ShieldCheck } from 'lucide-react';
+import { RotateCcw } from 'lucide-react';
 import { soundEngine } from '../../utils/soundEffects';
 import { triggerCustomConfetti } from '../shared/Confetti';
 
@@ -9,6 +9,16 @@ interface PrivateFinaleProps {
 }
 
 export const PrivateFinale: React.FC<PrivateFinaleProps> = ({ onReplay }) => {
+  const [showSecretWhisper, setShowSecretWhisper] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSecretWhisper(true);
+    }, 4500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   const handleReplayClick = () => {
     soundEngine.playSparkle(1.5);
     triggerCustomConfetti();
@@ -22,6 +32,7 @@ export const PrivateFinale: React.FC<PrivateFinaleProps> = ({ onReplay }) => {
           initial={{ scale: 0 }}
           whileInView={{ scale: 1 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-[#D4A84B] to-[#FF4D8D] text-white flex items-center justify-center text-3xl shadow-pop"
         >
           🪷
@@ -45,6 +56,19 @@ export const PrivateFinale: React.FC<PrivateFinaleProps> = ({ onReplay }) => {
             <span>Replay Sanctuary Experience 🌸</span>
           </button>
         </div>
+
+        {/* Secret Ending Whisper */}
+        {showSecretWhisper && (
+          <motion.div
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.8 }}
+            className="pt-8 text-sm font-caveat text-amber-700/80 tracking-wider"
+          >
+            <p>You stayed until the end.</p>
+            <p className="text-[#3D2040] font-bold mt-0.5">Thank you, Shree. 🌸</p>
+          </motion.div>
+        )}
 
         <div className="pt-12 text-xs font-space text-gray-400">
           <span>MADE WITH 100% BROTHERLY RESPECT & ADMIRATION • MARCH 6, 2027</span>
