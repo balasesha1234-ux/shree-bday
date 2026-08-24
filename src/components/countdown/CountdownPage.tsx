@@ -49,7 +49,7 @@ export const CountdownPage: React.FC<CountdownPageProps> = ({ onUnlockBirthday }
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7 }}
-          className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-fredoka font-bold tracking-tight text-white drop-shadow-[0_4px_35px_rgba(255,77,141,0.55)] leading-normal flex items-center justify-center flex-nowrap whitespace-nowrap w-full max-w-full px-2 py-1"
+          className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-fredoka font-bold tracking-tight text-white drop-shadow-[0_4px_35px_rgba(255,77,141,0.55)] leading-normal flex flex-wrap items-center justify-center gap-1.5 sm:gap-3 w-full max-w-full px-2 py-1"
         >
           <span className="shrink-0">SHREE’S</span>
           <LokiGlitchAge />

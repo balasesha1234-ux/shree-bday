@@ -203,3 +203,16 @@ nav,
   user-select: none !important;
   -webkit-touch-callout: none;
 }
+
+/* Strict Mobile Horizontal Overflow Containment */
+html, body, #root {
+  overflow-x: clip !important;
+  max-width: 100vw !important;
+  width: 100% !important;
+  position: relative;
+}
+
+section, main, header, footer {
+  max-width: 100vw;
+  box-sizing: border-box;
+}
