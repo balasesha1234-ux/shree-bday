@@ -188,3 +188,18 @@ html {
 .safe-bottom {
   padding-bottom: env(safe-area-inset-bottom, 1rem);
 }
+
+/* Prevent accidental text selection on headings, buttons, badges, and interactive controls */
+h1, h2, h3, h4, h5, h6,
+button,
+nav,
+.select-none,
+.unselectable,
+[role="button"],
+.countdown-pod {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none;
+}
