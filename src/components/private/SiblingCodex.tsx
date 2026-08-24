@@ -1,3 +1,4 @@
+import { ParticleReveal3D } from '../shared/ParticleReveal3D';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Shield, Scroll, Check, Heart, Sparkles, Award, Lock, Flame } from 'lucide-react';
@@ -117,6 +118,7 @@ export const SiblingCodex: React.FC = () => {
   return (
     <section id="sibling-codex" className="w-full max-w-5xl mx-auto px-4 py-20 select-none">
       {/* Royal Grimoire Header */}
+            <ParticleReveal3D direction="right" stardustColor="gold">
       <div className="text-center max-w-2xl mx-auto mb-14">
         <div className="inline-flex items-center gap-2 px-5 py-1.5 rounded-full bg-amber-100 border border-[#D4A84B] text-[#5C4410] font-space text-xs font-bold tracking-widest uppercase mb-3 shadow-md">
           <Shield className="w-4 h-4 text-[#D4A84B]" />
@@ -131,6 +133,7 @@ export const SiblingCodex: React.FC = () => {
           Ancient unwritten laws binding Hyderabad and Delhi. Tap any wax seal to break the seal and reveal the brother's secret footnote!
         </p>
       </div>
+      </ParticleReveal3D>
 
       {/* 7 Illuminated Royal Codex Cards */}
       <div className="space-y-6">

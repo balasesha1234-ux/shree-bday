@@ -1,3 +1,4 @@
+import { ParticleReveal3D } from '../shared/ParticleReveal3D';
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Download, Sparkles, Check, Image as ImageIcon, Camera, Palette } from 'lucide-react';
@@ -210,6 +211,7 @@ export const StoryCardGenerator: React.FC = () => {
 
   return (
     <section id="story-generator" className="w-full max-w-6xl mx-auto px-4 py-20 select-none">
+            <ParticleReveal3D direction="right" stardustColor="celestial">
       <div className="text-center max-w-xl mx-auto mb-12">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-[#FF4D8D] font-fredoka text-xs font-semibold shadow-sm border border-pink-200 mb-2">
           <Sparkles className="w-3.5 h-3.5" />
@@ -222,6 +224,7 @@ export const StoryCardGenerator: React.FC = () => {
           Generate a high-res 1080x1920 Instagram Story card with layered calligraphy, pick your color palette, and share on social media!
         </p>
       </div>
+      </ParticleReveal3D>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center max-w-5xl mx-auto">
         {/* Left Column: Story Card Preview */}

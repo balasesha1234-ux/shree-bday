@@ -1,3 +1,4 @@
+import { ParticleReveal3D } from '../shared/ParticleReveal3D';
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Camera, Upload, Sparkles, Download, RotateCcw, Trash2, Check, RefreshCw } from 'lucide-react';
@@ -264,6 +265,7 @@ export const Photobooth: React.FC = () => {
 
   return (
     <section id="photobooth" className="relative w-full max-w-6xl mx-auto px-4 py-24 select-none">
+                    <ParticleReveal3D direction="top" stardustColor="pink">
       <div className="text-center max-w-xl mx-auto mb-12">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-[#FF4D8D] font-fredoka text-xs font-semibold shadow-sm border border-pink-200 mb-3">
           <Camera className="w-3.5 h-3.5" />
@@ -276,7 +278,8 @@ export const Photobooth: React.FC = () => {
           Take a selfie with your camera or upload a picture, decorate with cute stickers, and download your Polaroid!
         </p>
       </div>
-
+      </ParticleReveal3D>
+      
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center max-w-5xl mx-auto">
         {/* Left Column: Live Preview & Polaroid */}
         <div className="lg:col-span-7 flex justify-center">

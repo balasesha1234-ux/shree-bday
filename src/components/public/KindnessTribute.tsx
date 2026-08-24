@@ -1,3 +1,4 @@
+import { ParticleReveal3D } from '../shared/ParticleReveal3D';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Sparkles, X, Check, Award, Flame } from 'lucide-react';
@@ -22,6 +23,7 @@ export const KindnessTribute: React.FC = () => {
 
   return (
     <section id="kindness-tribute" className="w-full max-w-6xl mx-auto px-4 py-20 select-none">
+            <ParticleReveal3D direction="depth" stardustColor="gold">
       <div className="text-center max-w-2xl mx-auto mb-14">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-[#FF4D8D] font-fredoka text-xs font-semibold shadow-sm border border-pink-200 mb-3">
           <Sparkles className="w-3.5 h-3.5 text-[#FFD93D] fill-[#FFD93D]" />
@@ -34,6 +36,7 @@ export const KindnessTribute: React.FC = () => {
           Beyond the aesthetics and numbers, here is why Shree’s genuine warmth and gentle nature touch so many hearts. Tap any card to read her story!
         </p>
       </div>
+      </ParticleReveal3D>
 
       {/* Grid of Interactive Kindness Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

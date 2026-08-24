@@ -1,3 +1,4 @@
+import { ParticleReveal3D } from '../shared/ParticleReveal3D';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Lock, Unlock, Sparkles, Mail, Award, Compass, Heart, X, Check } from 'lucide-react';

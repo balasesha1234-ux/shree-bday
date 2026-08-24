@@ -1,3 +1,4 @@
+import { ParticleReveal3D } from '../shared/ParticleReveal3D';
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Heart, Award, RefreshCw, Star } from 'lucide-react';
@@ -57,6 +58,7 @@ export const WhiskerLounge: React.FC = () => {
   return (
     <section id="whisker-lounge" className="w-full max-w-5xl mx-auto px-4 py-20 select-none">
       {/* Header */}
+            <ParticleReveal3D direction="top" stardustColor="pink">
       <div className="text-center max-w-xl mx-auto mb-12">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-emerald-600 font-fredoka text-xs font-semibold shadow-sm border border-emerald-200 mb-2">
           <Sparkles className="w-3.5 h-3.5" />
@@ -69,6 +71,7 @@ export const WhiskerLounge: React.FC = () => {
           Dedicated to Shree's pure love for street kittens. Pet Mochi, feed tasty treats, and fill the Purr Meter!
         </p>
       </div>
+      </ParticleReveal3D>
 
       {/* Main Lounge Card */}
       <div className="relative bg-gradient-to-b from-[#F3FAF7] via-[#E8F6F0] to-[#DCF0E7] rounded-3xl p-6 sm:p-10 shadow-pop border-2 border-emerald-200 overflow-hidden">

@@ -1,3 +1,4 @@
+import { ParticleReveal3D } from '../shared/ParticleReveal3D';
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { X, Heart, Sparkles, ZoomIn, Camera } from 'lucide-react';
@@ -161,6 +162,7 @@ export const PublicMoments: React.FC = () => {
 
   return (
     <section id="public-moments" className="relative w-full max-w-7xl mx-auto px-4 py-24 select-none">
+                          <ParticleReveal3D direction="left" stardustColor="pink">
       <div className="text-center max-w-2xl mx-auto mb-16">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-[#FF4D8D] font-fredoka text-xs font-semibold shadow-sm border border-pink-200 mb-3">
           <Camera className="w-3.5 h-3.5" />
@@ -173,7 +175,8 @@ export const PublicMoments: React.FC = () => {
           A floating polaroid collection capturing the kindness, elegance, and infectious joy she shares with the world.
         </p>
       </div>
-
+      </ParticleReveal3D>
+            
       {/* Grid of Floating Polaroids */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7 sm:gap-8 max-w-6xl mx-auto">
         {PUBLIC_MOMENTS_DATA.map((moment, idx) => (

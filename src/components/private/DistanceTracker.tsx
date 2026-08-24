@@ -1,3 +1,4 @@
+import { ParticleReveal3D } from '../shared/ParticleReveal3D';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Shield, Sparkles, Radio, Sun, CloudSun, Clock, Heart, Zap, Send } from 'lucide-react';
@@ -59,6 +60,7 @@ export const DistanceTracker: React.FC = () => {
   return (
     <section className="relative w-full max-w-5xl mx-auto px-4 py-20 select-none">
       {/* Header */}
+            <ParticleReveal3D direction="left" stardustColor="pink">
       <div className="text-center max-w-xl mx-auto mb-12">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-[#D4A84B] font-fredoka text-xs font-semibold shadow-sm border border-[#D4A84B]/30 mb-2">
           <Radio className="w-3.5 h-3.5 animate-pulse text-[#D4A84B]" />
@@ -71,6 +73,7 @@ export const DistanceTracker: React.FC = () => {
           1,250 km between brother & sister — zero latency in lifelong support, protection, and love.
         </p>
       </div>
+      </ParticleReveal3D>
 
       <div className="relative bg-white rounded-3xl p-6 sm:p-10 shadow-pop border border-pink-100 overflow-hidden">
         {/* Real-Time Live Telemetry Clocks */}

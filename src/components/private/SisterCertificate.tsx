@@ -1,3 +1,4 @@
+import { ParticleReveal3D } from '../shared/ParticleReveal3D';
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Award, Sparkles, Download, Check, Shield, Star, Heart } from 'lucide-react';
@@ -160,6 +161,7 @@ export const SisterCertificate: React.FC = () => {
 
   return (
     <section id="sister-certificate" className="relative w-full max-w-4xl mx-auto px-4 py-20 select-none">
+            <ParticleReveal3D direction="depth" stardustColor="gold">
       <div className="text-center max-w-xl mx-auto mb-12">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-[#D4A84B] font-fredoka text-xs font-semibold shadow-sm border border-amber-200 mb-2">
           <Award className="w-3.5 h-3.5" />
@@ -172,6 +174,7 @@ export const SisterCertificate: React.FC = () => {
           Conferred with unconditional pride, lifelong loyalty, and highest brotherly respect.
         </p>
       </div>
+      </ParticleReveal3D>
 
       {/* Luxury Certificate Plaque Container */}
       <motion.div
