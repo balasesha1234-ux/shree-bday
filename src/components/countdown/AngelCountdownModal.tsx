@@ -69,7 +69,6 @@ export const AngelCountdownModal: React.FC<AngelCountdownModalProps> = ({
   const [activeUnit, setActiveUnit] = useState<CountdownUnitType>(initialUnit);
   const [time, setTime] = useState<TimeRemaining>(() => getTimeRemaining(TARGET_BIRTHDAY_IST));
   const [fractionMs, setFractionMs] = useState<string>('00');
-  const [stardustRipple, setStardustRipple] = useState<{ x: number; y: number; id: number } | null>(null);
 
   useEffect(() => {
     setActiveUnit(initialUnit);
@@ -132,17 +131,49 @@ export const AngelCountdownModal: React.FC<AngelCountdownModalProps> = ({
     soundEngine.playHarmonicPop(index);
   };
 
-  const handleInteractiveStarlightTap = (e: React.PointerEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const noteIdx = Math.floor((x / rect.width) * 6);
+  const isDraggingRef = React.useRef(false);
+  const lastNoteRef = React.useRef<number | null>(null);
+  const [stardustRipple, setStardustRipple] = useState<{ x: number; y: number; id: number } | null>(null);
+  const [dragProgress, setDragProgress] = useState<number | null>(null);
 
-    soundEngine.playHarmonicPop(noteIdx);
+  const playNoteAtPosition = (clientX: number, clientY: number, currentTarget: HTMLElement) => {
+    const rect = currentTarget.getBoundingClientRect();
+    const rawX = clientX - rect.left;
+    const clampedX = Math.max(0, Math.min(rect.width, rawX));
+    const progress = clampedX / rect.width;
+    const noteIdx = Math.max(0, Math.min(5, Math.floor(progress * 6)));
+
+    setDragProgress(progress);
+
+    if (noteIdx !== lastNoteRef.current) {
+      lastNoteRef.current = noteIdx;
+      soundEngine.playHarmonicPop(noteIdx);
+      setStardustRipple({ x: clampedX, y: clientY - rect.top, id: Date.now() });
+    }
+  };
+
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    isDraggingRef.current = true;
+    lastNoteRef.current = null;
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch (_) {}
+    playNoteAtPosition(e.clientX, e.clientY, e.currentTarget);
     triggerCustomConfetti(e.clientX, e.clientY);
+  };
 
-    setStardustRipple({ x, y, id: Date.now() });
-    setTimeout(() => setStardustRipple(null), 800);
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDraggingRef.current && e.buttons === 0) return;
+    playNoteAtPosition(e.clientX, e.clientY, e.currentTarget);
+  };
+
+  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    isDraggingRef.current = false;
+    lastNoteRef.current = null;
+    setDragProgress(null);
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch (_) {}
   };
 
   return (
@@ -247,35 +278,46 @@ export const AngelCountdownModal: React.FC<AngelCountdownModalProps> = ({
               </p>
             </div>
 
-            {/* Interactive Starlight Wave Resonance (Replaces Boring Buttons!) */}
+            {/* Interactive Starlight Wave Resonance (Drag or Tap along wave!) */}
             <div
-              onPointerDown={handleInteractiveStarlightTap}
-              className="mt-4 p-3 rounded-2xl bg-white/5 hover:bg-white/10 border border-amber-300/30 cursor-pointer transition-all relative overflow-hidden group"
-              title="Tap or drag along the starlight wave to play celestial chimes!"
+              onPointerDown={handlePointerDown}
+              onPointerMove={handlePointerMove}
+              onPointerUp={handlePointerUp}
+              onPointerCancel={handlePointerUp}
+              className="mt-4 p-3.5 rounded-2xl bg-white/5 hover:bg-white/10 border border-amber-300/35 cursor-grab active:cursor-grabbing transition-all relative overflow-hidden group touch-none select-none"
+              title="Drag or tap along the starlight wave to play celestial chimes!"
             >
-              {/* Expanding Click Ripple */}
+              {/* Expanding Click / Drag Stardust Ripple */}
               {stardustRipple && (
                 <motion.div
                   initial={{ scale: 0, opacity: 1 }}
-                  animate={{ scale: 4, opacity: 0 }}
-                  transition={{ duration: 0.6 }}
+                  animate={{ scale: 3.5, opacity: 0 }}
+                  transition={{ duration: 0.5 }}
                   style={{ left: stardustRipple.x, top: stardustRipple.y }}
                   className="absolute w-12 h-12 -translate-x-1/2 -translate-y-1/2 rounded-full bg-amber-300/40 pointer-events-none"
                 />
               )}
 
-              <div className="flex items-center justify-between text-[11px] font-space text-amber-200">
+              {/* Real-time Cursor Drag Scrubber Line */}
+              {dragProgress !== null && (
+                <div
+                  style={{ left: `${dragProgress * 100}%` }}
+                  className="absolute inset-y-0 w-0.5 bg-white shadow-[0_0_12px_#FFF] pointer-events-none z-10 transition-all duration-75"
+                />
+              )}
+
+              <div className="flex items-center justify-between text-[11px] font-space text-amber-200 pointer-events-none">
                 <span className="flex items-center gap-1.5 font-bold">
                   <Orbit className="w-3.5 h-3.5 animate-spin text-[#FFD93D]" />
                   <span>Interactive Starlight Wave</span>
                 </span>
                 <span className="text-[10px] font-fredoka text-pink-300 font-semibold">
-                  Tap / Drag to Play Chimes ✨
+                  👆 Drag / Tap to Play Chimes ✨
                 </span>
               </div>
 
               {/* Animated Equalizer Sine Wave */}
-              <div className="flex items-center justify-between gap-1 h-6 mt-2 px-1">
+              <div className="flex items-center justify-between gap-1 h-6 mt-2 px-1 pointer-events-none">
                 {[40, 70, 45, 90, 60, 100, 75, 50, 85, 65, 95, 40, 80, 55, 90, 45].map((h, i) => (
                   <motion.div
                     key={i}
