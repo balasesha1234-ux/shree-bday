@@ -22,6 +22,7 @@ import { PublicFinale } from './components/public/PublicFinale';
 import { SecretFloatingEasterEggs } from './components/public/SecretFloatingEasterEggs';
 import { TapSequenceOverlay } from './components/public/TapSequenceOverlay';
 import { NotFoundPage } from './components/shared/NotFoundPage';
+import { MobileSimulator } from './components/mobile/MobileSimulator';
 
 // Private Sanctuary Realm
 import { PrivateContainer } from './components/private/PrivateContainer';
@@ -43,6 +44,7 @@ export function App() {
   const showPreviewToolbar = import.meta.env.DEV;
   const [devToolbarOpen, setDevToolbarOpen] = useState<boolean>(true);
   const [viewportMode, setViewportMode] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
+  const [experienceMode, setExperienceMode] = useState<'website' | 'mobile_app'>('mobile_app');
 
   // Initialize Lenis smooth scroll with ice-glide physics
   useLenis(true);
@@ -80,6 +82,24 @@ export function App() {
   const handleReplay = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  if (experienceMode === 'mobile_app') {
+    return (
+      <div className="relative">
+        <MobileSimulator onBackToDesktop={() => setExperienceMode('website')} />
+
+        {/* Quick Return to Website pill button for convenience on desktop/laptop */}
+        <div className="hidden md:flex fixed bottom-4 right-4 z-50">
+          <button
+            onClick={() => setExperienceMode('website')}
+            className="px-4 py-2 rounded-full bg-white/90 hover:bg-white text-[#3D2040] text-xs font-fredoka font-bold shadow-xl border border-pink-200 hover:scale-105 active:scale-95 transition-all flex items-center gap-1.5"
+          >
+            <span>🖥️ Switch to Full Desktop Site</span>
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -236,6 +256,17 @@ export function App() {
               </div>
 
               <div className="h-4 w-px bg-pink-200 mx-1 hidden sm:block" />
+
+              {/* Reference Mobile App Simulator Toggle */}
+              <button
+                onClick={() => setExperienceMode('mobile_app')}
+                className="px-2.5 py-1.5 rounded-xl font-fredoka font-bold text-xs bg-gradient-to-r from-[#FFD93D] to-[#FF4D8D] text-[#3D2040] shadow-sm hover:scale-105 active:scale-95 transition-all flex items-center gap-1"
+                title="Open Mobile Experience Simulator (Reference Mockup)"
+              >
+                <span>📱 Mobile Simulator</span>
+              </button>
+
+              <div className="h-4 w-px bg-pink-200 mx-0.5 hidden sm:block" />
 
               {/* Viewport Device Switcher */}
               <div className="flex items-center gap-1 bg-gray-100 p-1 rounded-xl">

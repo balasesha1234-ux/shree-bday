@@ -1,4 +1,4 @@
-﻿/** @type {import('tailwindcss').Config} */
+/** @type {import('tailwindcss').Config} */
 export default {
   content: [
     "./index.html",
@@ -29,6 +29,7 @@ export default {
         quicksand: ['"Quicksand"', 'sans-serif'],
         playfair: ['"Playfair Display"', 'serif'],
         caveat: ['"Caveat"', 'cursive'],
+        script: ['"Alex Brush"', '"Great Vibes"', 'cursive'],
         space: ['"Space Grotesk"', 'monospace']
       },
       keyframes: {
