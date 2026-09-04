@@ -42,6 +42,11 @@ export function App() {
 
   // Preview Switcher is strictly enabled only during local npm run dev
   const showPreviewToolbar = import.meta.env.DEV;
+  const isLocalHost = typeof window !== 'undefined' && (
+    window.location.hostname === 'localhost' ||
+    window.location.hostname === '127.0.0.1' ||
+    import.meta.env.DEV
+  );
   const [devToolbarOpen, setDevToolbarOpen] = useState<boolean>(true);
   const [viewportMode, setViewportMode] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
   const [experienceMode, setExperienceMode] = useState<'website' | 'mobile_app'>('website');
@@ -83,7 +88,7 @@ export function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  if (experienceMode === 'mobile_app') {
+  if (isLocalHost && experienceMode === 'mobile_app') {
     return (
       <div className="relative">
         <MobileSimulator onBackToDesktop={() => setExperienceMode('website')} />
@@ -257,16 +262,20 @@ export function App() {
 
               <div className="h-4 w-px bg-pink-200 mx-1 hidden sm:block" />
 
-              {/* Reference Mobile App Simulator Toggle */}
-              <button
-                onClick={() => setExperienceMode('mobile_app')}
-                className="px-2.5 py-1.5 rounded-xl font-fredoka font-bold text-xs bg-gradient-to-r from-[#FFD93D] to-[#FF4D8D] text-[#3D2040] shadow-sm hover:scale-105 active:scale-95 transition-all flex items-center gap-1"
-                title="Open Mobile Experience Simulator (Reference Mockup)"
-              >
-                <span>📱 Mobile Simulator</span>
-              </button>
+              {/* Reference Mobile App Simulator Toggle - Localhost Testing Only */}
+              {isLocalHost && (
+                <>
+                  <button
+                    onClick={() => setExperienceMode('mobile_app')}
+                    className="px-2.5 py-1.5 rounded-xl font-fredoka font-bold text-xs bg-gradient-to-r from-[#FFD93D] to-[#FF4D8D] text-[#3D2040] shadow-sm hover:scale-105 active:scale-95 transition-all flex items-center gap-1"
+                    title="Open Mobile Experience Simulator (Localhost Testing Only)"
+                  >
+                    <span>📱 Mobile Simulator (Localhost Only)</span>
+                  </button>
 
-              <div className="h-4 w-px bg-pink-200 mx-0.5 hidden sm:block" />
+                  <div className="h-4 w-px bg-pink-200 mx-0.5 hidden sm:block" />
+                </>
+              )}
 
               {/* Viewport Device Switcher */}
               <div className="flex items-center gap-1 bg-gray-100 p-1 rounded-xl">
