@@ -44,7 +44,7 @@ export function App() {
   const showPreviewToolbar = import.meta.env.DEV;
   const [devToolbarOpen, setDevToolbarOpen] = useState<boolean>(true);
   const [viewportMode, setViewportMode] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
-  const [experienceMode, setExperienceMode] = useState<'website' | 'mobile_app'>('mobile_app');
+  const [experienceMode, setExperienceMode] = useState<'website' | 'mobile_app'>('website');
 
   // Initialize Lenis smooth scroll with ice-glide physics
   useLenis(true);
