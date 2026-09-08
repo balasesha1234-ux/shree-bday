@@ -44,6 +44,7 @@ export const MobileApp: React.FC<MobileAppProps> = ({
   onScreenChange
 }) => {
   const [internalScreen, setInternalScreen] = useState<ScreenId>(initialScreen);
+  const [selectedBookId, setSelectedBookId] = useState<string>('letter-open');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<MobileTab>('home');
 
@@ -116,17 +117,23 @@ export const MobileApp: React.FC<MobileAppProps> = ({
         <MobilePrivateHome
           onBack={() => navigateTo('home')}
           onSelectSubscreen={(sub) => {
-            if (sub === 'letter-open') navigateTo('letter-open');
-            else if (sub === 'brother-letterbox') navigateTo('brother-letterbox');
-            else if (sub === 'eleven-eleven') navigateTo('eleven-eleven');
-            else if (sub === 'memories-we-share') navigateTo('memories');
-            else navigateTo('letter-open');
+            if (sub === 'brother-letterbox') {
+              navigateTo('brother-letterbox');
+            } else if (sub === 'eleven-eleven') {
+              navigateTo('eleven-eleven');
+            } else {
+              setSelectedBookId(sub);
+              navigateTo('letter-open');
+            }
           }}
         />
       )}
 
       {currentScreen === 'letter-open' && (
-        <MobileLetterOpen onBack={() => navigateTo('private-home')} />
+        <MobileLetterOpen
+          bookId={selectedBookId}
+          onBack={() => navigateTo('private-home')}
+        />
       )}
 
       {currentScreen === 'brother-letterbox' && (
