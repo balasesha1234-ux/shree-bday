@@ -134,8 +134,8 @@ export const PublicHero: React.FC<PublicHeroProps> = ({ onWishClick }) => {
             loop
             muted
             playsInline
-            className="w-full h-full object-cover opacity-25 filter blur-[2px] scale-105"
-            src="/assets/intro/clip.mp4"
+            className="w-full h-full object-cover opacity-20 filter blur-[3px] scale-110"
+            src="/assets/intro/montage.mp4"
           />
           {/* Aesthetic Warm Glassmorphic Gradients */}
           <div className="absolute inset-0 bg-gradient-to-b from-[#FFF0F3]/85 via-[#FFF0F3]/65 to-[#FFF0F3]" />

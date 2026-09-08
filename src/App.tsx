@@ -11,6 +11,7 @@ import { CountdownPage } from './components/countdown/CountdownPage';
 import { PublicHero } from './components/public/PublicHero';
 import { CandleBlowout } from './components/public/CandleBlowout';
 import { Photobooth } from './components/public/Photobooth';
+import { CinematicBirthdayReel } from './components/public/CinematicBirthdayReel';
 import { PublicMoments } from './components/public/PublicMoments';
 import { FanWishWall } from './components/public/FanWishWall';
 import { FloatingDiyaPond } from './components/public/FloatingDiyaPond';
@@ -37,8 +38,23 @@ import { AmbientLotusParticles } from './components/shared/AmbientLotusParticles
 
 export function App() {
   const [appMode, setAppMode] = useState<AppMode | '404'>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('shree_preview_app_mode') as AppMode | '404' | null;
+      if (saved && ['public', 'countdown', 'private', '404'].includes(saved)) {
+        return saved;
+      }
+    }
+    // In local dev, default to public so the celebration and videos are immediately visible
+    if (import.meta.env.DEV) return 'public';
     return isBirthdayActive() ? 'public' : 'countdown';
   });
+
+  const handleSetAppMode = (mode: AppMode | '404') => {
+    setAppMode(mode);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('shree_preview_app_mode', mode);
+    }
+  };
 
   // Preview Switcher is strictly enabled only during local npm run dev
   const showPreviewToolbar = import.meta.env.DEV;
@@ -157,6 +173,7 @@ export function App() {
             <PublicHero onWishClick={handleWishWallScroll} />
             <CandleBlowout />
             <Photobooth />
+            <CinematicBirthdayReel />
             <PublicMoments />
             <KindnessTribute />
             <FloatingDiyaPond />
@@ -209,7 +226,7 @@ export function App() {
               <div className="flex items-center gap-1">
                 <button
                   onClick={() => {
-                    setAppMode('countdown');
+                    handleSetAppMode('countdown');
                     setCurrentMode('countdown');
                   }}
                   className={`px-2.5 py-1.5 rounded-xl font-fredoka font-bold text-xs transition-all ${
@@ -223,7 +240,7 @@ export function App() {
 
                 <button
                   onClick={() => {
-                    setAppMode('public');
+                    handleSetAppMode('public');
                     setCurrentMode('party');
                   }}
                   className={`px-2.5 py-1.5 rounded-xl font-fredoka font-bold text-xs transition-all ${
@@ -236,7 +253,7 @@ export function App() {
                 </button>
 
                 <button
-                  onClick={() => setAppMode('404')}
+                  onClick={() => handleSetAppMode('404')}
                   className={`px-2.5 py-1.5 rounded-xl font-fredoka font-bold text-xs transition-all ${
                     appMode === '404'
                       ? 'bg-[#060412] text-[#FFD93D] border border-[#FFD93D] shadow-sm'
@@ -247,7 +264,7 @@ export function App() {
                 </button>
                 <button
                   onClick={() => {
-                    setAppMode('private');
+                    handleSetAppMode('private');
                     setCurrentMode('devotional');
                   }}
                   className={`px-2.5 py-1.5 rounded-xl font-fredoka font-bold text-xs transition-all ${
