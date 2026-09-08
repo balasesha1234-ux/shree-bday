@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Share2, Sparkles } from 'lucide-react';
 import { triggerCustomConfetti } from '../shared/Confetti';
 import { soundEngine } from '../../utils/soundEffects';
+import { SiteFooter } from '../shared/SiteFooter';
 
 export const PublicFinale: React.FC = () => {
   const [showSecretWhisper, setShowSecretWhisper] = useState(false);
@@ -31,7 +32,7 @@ export const PublicFinale: React.FC = () => {
   };
 
   return (
-    <footer className="relative w-full bg-gradient-to-b from-[#FFF5F5] via-[#FFF0F3] to-[#FFE5EC] pt-28 pb-24 px-4 overflow-hidden border-t border-pink-100/70 select-none">
+    <section className="relative w-full bg-gradient-to-b from-[#FFF5F5] via-[#FFF0F3] to-[#FFE5EC] pt-28 pb-24 px-4 overflow-hidden border-t border-pink-100/70 select-none">
       <div className="max-w-3xl mx-auto text-center relative z-10 space-y-6">
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
@@ -102,11 +103,11 @@ export const PublicFinale: React.FC = () => {
             <p className="text-pink-600/90 font-bold mt-0.5">Thank you. 🌸</p>
           </motion.div>
         )}
-
-        <div className="pt-14 text-[11px] font-space text-gray-400/80">
-          <span>MADE WITH 100% DEVOTION & SIBLING ALLIANCE • MARCH 6, 2027</span>
-        </div>
       </div>
-    </footer>
+
+      <div className="mt-14 w-full">
+        <SiteFooter />
+      </div>
+    </section>
   );
 };

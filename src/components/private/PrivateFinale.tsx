@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { RotateCcw } from 'lucide-react';
 import { soundEngine } from '../../utils/soundEffects';
 import { triggerCustomConfetti } from '../shared/Confetti';
+import { SiteFooter } from '../shared/SiteFooter';
 
 interface PrivateFinaleProps {
   onReplay: () => void;
@@ -69,10 +70,10 @@ export const PrivateFinale: React.FC<PrivateFinaleProps> = ({ onReplay }) => {
             <p className="text-[#3D2040] font-bold mt-0.5">Thank you, Shree. 🌸</p>
           </motion.div>
         )}
+      </div>
 
-        <div className="pt-12 text-xs font-space text-gray-400">
-          <span>MADE WITH 100% BROTHERLY RESPECT & ADMIRATION • MARCH 6, 2027</span>
-        </div>
+      <div className="mt-14 w-full">
+        <SiteFooter />
       </div>
     </section>
   );

@@ -10,6 +10,7 @@ import { PawPrints } from '../shared/PawPrints';
 import { ShootingStars } from '../shared/ShootingStars';
 import { DeepSpaceVoyage } from './DeepSpaceVoyage';
 import { CosmicStardustFloating } from './CosmicStardustFloating';
+import { SiteFooter } from '../shared/SiteFooter';
 
 interface CountdownPageProps {
   onUnlockBirthday: () => void;
@@ -107,12 +108,8 @@ export const CountdownPage: React.FC<CountdownPageProps> = ({ onUnlockBirthday }
         />
       </section>
 
-      {/* Clean Minimalist Footer */}
-      <footer className="relative z-10 w-full py-6 text-center text-xs font-quicksand text-gray-500 border-t border-white/5">
-        <p className="flex items-center justify-center gap-1.5">
-          Crafted with 100% Brotherly Pride & Support for Shree 🐱🛡️
-        </p>
-      </footer>
+      {/* Dedicated Credits Footer */}
+      <SiteFooter dark />
 
       {/* Midnight Reveal Transition Overlay */}
       {triggerMidnight && (

@@ -9,6 +9,7 @@ import { CountdownPage } from './components/countdown/CountdownPage';
 
 // Public Celebration Realm
 import { PublicHero } from './components/public/PublicHero';
+import { SpotifyArtistSection } from './components/public/SpotifyArtistSection';
 import { CandleBlowout } from './components/public/CandleBlowout';
 import { Photobooth } from './components/public/Photobooth';
 import { CinematicBirthdayReel } from './components/public/CinematicBirthdayReel';
@@ -171,6 +172,7 @@ export function App() {
         {appMode === 'public' && (
           <main className="relative overflow-hidden">
             <PublicHero onWishClick={handleWishWallScroll} />
+            <SpotifyArtistSection />
             <CandleBlowout />
             <Photobooth />
             <CinematicBirthdayReel />

@@ -134,12 +134,16 @@ export const PublicHero: React.FC<PublicHeroProps> = ({ onWishClick }) => {
             loop
             muted
             playsInline
-            className="w-full h-full object-cover opacity-20 filter blur-[3px] scale-110"
-            src="/assets/intro/montage.mp4"
-          />
-          {/* Aesthetic Warm Glassmorphic Gradients */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#FFF0F3]/85 via-[#FFF0F3]/65 to-[#FFF0F3]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,#FFF0F3_80%)]" />
+            poster="/assets/images/shree_sacred_cow_hero.jpg"
+            className="w-full h-full object-cover opacity-25 filter blur-[2px] scale-105 transition-all duration-1000"
+          >
+            <source src="/assets/intro/hero-loop.mp4" type="video/mp4" />
+            <source src="/assets/intro/montage.mp4" type="video/mp4" />
+          </video>
+          {/* Aesthetic Warm Glassmorphic Gradients & Vrindavan Mist Feathering */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#FFF0F3]/80 via-[#FFF0F3]/40 to-[#FFF0F3] pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_25%,#FFF0F3_85%)] pointer-events-none" />
+          <div className="absolute bottom-0 left-0 right-0 h-36 bg-gradient-to-t from-[#FFF0F3] via-[#FFF0F3]/90 to-transparent pointer-events-none" />
         </div>
       )}
 
@@ -199,6 +203,23 @@ export const PublicHero: React.FC<PublicHeroProps> = ({ onWishClick }) => {
         }}
         className="relative z-20 max-w-4xl mx-auto flex flex-col items-center pointer-events-none"
       >
+        {/* Official Signature Calligraphy Header (shreenavalkishori.com brand alignment) */}
+        <motion.div
+          initial={{ y: -15, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          style={{ transform: 'translateZ(50px)' }}
+          className="pointer-events-auto mb-3 flex items-center justify-center group cursor-pointer"
+          onClick={handleCelebrationClick}
+          title="Shree Naval Kishori"
+        >
+          <img
+            src="/assets/images/shree_signature_logo.png"
+            alt="Shree Naval Kishori Signature"
+            className="h-12 sm:h-16 md:h-20 w-auto object-contain drop-shadow-[0_4px_12px_rgba(255,77,141,0.25)] group-hover:scale-105 transition-transform duration-300"
+          />
+        </motion.div>
+
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
