@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { Heart, Sparkles, MessageCircleHeart, PartyPopper } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { Heart, Sparkles, MessageCircleHeart, PartyPopper, Play, Film, X } from 'lucide-react';
 import { triggerCustomConfetti } from '../shared/Confetti';
 import { GlitchAge } from '../shared/GlitchAge';
 import { soundEngine } from '../../utils/soundEffects';
@@ -78,6 +78,8 @@ const HeroBgPolaroid: React.FC<HeroBgPolaroidProps> = ({
 
 export const PublicHero: React.FC<PublicHeroProps> = ({ onWishClick }) => {
   const containerRef = useRef<HTMLElement>(null);
+  const [bgVideoEnabled, setBgVideoEnabled] = useState(true);
+  const [isCinemaOpen, setIsCinemaOpen] = useState(false);
 
   // High-inertia fluid spring physics for buttery smooth motion
   const mouseX = useMotionValue(0);
@@ -111,6 +113,12 @@ export const PublicHero: React.FC<PublicHeroProps> = ({ onWishClick }) => {
     triggerCustomConfetti();
   };
 
+  const handleOpenCinema = () => {
+    soundEngine.playSparkle(1.8);
+    soundEngine.playTempleBell();
+    setIsCinemaOpen(true);
+  };
+
   return (
     <section
       ref={containerRef}
@@ -118,6 +126,23 @@ export const PublicHero: React.FC<PublicHeroProps> = ({ onWishClick }) => {
       onMouseLeave={handleMouseLeave}
       className="relative min-h-[92vh] flex flex-col items-center justify-center text-center px-4 pt-12 pb-20 overflow-hidden perspective-1000"
     >
+      {/* Ambient Looping Video Background Layer */}
+      {bgVideoEnabled && (
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden transition-opacity duration-1000">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover opacity-25 filter blur-[2px] scale-105"
+            src="/assets/intro/clip.mp4"
+          />
+          {/* Aesthetic Warm Glassmorphic Gradients */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#FFF0F3]/85 via-[#FFF0F3]/65 to-[#FFF0F3]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,#FFF0F3_80%)]" />
+        </div>
+      )}
+
       {/* Dynamic Cursor-Parallax Floating Polaroids */}
       <HeroBgPolaroid
         image="/assets/serial/1s.jpg"
@@ -218,11 +243,22 @@ export const PublicHero: React.FC<PublicHeroProps> = ({ onWishClick }) => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.6 }}
           style={{ transform: 'translateZ(50px)' }}
-          className="pointer-events-auto mt-8 flex flex-col sm:flex-row items-center gap-4"
+          className="pointer-events-auto mt-8 flex flex-col sm:flex-row items-center gap-4 flex-wrap justify-center"
         >
+          {/* Watch Film Button */}
+          <button
+            onClick={handleOpenCinema}
+            className="flex items-center gap-2.5 px-7 py-4 rounded-full bg-gradient-to-r from-[#FFD93D] via-[#FF80AC] to-[#FF4D8D] text-[#3D2040] font-fredoka font-bold text-base shadow-pop hover:scale-105 active:scale-95 transition-all group"
+          >
+            <div className="w-6 h-6 rounded-full bg-[#3D2040] text-white flex items-center justify-center group-hover:scale-110 transition-transform">
+              <Play className="w-3.5 h-3.5 fill-white ml-0.5" />
+            </div>
+            <span>Watch Birthday Film 🎬</span>
+          </button>
+
           <button
             onClick={onWishClick}
-            className="flex items-center gap-2.5 px-8 py-4 rounded-full bg-[#FF4D8D] hover:bg-[#FF2D78] text-white font-fredoka font-bold text-base shadow-pop hover:scale-105 active:scale-95 transition-all"
+            className="flex items-center gap-2.5 px-7 py-4 rounded-full bg-[#FF4D8D] hover:bg-[#FF2D78] text-white font-fredoka font-bold text-base shadow-pop hover:scale-105 active:scale-95 transition-all"
           >
             <MessageCircleHeart className="w-5 h-5" />
             <span>Post Your Birthday Wish 💌</span>
@@ -237,6 +273,98 @@ export const PublicHero: React.FC<PublicHeroProps> = ({ onWishClick }) => {
           </button>
         </motion.div>
       </motion.div>
+
+      {/* Ambient Motion Toggle Pill in corner */}
+      <div className="absolute bottom-4 right-4 z-20 pointer-events-auto hidden sm:block">
+        <button
+          onClick={() => setBgVideoEnabled(!bgVideoEnabled)}
+          className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/80 hover:bg-white backdrop-blur-md border border-pink-200 text-xs font-space font-medium text-gray-700 shadow-sm transition-all hover:scale-105 active:scale-95"
+          title="Toggle Ambient Background Video"
+        >
+          <Film className="w-3.5 h-3.5 text-[#FF4D8D]" />
+          <span>Background Motion: {bgVideoEnabled ? 'On ✨' : 'Off'}</span>
+        </button>
+      </div>
+
+      {/* Fullscreen Birthday Cinema Theater Modal */}
+      <AnimatePresence>
+        {isCinemaOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/95 backdrop-blur-2xl flex items-center justify-center p-4 sm:p-8"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: 'spring', damping: 20 }}
+              className="relative w-full max-w-4xl bg-[#181124] rounded-3xl overflow-hidden shadow-[0_0_80px_rgba(255,77,141,0.3)] border-2 border-pink-400/40 flex flex-col"
+            >
+              {/* Modal Header */}
+              <div className="px-6 py-4 bg-white/5 border-b border-white/10 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="w-3 h-3 rounded-full bg-red-500 animate-pulse" />
+                  <span className="font-space text-xs uppercase tracking-widest text-[#FFD93D] font-bold">
+                    SHREE BIRTHDAY MONTAGE • OFFICIAL PREMIERE
+                  </span>
+                </div>
+                <button
+                  onClick={() => setIsCinemaOpen(false)}
+                  className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all"
+                  title="Close Theater"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Video Player Box */}
+              <div className="relative aspect-video w-full bg-black flex items-center justify-center">
+                <video
+                  autoPlay
+                  controls
+                  playsInline
+                  className="w-full h-full object-contain"
+                  src="/assets/intro/montage.mp4"
+                />
+              </div>
+
+              {/* Modal Footer with cheering & cheer button */}
+              <div className="px-6 py-4 bg-white/5 border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <h4 className="font-fredoka text-white text-sm font-bold">
+                    A Brighter, Kinder Tomorrow ♡
+                  </h4>
+                  <p className="font-quicksand text-xs text-gray-400">
+                    Celebrating music, devotion, and kindness.
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => {
+                      soundEngine.playSparkle(1.5);
+                      triggerCustomConfetti();
+                    }}
+                    className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#FF4D8D] hover:bg-[#FF2D78] text-white text-xs font-fredoka font-bold shadow-md hover:scale-105 active:scale-95 transition-all"
+                  >
+                    <Heart className="w-3.5 h-3.5 fill-white" />
+                    <span>Send Love & Confetti 🌸</span>
+                  </button>
+
+                  <button
+                    onClick={() => setIsCinemaOpen(false)}
+                    className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-gray-200 text-xs font-fredoka transition-all"
+                  >
+                    Back to Celebration
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };
