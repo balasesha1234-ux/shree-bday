@@ -8,6 +8,7 @@ import { TimeCapsule } from './TimeCapsule';
 import { WhiskerLounge } from './WhiskerLounge';
 import { GiftUnwrap } from './GiftUnwrap';
 import { ScratchCard } from './ScratchCard';
+import { InnerCircleBlessings } from './InnerCircleBlessings';
 import { FriendWishWall } from './FriendWishWall';
 import { SisterCertificate } from './SisterCertificate';
 import { TheLetter } from './TheLetter';
@@ -40,6 +41,7 @@ export const PrivateContainer: React.FC<PrivateContainerProps> = ({ onReplay }) 
         <WhiskerLounge />
         <GiftUnwrap />
         <ScratchCard />
+        <InnerCircleBlessings />
         <FriendWishWall />
         <SisterCertificate />
         <TheLetter />

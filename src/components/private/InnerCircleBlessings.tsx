@@ -240,17 +240,17 @@ export const InnerCircleBlessings: React.FC = () => {
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-[#FF4D8D] font-fredoka text-xs font-semibold shadow-sm border border-pink-200 mb-3"
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-[#D4A84B] font-space text-xs font-bold shadow-sm border border-[#D4A84B]/30 mb-3"
         >
-          <Sparkles className="w-3.5 h-3.5 text-[#FFD93D] fill-[#FFD93D]" />
-          <span>THE INNER CIRCLE 🕊️</span>
+          <Sparkles className="w-3.5 h-3.5 text-[#D4A84B]" />
+          <span>CONFIDENTIAL // SIBLING SANCTUARY INNER CIRCLE 🕊️</span>
         </motion.div>
 
-        <h2 className="text-3xl sm:text-5xl font-fredoka font-bold text-gray-800 tracking-tight">
-          Blessings from Her Inner Circle
+        <h2 className="text-3xl sm:text-5xl font-playfair font-bold text-[#3D2040] tracking-tight">
+          Blessings from Her Inner Circle 🪷
         </h2>
         <p className="text-sm sm:text-base font-quicksand text-gray-600 mt-2 leading-relaxed">
-          Special keepsake letters and heartfelt tributes from the core team, creators, and mentors who stand in Shree's corner. Tap anyone's profile picture for special interactive reactions! 🌸
+          Sacred keepsake letters and authentic birthday tributes from the core team, creators, and mentors who stand in Shree's corner. Tap anyone's profile picture for special interactive reactions! 🌸
         </p>
       </div>
 
