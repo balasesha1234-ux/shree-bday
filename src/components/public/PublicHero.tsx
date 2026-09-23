@@ -1,10 +1,9 @@
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { Heart, Sparkles, MessageCircleHeart, PartyPopper, Play, Film, X } from 'lucide-react';
+import { Heart, Sparkles, MessageCircleHeart, PartyPopper, Play, X } from 'lucide-react';
 import { triggerCustomConfetti } from '../shared/Confetti';
 import { GlitchAge } from '../shared/GlitchAge';
 import { soundEngine } from '../../utils/soundEffects';
-import { InteractiveSacredLotus3D } from '../3d/InteractiveSacredLotus3D';
 
 interface PublicHeroProps {
   onWishClick: () => void;
@@ -79,7 +78,6 @@ const HeroBgPolaroid: React.FC<HeroBgPolaroidProps> = ({
 
 export const PublicHero: React.FC<PublicHeroProps> = ({ onWishClick }) => {
   const containerRef = useRef<HTMLElement>(null);
-  const [bgVideoEnabled, setBgVideoEnabled] = useState(true);
   const [isCinemaOpen, setIsCinemaOpen] = useState(false);
 
   // High-inertia fluid spring physics for buttery smooth motion
@@ -127,26 +125,9 @@ export const PublicHero: React.FC<PublicHeroProps> = ({ onWishClick }) => {
       onMouseLeave={handleMouseLeave}
       className="relative min-h-[92vh] flex flex-col items-center justify-center text-center px-4 pt-12 pb-20 overflow-hidden perspective-1000"
     >
-      {/* Ambient Looping Video Background Layer */}
-      {bgVideoEnabled && (
-        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden transition-opacity duration-1000">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            poster="/assets/images/shree_sacred_cow_hero.jpg"
-            className="w-full h-full object-cover opacity-25 filter blur-[2px] scale-105 transition-all duration-1000"
-          >
-            <source src="/assets/intro/hero-loop.mp4" type="video/mp4" />
-            <source src="/assets/intro/montage.mp4" type="video/mp4" />
-          </video>
-          {/* Aesthetic Warm Glassmorphic Gradients & Vrindavan Mist Feathering */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#FFF0F3]/80 via-[#FFF0F3]/40 to-[#FFF0F3] pointer-events-none" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_25%,#FFF0F3_85%)] pointer-events-none" />
-          <div className="absolute bottom-0 left-0 right-0 h-36 bg-gradient-to-t from-[#FFF0F3] via-[#FFF0F3]/90 to-transparent pointer-events-none" />
-        </div>
-      )}
+      {/* Soft Ambient Warm Light & Sacred Vignette */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#FFF0F3] via-[#FFF5F7] to-[#FFF0F3] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,217,61,0.12),transparent_70%)] pointer-events-none" />
 
       {/* Dynamic Cursor-Parallax Floating Polaroids */}
       <HeroBgPolaroid
@@ -259,17 +240,6 @@ export const PublicHero: React.FC<PublicHeroProps> = ({ onWishClick }) => {
           kindest soul, and cat whisperer! Light a diya, make your wish, and celebrate together! 🪷✨
         </motion.p>
 
-        {/* Interactive 3D WebGL Sacred Lotus & Astrolabe Centerpiece */}
-        <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.25, duration: 0.8, type: 'spring' }}
-          style={{ transform: 'translateZ(70px)' }}
-          className="pointer-events-auto my-3 w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 relative flex items-center justify-center"
-        >
-          <InteractiveSacredLotus3D className="w-full h-full" onInteract={handleCelebrationClick} />
-        </motion.div>
-
         {/* Action Buttons */}
         <motion.div
           initial={{ y: 20, opacity: 0 }}
@@ -306,18 +276,6 @@ export const PublicHero: React.FC<PublicHeroProps> = ({ onWishClick }) => {
           </button>
         </motion.div>
       </motion.div>
-
-      {/* Ambient Motion Toggle Pill in corner */}
-      <div className="absolute bottom-4 right-4 z-20 pointer-events-auto hidden sm:block">
-        <button
-          onClick={() => setBgVideoEnabled(!bgVideoEnabled)}
-          className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/80 hover:bg-white backdrop-blur-md border border-pink-200 text-xs font-space font-medium text-gray-700 shadow-sm transition-all hover:scale-105 active:scale-95"
-          title="Toggle Ambient Background Video"
-        >
-          <Film className="w-3.5 h-3.5 text-[#FF4D8D]" />
-          <span>Background Motion: {bgVideoEnabled ? 'On ✨' : 'Off'}</span>
-        </button>
-      </div>
 
       {/* Fullscreen Birthday Cinema Theater Modal */}
       <AnimatePresence>
