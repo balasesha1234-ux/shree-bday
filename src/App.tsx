@@ -172,7 +172,7 @@ export function App() {
         {/* REALM 2: PUBLIC BIRTHDAY CELEBRATION */}
         {/* ========================================================================= */}
         {appMode === 'public' && (
-          <main className="relative overflow-hidden">
+          <main className="relative overflow-x-clip">
             <PublicHero onWishClick={handleWishWallScroll} />
             <SpotifyArtistSection />
             <ScrollScrubStory />
