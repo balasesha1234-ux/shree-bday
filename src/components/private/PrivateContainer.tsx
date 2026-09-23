@@ -13,6 +13,7 @@ import { SisterCertificate } from './SisterCertificate';
 import { TheLetter } from './TheLetter';
 import { ShootingStars } from '../shared/ShootingStars';
 import { PrivateFinale } from './PrivateFinale';
+import { PrivateSecurityShield } from './PrivateSecurityShield';
 
 interface PrivateContainerProps {
   onReplay: () => void;
@@ -27,21 +28,23 @@ export const PrivateContainer: React.FC<PrivateContainerProps> = ({ onReplay }) 
   };
 
   return (
-    <div className="relative min-h-screen bg-[#FFF5F5] text-[#2D2D2D]">
-      <ShootingStars />
-      <PrivateIntro onStartScroll={scrollToChapterOne} />
-      <DistanceTracker />
-      <SiblingCodex />
-      <ChildhoodPolaroid />
+    <PrivateSecurityShield>
+      <div className="relative min-h-screen bg-[#FFF5F5] text-[#2D2D2D]">
+        <ShootingStars />
+        <PrivateIntro onStartScroll={scrollToChapterOne} />
+        <DistanceTracker />
+        <SiblingCodex />
+        <ChildhoodPolaroid />
         <MemoryLane />
-      <TimeCapsule />
-      <WhiskerLounge />
-      <GiftUnwrap />
-      <ScratchCard />
-      <FriendWishWall />
-      <SisterCertificate />
-      <TheLetter />
-      <PrivateFinale onReplay={onReplay} />
-    </div>
+        <TimeCapsule />
+        <WhiskerLounge />
+        <GiftUnwrap />
+        <ScratchCard />
+        <FriendWishWall />
+        <SisterCertificate />
+        <TheLetter />
+        <PrivateFinale onReplay={onReplay} />
+      </div>
+    </PrivateSecurityShield>
   );
 };
