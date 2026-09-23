@@ -15,7 +15,6 @@ import { CandleBlowout } from './components/public/CandleBlowout';
 import { Photobooth } from './components/public/Photobooth';
 import { CinematicBirthdayReel } from './components/public/CinematicBirthdayReel';
 import { ConnectedMilestoneRoadmap } from './components/public/ConnectedMilestoneRoadmap';
-import { BrothersLetter } from './components/public/BrothersLetter';
 import { PublicMoments } from './components/public/PublicMoments';
 import { FanWishWall } from './components/public/FanWishWall';
 import { FloatingDiyaPond } from './components/public/FloatingDiyaPond';
@@ -181,7 +180,6 @@ export function App() {
             <Photobooth />
             <CinematicBirthdayReel />
             <ConnectedMilestoneRoadmap />
-            <BrothersLetter />
             <PublicMoments />
             <KindnessTribute />
             <FloatingDiyaPond />
