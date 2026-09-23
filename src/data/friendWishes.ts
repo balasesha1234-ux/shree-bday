@@ -3,6 +3,7 @@ export interface FriendWish {
   name: string;
   relation: string;
   avatarEmoji: string;
+  avatarImg?: string;
   balloonColor: string;
   message: string;
   signature: string;
@@ -11,6 +12,16 @@ export interface FriendWish {
 export const FRIEND_WISHES_DATA: FriendWish[] = [
   {
     id: 1,
+    name: 'Arun',
+    relation: 'Creative Partner & Artist',
+    avatarEmoji: '🎨',
+    avatarImg: '/assets/team/arun.jpg',
+    balloonColor: 'bg-gradient-to-br from-[#FF6B9D] to-[#FF4D8D]',
+    message: 'Happy Birthday, Shree ✨💗 May life bless you with good health, endless happiness, and may you truly deserve every good thing in the world.🌸 I hope you’re always surrounded by love, positivity, laughter, and wonderful people, and I’m grateful that I was one of them. Once again, Happiest Birthday, Devotional Queen @shreenavalkishori ✨🤍🫠',
+    signature: 'With endless love & wishes, Arun 🎨✨'
+  },
+  {
+    id: 2,
     name: 'Maa & Papa',
     relation: 'Family',
     avatarEmoji: '👨‍👩‍👧',

@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, X, Sparkles } from 'lucide-react';
 import { FRIEND_WISHES_DATA, FriendWish } from '../../data/friendWishes';
@@ -46,10 +46,18 @@ export const FriendWishWall: React.FC = () => {
               className="cursor-pointer flex flex-col items-center text-center p-4"
             >
               <div
-                className={`w-20 h-24 sm:w-24 sm:h-28 rounded-full ${item.balloonColor} text-white flex flex-col items-center justify-center shadow-lg border-2 border-white relative`}
+                className={`w-20 h-24 sm:w-24 sm:h-28 rounded-full ${item.balloonColor} text-white flex flex-col items-center justify-center shadow-lg border-2 border-white relative overflow-hidden p-2`}
               >
-                <span className="text-2xl">{item.avatarEmoji}</span>
-                <span className="text-xs font-fredoka font-bold mt-1 max-w-[70px] truncate">
+                {item.avatarImg ? (
+                  <img
+                    src={item.avatarImg}
+                    alt={item.name}
+                    className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover border-2 border-white/90 shadow-md"
+                  />
+                ) : (
+                  <span className="text-2xl">{item.avatarEmoji}</span>
+                )}
+                <span className="text-xs font-fredoka font-bold mt-1 max-w-[70px] truncate text-center">
                   {item.name}
                 </span>
 
@@ -86,7 +94,17 @@ export const FriendWishWall: React.FC = () => {
                 <X className="w-4 h-4" />
               </button>
 
-              <span className="text-5xl">{selectedWish.avatarEmoji}</span>
+              {selectedWish.avatarImg ? (
+                <div className="w-20 h-20 mx-auto rounded-full overflow-hidden border-4 border-pink-200 shadow-lg mb-2">
+                  <img
+                    src={selectedWish.avatarImg}
+                    alt={selectedWish.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ) : (
+                <span className="text-5xl">{selectedWish.avatarEmoji}</span>
+              )}
 
               <h3 className="text-2xl font-fredoka font-bold text-gray-800 mt-2">
                 From {selectedWish.name}
