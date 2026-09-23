@@ -266,7 +266,9 @@ export const InnerCircleBlessings: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1, duration: 0.6 }}
-              className={`h-full bg-white/95 backdrop-blur-xl rounded-3xl p-7 sm:p-9 border-2 border-pink-100 shadow-xl ${member.borderGlow} transition-all duration-300 flex flex-col justify-between relative overflow-hidden group`}
+              className={`h-full bg-white/95 backdrop-blur-xl rounded-3xl p-7 sm:p-9 border-2 ${
+                member.isKarthik ? 'gold-foil-border' : 'border-pink-100 hover:border-amber-300/60'
+              } glass-3d-festive shadow-xl ${member.borderGlow} transition-all duration-300 flex flex-col justify-between relative overflow-hidden group`}
             >
               {/* Holographic Iridescent Sheen on Card Hover */}
               <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/30 to-pink-200/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
@@ -355,10 +357,10 @@ export const InnerCircleBlessings: React.FC = () => {
                 </div>
 
                 {/* Message Box Styled as Elegant Parchment Card */}
-                <div className="relative bg-gradient-to-br from-[#FFFDF9] via-white to-pink-50/20 rounded-2xl p-6 border border-pink-100/90 shadow-inner">
-                  <MessageSquareQuote className="w-7 h-7 text-[#FF4D8D]/15 absolute top-3 right-3" />
+                <div className="relative rounded-2xl p-6 border shadow-inner inner-circle-message-box transition-all duration-300">
+                  <MessageSquareQuote className="w-7 h-7 text-[#FF4D8D]/25 absolute top-3 right-3" />
                   
-                  <p className="font-quicksand text-sm sm:text-base text-gray-800 leading-relaxed italic pr-4">
+                  <p className="font-quicksand text-sm sm:text-base leading-relaxed italic pr-4">
                     "{member.message}"
                   </p>
 

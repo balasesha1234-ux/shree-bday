@@ -254,3 +254,327 @@ img, svg, picture, a {
   -webkit-user-drag: none !important;
   user-drag: none !important;
 }
+
+/* ========================================================================= */
+/* VRINDAVAN CELESTIAL AMBIANCE THEME ENGINE */
+/* ========================================================================= */
+
+:root {
+  --ambiance-bg: #FFF0F3;
+  --ambiance-bg-secondary: #FFF5F5;
+  --ambiance-text: #2D2D2D;
+  --ambiance-text-muted: #6B7280;
+  --ambiance-card-bg: rgba(255, 255, 255, 0.88);
+  --ambiance-card-border: rgba(255, 179, 198, 0.4);
+  --ambiance-gold: #D4A84B;
+  --ambiance-gold-glow: rgba(212, 168, 75, 0.4);
+}
+
+html, body {
+  transition: background-color 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Base hero vignette */
+.hero-ambient-vignette {
+  background: linear-gradient(180deg, #FFF0F3 0%, #FFF5F7 50%, #FFF0F3 100%);
+  transition: background 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 1. VRINDAVAN DAWN (Default) */
+html[data-theme="dawn"] body {
+  background-color: #FFF0F3;
+  color: #2D2D2D;
+}
+html[data-theme="dawn"] .hero-ambient-vignette {
+  background: linear-gradient(180deg, #FFF0F3 0%, #FFF5F7 50%, #FFF0F3 100%);
+}
+
+/* 2. YAMUNA MIDNIGHT */
+html[data-theme="midnight"] {
+  --ambiance-bg: #060414;
+  --ambiance-bg-secondary: #0A0720;
+  --ambiance-text: #F3F4F6;
+  --ambiance-text-muted: #9CA3AF;
+  --ambiance-card-bg: rgba(15, 11, 35, 0.88);
+  --ambiance-card-border: rgba(212, 168, 75, 0.35);
+  --ambiance-gold: #FFD93D;
+  --ambiance-gold-glow: rgba(255, 217, 61, 0.5);
+}
+
+html[data-theme="midnight"] body {
+  background-color: #060414;
+  color: #F3F4F6;
+}
+
+html[data-theme="midnight"] .theme-container-bg,
+html[data-theme="midnight"] .bg-\[\#FFF0F3\],
+html[data-theme="midnight"] .bg-\[\#FFF5F5\] {
+  background-color: #060414 !important;
+}
+
+html[data-theme="midnight"] .bg-white\/95,
+html[data-theme="midnight"] .bg-white\/90,
+html[data-theme="midnight"] .bg-white\/80 {
+  background-color: rgba(18, 14, 40, 0.92) !important;
+  color: #F3F4F6 !important;
+  border-color: rgba(212, 168, 75, 0.3) !important;
+}
+
+html[data-theme="midnight"] .text-gray-900,
+html[data-theme="midnight"] .text-gray-800,
+html[data-theme="midnight"] .text-gray-700 {
+  color: #F3F4F6 !important;
+}
+
+html[data-theme="midnight"] .text-gray-600,
+html[data-theme="midnight"] .text-gray-500 {
+  color: #9CA3AF !important;
+}
+
+html[data-theme="midnight"] .border-pink-100,
+html[data-theme="midnight"] .border-pink-200 {
+  border-color: rgba(212, 168, 75, 0.25) !important;
+}
+
+html[data-theme="midnight"] .hero-ambient-vignette {
+  background: linear-gradient(180deg, #060414 0%, #0E0A28 50%, #060414 100%) !important;
+}
+
+html[data-theme="midnight"] img[alt*="Shree Naval Kishori Signature"] {
+  filter: brightness(0) invert(1) drop-shadow(0 0 14px rgba(255, 217, 61, 0.65));
+}
+
+/* 3. GOLDEN AARTI */
+html[data-theme="aarti"] {
+  --ambiance-bg: #1A0B02;
+  --ambiance-bg-secondary: #2B1204;
+  --ambiance-text: #FFF8EB;
+  --ambiance-text-muted: #FDBA74;
+  --ambiance-card-bg: rgba(43, 18, 4, 0.88);
+  --ambiance-card-border: rgba(245, 158, 11, 0.4);
+  --ambiance-gold: #F59E0B;
+  --ambiance-gold-glow: rgba(245, 158, 11, 0.55);
+}
+
+html[data-theme="aarti"] body {
+  background-color: #1A0B02;
+  color: #FFF8EB;
+}
+
+html[data-theme="aarti"] .theme-container-bg,
+html[data-theme="aarti"] .bg-\[\#FFF0F3\],
+html[data-theme="aarti"] .bg-\[\#FFF5F5\] {
+  background-color: #1A0B02 !important;
+}
+
+html[data-theme="aarti"] .bg-white\/95,
+html[data-theme="aarti"] .bg-white\/90,
+html[data-theme="aarti"] .bg-white\/80 {
+  background-color: rgba(43, 18, 4, 0.92) !important;
+  color: #FFF8EB !important;
+  border-color: rgba(245, 158, 11, 0.35) !important;
+}
+
+html[data-theme="aarti"] .text-gray-900,
+html[data-theme="aarti"] .text-gray-800,
+html[data-theme="aarti"] .text-gray-700 {
+  color: #FFF8EB !important;
+}
+
+html[data-theme="aarti"] .text-gray-600,
+html[data-theme="aarti"] .text-gray-500 {
+  color: #FDBA74 !important;
+}
+
+html[data-theme="aarti"] .border-pink-100,
+html[data-theme="aarti"] .border-pink-200 {
+  border-color: rgba(245, 158, 11, 0.3) !important;
+}
+
+html[data-theme="aarti"] .hero-ambient-vignette {
+  background: linear-gradient(180deg, #1A0B02 0%, #2E1505 50%, #1A0B02 100%) !important;
+}
+
+html[data-theme="aarti"] img[alt*="Shree Naval Kishori Signature"] {
+  filter: brightness(0) invert(1) sepia(1) saturate(5) hue-rotate(340deg) drop-shadow(0 0 14px rgba(245, 158, 11, 0.65));
+}
+
+/* 4. GOVARDHAN MEADOW */
+html[data-theme="meadow"] {
+  --ambiance-bg: #031710;
+  --ambiance-bg-secondary: #06261B;
+  --ambiance-text: #ECFDF5;
+  --ambiance-text-muted: #6EE7B7;
+  --ambiance-card-bg: rgba(6, 38, 27, 0.88);
+  --ambiance-card-border: rgba(52, 211, 153, 0.4);
+  --ambiance-gold: #10B981;
+  --ambiance-gold-glow: rgba(16, 185, 129, 0.45);
+}
+
+html[data-theme="meadow"] body {
+  background-color: #031710;
+  color: #ECFDF5;
+}
+
+html[data-theme="meadow"] .theme-container-bg,
+html[data-theme="meadow"] .bg-\[\#FFF0F3\],
+html[data-theme="meadow"] .bg-\[\#FFF5F5\] {
+  background-color: #031710 !important;
+}
+
+html[data-theme="meadow"] .bg-white\/95,
+html[data-theme="meadow"] .bg-white\/90,
+html[data-theme="meadow"] .bg-white\/80 {
+  background-color: rgba(6, 38, 27, 0.92) !important;
+  color: #ECFDF5 !important;
+  border-color: rgba(52, 211, 153, 0.35) !important;
+}
+
+html[data-theme="meadow"] .text-gray-900,
+html[data-theme="meadow"] .text-gray-800,
+html[data-theme="meadow"] .text-gray-700 {
+  color: #ECFDF5 !important;
+}
+
+html[data-theme="meadow"] .text-gray-600,
+html[data-theme="meadow"] .text-gray-500 {
+  color: #6EE7B7 !important;
+}
+
+html[data-theme="meadow"] .border-pink-100,
+html[data-theme="meadow"] .border-pink-200 {
+  border-color: rgba(52, 211, 153, 0.3) !important;
+}
+
+html[data-theme="meadow"] .hero-ambient-vignette {
+  background: linear-gradient(180deg, #031710 0%, #06281B 50%, #031710 100%) !important;
+}
+
+html[data-theme="meadow"] img[alt*="Shree Naval Kishori Signature"] {
+  filter: brightness(0) invert(1) sepia(1) saturate(5) hue-rotate(90deg) drop-shadow(0 0 14px rgba(52, 211, 153, 0.65));
+}
+
+/* ========================================================================= */
+/* 24K GOLD FOIL ACCENTS & FESTIVE 3D GLASSMORPHISM */
+/* ========================================================================= */
+
+@keyframes goldFoilGlint {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.gold-foil-border {
+  position: relative;
+  border: 2px solid #D4A84B !important;
+  box-shadow: 0 8px 32px -4px rgba(212, 168, 75, 0.3),
+              inset 0 0 16px rgba(255, 215, 0, 0.12) !important;
+}
+
+.gold-foil-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(
+    115deg,
+    #D4A84B 0%,
+    #FFF8DC 25%,
+    #FFD700 45%,
+    #FFFFFF 50%,
+    #FFD700 55%,
+    #D4A84B 80%,
+    #F5C642 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+.gold-foil-shimmer {
+  background: linear-gradient(
+    110deg,
+    #D4A84B 0%,
+    #FFF8DC 20%,
+    #FFE680 40%,
+    #FFFFFF 50%,
+    #FFE680 60%,
+    #D4A84B 80%,
+    #B38428 100%
+  );
+  background-size: 250% 100%;
+  animation: goldFoilGlint 5s linear infinite;
+}
+
+.glass-3d-festive {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1.5px solid rgba(212, 168, 75, 0.35);
+  box-shadow: 0 16px 40px -10px rgba(212, 168, 75, 0.2),
+              0 0 25px -5px rgba(255, 215, 0, 0.15),
+              inset 0 1px 2px 0 rgba(255, 255, 255, 0.8);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-3d-festive:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 50px -12px rgba(212, 168, 75, 0.35),
+              0 0 35px 0px rgba(255, 215, 0, 0.25),
+              inset 0 1px 3px 0 rgba(255, 255, 255, 0.95);
+}
+
+/* Ensure the Ambiance Controller panel stays crisp and legible */
+.celestial-panel {
+  background: rgba(255, 255, 255, 0.98) !important;
+  color: #1F2937 !important;
+  border-color: rgba(212, 168, 75, 0.6) !important;
+  box-shadow: 0 20px 60px -10px rgba(0, 0, 0, 0.35),
+              0 0 30px rgba(212, 168, 75, 0.3) !important;
+}
+
+/* Inner Circle Blessing Letter Box theme rules */
+.inner-circle-message-box {
+  background: linear-gradient(135deg, #FFFDF9 0%, #FFFFFF 50%, rgba(255, 240, 245, 0.6) 100%);
+  border-color: rgba(255, 179, 198, 0.5);
+  color: #1F2937;
+}
+
+html[data-theme="midnight"] .inner-circle-message-box {
+  background: linear-gradient(135deg, rgba(12, 9, 28, 0.95) 0%, rgba(22, 17, 50, 0.95) 100%) !important;
+  border-color: rgba(212, 168, 75, 0.35) !important;
+  color: #F9FAFB !important;
+}
+
+html[data-theme="midnight"] .inner-circle-message-box p {
+  color: #F3F4F6 !important;
+}
+
+html[data-theme="aarti"] .inner-circle-message-box {
+  background: linear-gradient(135deg, rgba(32, 14, 5, 0.95) 0%, rgba(52, 23, 8, 0.95) 100%) !important;
+  border-color: rgba(245, 158, 11, 0.4) !important;
+  color: #FFF8EB !important;
+}
+
+html[data-theme="aarti"] .inner-circle-message-box p {
+  color: #FFF8EB !important;
+}
+
+html[data-theme="meadow"] .inner-circle-message-box {
+  background: linear-gradient(135deg, rgba(4, 28, 19, 0.95) 0%, rgba(8, 48, 33, 0.95) 100%) !important;
+  border-color: rgba(52, 211, 153, 0.4) !important;
+  color: #ECFDF5 !important;
+}
+
+html[data-theme="meadow"] .inner-circle-message-box p {
+  color: #ECFDF5 !important;
+}
+
+

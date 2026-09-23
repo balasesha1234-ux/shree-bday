@@ -40,6 +40,7 @@ import { ConfettiEffect, triggerCustomConfetti } from './components/shared/Confe
 import { CursorSparkles } from './components/shared/CursorSparkles';
 import { AmbientLotusParticles } from './components/shared/AmbientLotusParticles';
 import { BilliCompanion } from './components/shared/BilliCompanion';
+import { CelestialAmbianceController } from './components/shared/CelestialAmbianceController';
 
 export function App() {
   const [appMode, setAppMode] = useState<AppMode | '404'>(() => {
@@ -129,7 +130,7 @@ export function App() {
 
   return (
     <div
-      className={`min-h-screen transition-all duration-500 ${
+      className={`min-h-screen transition-all duration-500 theme-container-bg ${
         viewportMode === 'desktop'
           ? 'bg-[#FFF0F3]'
           : 'bg-[#0B091A] p-2 sm:p-6 flex flex-col items-center justify-center'
@@ -137,7 +138,7 @@ export function App() {
     >
       {/* Device Bezel Simulator Container */}
       <div
-        className={`w-full transition-all duration-500 text-gray-800 relative selection:bg-pink-300 selection:text-pink-900 ${
+        className={`w-full transition-all duration-500 text-gray-800 relative selection:bg-pink-300 selection:text-pink-900 theme-container-bg ${
           viewportMode === 'mobile'
             ? 'max-w-[390px] min-h-[844px] my-6 rounded-[3rem] border-[12px] border-[#1F2937] shadow-[0_25px_70px_rgba(0,0,0,0.85)] overflow-x-hidden bg-[#FFF0F3]'
             : viewportMode === 'tablet'
@@ -157,6 +158,9 @@ export function App() {
           onToggle={toggleAudio}
           mode={appMode === 'countdown' ? 'countdown' : appMode === 'private' ? 'devotional' : 'party'}
         />
+
+        {/* Vrindavan Celestial Ambiance & Sacred Rain Controller */}
+        <CelestialAmbianceController />
 
         {/* ========================================================================= */}
         {/* REALM 1: COUNTDOWN STREAM */}
@@ -225,7 +229,7 @@ export function App() {
       {/* DEV-ONLY FLOATING PREVIEW & VIEWPORT TOOLBAR */}
       {/* ========================================================================= */}
       {showPreviewToolbar && (
-        <div className="fixed top-3 right-3 sm:top-5 sm:right-5 z-50 select-none">
+        <div className="fixed top-3 left-3 sm:top-5 sm:left-5 z-50 select-none">
           {devToolbarOpen ? (
             <div className="bg-white/95 backdrop-blur-md rounded-2xl p-2 sm:p-3 shadow-2xl border-2 border-pink-300 text-xs font-quicksand flex flex-wrap items-center gap-2">
               <span className="font-fredoka font-bold text-[#FF4D8D] hidden sm:inline">

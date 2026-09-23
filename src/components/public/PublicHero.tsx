@@ -126,7 +126,7 @@ export const PublicHero: React.FC<PublicHeroProps> = ({ onWishClick }) => {
       className="relative min-h-[92vh] flex flex-col items-center justify-center text-center px-4 pt-12 pb-20 overflow-hidden perspective-1000"
     >
       {/* Soft Ambient Warm Light & Sacred Vignette */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#FFF0F3] via-[#FFF5F7] to-[#FFF0F3] pointer-events-none" />
+      <div className="absolute inset-0 hero-ambient-vignette pointer-events-none" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,217,61,0.12),transparent_70%)] pointer-events-none" />
 
       {/* Dynamic Cursor-Parallax Floating Polaroids */}
