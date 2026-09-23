@@ -39,6 +39,7 @@ import { AudioController } from './components/shared/AudioController';
 import { ConfettiEffect, triggerCustomConfetti } from './components/shared/Confetti';
 import { CursorSparkles } from './components/shared/CursorSparkles';
 import { AmbientLotusParticles } from './components/shared/AmbientLotusParticles';
+import { BilliCompanion } from './components/shared/BilliCompanion';
 
 export function App() {
   const [appMode, setAppMode] = useState<AppMode | '404'>(() => {
@@ -213,6 +214,7 @@ export function App() {
         {/* Global Canvas Layers */}
         <CursorSparkles />
         {appMode !== 'countdown' && <AmbientLotusParticles />}
+        {appMode !== 'countdown' && <BilliCompanion />}
         <ConfettiEffect />
 
         {/* Cinematic Golden Lotus Portal Transition Overlay */}
