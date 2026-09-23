@@ -4,6 +4,7 @@ import { Heart, Sparkles, MessageCircleHeart, PartyPopper, Play, Film, X } from 
 import { triggerCustomConfetti } from '../shared/Confetti';
 import { GlitchAge } from '../shared/GlitchAge';
 import { soundEngine } from '../../utils/soundEffects';
+import { InteractiveSacredLotus3D } from '../3d/InteractiveSacredLotus3D';
 
 interface PublicHeroProps {
   onWishClick: () => void;
@@ -257,6 +258,17 @@ export const PublicHero: React.FC<PublicHeroProps> = ({ onWishClick }) => {
           Welcome to the worldwide birthday celebration of our favorite creator, 
           kindest soul, and cat whisperer! Light a diya, make your wish, and celebrate together! 🪷✨
         </motion.p>
+
+        {/* Interactive 3D WebGL Sacred Lotus & Astrolabe Centerpiece */}
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.25, duration: 0.8, type: 'spring' }}
+          style={{ transform: 'translateZ(70px)' }}
+          className="pointer-events-auto my-3 w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 relative flex items-center justify-center"
+        >
+          <InteractiveSacredLotus3D className="w-full h-full" onInteract={handleCelebrationClick} />
+        </motion.div>
 
         {/* Action Buttons */}
         <motion.div

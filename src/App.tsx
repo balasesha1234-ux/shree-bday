@@ -10,9 +10,11 @@ import { CountdownPage } from './components/countdown/CountdownPage';
 // Public Celebration Realm
 import { PublicHero } from './components/public/PublicHero';
 import { SpotifyArtistSection } from './components/public/SpotifyArtistSection';
+import { ScrollScrubStory } from './components/public/ScrollScrubStory';
 import { CandleBlowout } from './components/public/CandleBlowout';
 import { Photobooth } from './components/public/Photobooth';
 import { CinematicBirthdayReel } from './components/public/CinematicBirthdayReel';
+import { ConnectedMilestoneRoadmap } from './components/public/ConnectedMilestoneRoadmap';
 import { PublicMoments } from './components/public/PublicMoments';
 import { FanWishWall } from './components/public/FanWishWall';
 import { FloatingDiyaPond } from './components/public/FloatingDiyaPond';
@@ -173,9 +175,11 @@ export function App() {
           <main className="relative overflow-hidden">
             <PublicHero onWishClick={handleWishWallScroll} />
             <SpotifyArtistSection />
+            <ScrollScrubStory />
             <CandleBlowout />
             <Photobooth />
             <CinematicBirthdayReel />
+            <ConnectedMilestoneRoadmap />
             <PublicMoments />
             <KindnessTribute />
             <FloatingDiyaPond />
