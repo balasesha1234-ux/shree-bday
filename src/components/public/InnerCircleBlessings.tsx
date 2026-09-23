@@ -55,10 +55,22 @@ const INNER_CIRCLE_DATA: InnerCircleMember[] = [
     name: 'Dhrubayan Ji',
     role: 'Special Blessings & Inner Circle',
     tagline: 'Special Blessings & Support ✨',
+    image: '/assets/team/dhrubayan.jpg',
     avatarIcon: '✨',
     badgeColor: 'bg-blue-100 text-blue-700 border-blue-200',
     borderGlow: 'hover:border-blue-300 hover:shadow-blue-100/60',
     message: 'Wishing Shree a joyous, blissful, and fulfilling birthday! Keep illuminating every space you enter with your pure heart and spiritual positivity. 🌟'
+  },
+  {
+    id: 'prasanya',
+    name: 'Prasanya',
+    role: 'Beloved Friend & Inner Circle',
+    tagline: 'Karthik’s Favorite & Sister Circle 🌸',
+    image: '/assets/team/prasanya.jpg',
+    avatarIcon: '🌸',
+    badgeColor: 'bg-rose-100 text-rose-700 border-rose-200',
+    borderGlow: 'hover:border-rose-300 hover:shadow-rose-100/60',
+    message: 'Happiest Birthday to the sweetest, most graceful soul, Shree! 🌸✨ May your special year be overflowing with endless happiness, good health, divine blessings, and radiant smiles. You inspire so many with your warmth! Keep shining bright, gorgeous! 💖🪷'
   }
 ];
 
@@ -67,7 +79,8 @@ export const InnerCircleBlessings: React.FC = () => {
     arun: 24,
     karthik: 31,
     vardhan: 19,
-    dhrubayan: 16
+    dhrubayan: 16,
+    prasanya: 28
   });
   const [activeHeart, setActiveHeart] = useState<string | null>(null);
 
@@ -113,7 +126,9 @@ export const InnerCircleBlessings: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: idx * 0.1, duration: 0.6 }}
-            className={`bg-white/90 backdrop-blur-md rounded-3xl p-7 sm:p-8 border-2 border-pink-100 shadow-lg ${member.borderGlow} transition-all duration-300 flex flex-col justify-between relative overflow-hidden`}
+            className={`bg-white/90 backdrop-blur-md rounded-3xl p-7 sm:p-8 border-2 border-pink-100 shadow-lg ${member.borderGlow} transition-all duration-300 flex flex-col justify-between relative overflow-hidden ${
+              idx === 4 ? 'md:col-span-2 md:max-w-2xl md:mx-auto w-full' : ''
+            }`}
           >
             {/* Top Row: Avatar & Identity */}
             <div>

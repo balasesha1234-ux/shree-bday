@@ -22,6 +22,26 @@ export const FRIEND_WISHES_DATA: FriendWish[] = [
   },
   {
     id: 2,
+    name: 'Prasanya',
+    relation: 'Karthik’s Favorite & Sister Circle',
+    avatarEmoji: '🌸',
+    avatarImg: '/assets/team/prasanya.jpg',
+    balloonColor: 'bg-gradient-to-br from-[#F472B6] to-[#DB2777]',
+    message: 'Happiest Birthday to the sweetest, most graceful soul, Shree! 🌸✨ May your special year be overflowing with endless happiness, good health, divine blessings, and radiant smiles. You inspire so many with your warmth! Keep shining bright, gorgeous! 💖🪷',
+    signature: 'With warmest love, Prasanya 🌸'
+  },
+  {
+    id: 3,
+    name: 'Dhrubayan',
+    relation: 'Special Blessings & Inner Circle',
+    avatarEmoji: '✨',
+    avatarImg: '/assets/team/dhrubayan.jpg',
+    balloonColor: 'bg-gradient-to-br from-[#60A5FA] to-[#3B82F6]',
+    message: 'Wishing Shree a very Happy Birthday! May life bring you immense success, health, and peace. Keep spreading your positive energy and grace wherever you go! 🌟',
+    signature: 'Best wishes, Dhrubayan ✨'
+  },
+  {
+    id: 4,
     name: 'Maa & Papa',
     relation: 'Family',
     avatarEmoji: '👨‍👩‍👧',
@@ -30,7 +50,7 @@ export const FRIEND_WISHES_DATA: FriendWish[] = [
     signature: 'With all our blessings'
   },
   {
-    id: 2,
+    id: 5,
     name: 'Your Brother in Hyd',
     relation: 'Brother / Shield',
     avatarEmoji: '🛡️',
@@ -39,7 +59,7 @@ export const FRIEND_WISHES_DATA: FriendWish[] = [
     signature: 'Your Brother in Hyderabad 🛡️'
   },
   {
-    id: 3,
+    id: 6,
     name: 'Riya (Bestie)',
     relation: 'Soul Sister',
     avatarEmoji: '👭',
@@ -48,7 +68,7 @@ export const FRIEND_WISHES_DATA: FriendWish[] = [
     signature: 'Your soul sister'
   },
   {
-    id: 4,
+    id: 7,
     name: 'Ananya',
     relation: 'Close Friend',
     avatarEmoji: '🌸',
@@ -57,7 +77,7 @@ export const FRIEND_WISHES_DATA: FriendWish[] = [
     signature: 'Forever cheering for you'
   },
   {
-    id: 5,
+    id: 8,
     name: 'Karan',
     relation: 'Friend',
     avatarEmoji: '😎',
@@ -66,7 +86,7 @@ export const FRIEND_WISHES_DATA: FriendWish[] = [
     signature: 'Party hard!'
   },
   {
-    id: 6,
+    id: 9,
     name: 'Pooja Di',
     relation: 'Elder Sister',
     avatarEmoji: '👑',
@@ -75,7 +95,7 @@ export const FRIEND_WISHES_DATA: FriendWish[] = [
     signature: 'Big hugs & blessings'
   },
   {
-    id: 7,
+    id: 10,
     name: 'Simran & Gang',
     relation: 'The Squad',
     avatarEmoji: '🎉',
