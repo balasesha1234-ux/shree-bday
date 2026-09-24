@@ -58,12 +58,13 @@ const INNER_CIRCLE_DATA: InnerCircleMember[] = [
     role: 'Spiritual Guide & Mentor',
     tagline: 'Spiritual Guidance & Devotional Path 🪷',
     bondBadge: 'Spiritual Beacon • Bhakti & Gita Guidance',
+    image: '/assets/team/vardhan.jpg',
     avatarIcon: '🪷',
     badgeColor: 'bg-purple-100 text-purple-700 border-purple-200',
     borderGlow: 'hover:border-purple-300 hover:shadow-purple-100/70',
-    message: 'May the divine blessings of Sri Sri Radha Govinda always surround Shree Naval Kishori. May your voice remain a sacred offering of devotion, humility, and grace to the Lord. Hare Krishna! 🌸🪔',
-    signature: 'In the divine service of Sri Sri Radha-Govinda, Vardhan Prabhu ji 🪷',
-    avatarSpeech: 'May Radha Rani always shower her eternal grace on your riyaaz! 🪷🌸',
+    message: "Happy Birthday to u Shree ji From Your Insignificant Servent Gunda Vardhan...Keep Hardworking like this .... always Radha Krishna's and Srila Prabhupada blessings will be with you...Hare Krishna",
+    signature: 'From Your Insignificant Servant, Gunda Vardhan 🪷🙏',
+    avatarSpeech: 'Always Radha Krishna’s and Srila Prabhupada’s blessings with you! 🪷✨',
     particles: ['🪷', '🪔', '✨', '🌸', '🕉️', '💛']
   },
   {
@@ -305,6 +306,7 @@ export const InnerCircleBlessings: React.FC = () => {
                           src={member.image}
                           alt={member.name}
                           className="w-full h-full object-cover transition-transform duration-500 group-hover/avatar:scale-110"
+                          style={{ objectPosition: member.id === 'vardhan' ? 'center 18%' : member.id === 'arun' ? 'center 20%' : 'center' }}
                         />
                         {/* Tap hint overlay on hover */}
                         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover/avatar:opacity-100 transition-opacity flex items-center justify-center">
@@ -497,6 +499,7 @@ export const InnerCircleBlessings: React.FC = () => {
                   src={selectedInspectMember.image}
                   alt={selectedInspectMember.name}
                   className="w-full h-full object-cover"
+                  style={{ objectPosition: selectedInspectMember.id === 'vardhan' ? 'center 18%' : 'center' }}
                 />
               </div>
 

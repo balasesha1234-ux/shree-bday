@@ -42,6 +42,16 @@ export const FRIEND_WISHES_DATA: FriendWish[] = [
   },
   {
     id: 4,
+    name: 'Vardhan Prabhu ji',
+    relation: 'Spiritual Guide & Mentor',
+    avatarEmoji: '🪷',
+    avatarImg: '/assets/team/vardhan.jpg',
+    balloonColor: 'bg-gradient-to-br from-[#A855F7] to-[#7E22CE]',
+    message: "Happy Birthday to u Shree ji From Your Insignificant Servent Gunda Vardhan...Keep Hardworking like this .... always Radha Krishna's and Srila Prabhupada blessings will be with you...Hare Krishna",
+    signature: 'From Your Insignificant Servant, Gunda Vardhan 🪷🙏'
+  },
+  {
+    id: 5,
     name: 'Maa & Papa',
     relation: 'Family',
     avatarEmoji: '👨‍👩‍👧',
@@ -50,7 +60,7 @@ export const FRIEND_WISHES_DATA: FriendWish[] = [
     signature: 'With all our blessings'
   },
   {
-    id: 5,
+    id: 6,
     name: 'Your Brother in Hyd',
     relation: 'Brother / Shield',
     avatarEmoji: '🛡️',
@@ -59,7 +69,7 @@ export const FRIEND_WISHES_DATA: FriendWish[] = [
     signature: 'Your Brother in Hyderabad 🛡️'
   },
   {
-    id: 6,
+    id: 7,
     name: 'Riya (Bestie)',
     relation: 'Soul Sister',
     avatarEmoji: '👭',
@@ -68,7 +78,7 @@ export const FRIEND_WISHES_DATA: FriendWish[] = [
     signature: 'Your soul sister'
   },
   {
-    id: 7,
+    id: 8,
     name: 'Ananya',
     relation: 'Close Friend',
     avatarEmoji: '🌸',
@@ -77,7 +87,7 @@ export const FRIEND_WISHES_DATA: FriendWish[] = [
     signature: 'Forever cheering for you'
   },
   {
-    id: 8,
+    id: 9,
     name: 'Karan',
     relation: 'Friend',
     avatarEmoji: '😎',
@@ -86,7 +96,7 @@ export const FRIEND_WISHES_DATA: FriendWish[] = [
     signature: 'Party hard!'
   },
   {
-    id: 9,
+    id: 10,
     name: 'Pooja Di',
     relation: 'Elder Sister',
     avatarEmoji: '👑',
@@ -95,7 +105,7 @@ export const FRIEND_WISHES_DATA: FriendWish[] = [
     signature: 'Big hugs & blessings'
   },
   {
-    id: 10,
+    id: 11,
     name: 'Simran & Gang',
     relation: 'The Squad',
     avatarEmoji: '🎉',

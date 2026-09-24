@@ -14,6 +14,7 @@ export const PrivateSecurityShield: React.FC<PrivateSecurityShieldProps> = ({ ch
   useEffect(() => {
     // 1. Detect Window Blur (Fires when Snipping Tool, Screen Capture, or another window takes focus)
     const handleBlur = () => {
+      if (import.meta.env.DEV) return;
       setIsShieldActive(true);
     };
 
@@ -22,6 +23,7 @@ export const PrivateSecurityShield: React.FC<PrivateSecurityShieldProps> = ({ ch
     };
 
     const handleVisibilityChange = () => {
+      if (import.meta.env.DEV) return;
       if (document.hidden) {
         setIsShieldActive(true);
       } else {
