@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Play, Film } from 'lucide-react';
 import { useCountdown } from '../../hooks/useCountdown';
 import { CountdownTimer } from './CountdownTimer';
 import { LokiGlitchAge } from '../shared/GlitchAge';
@@ -11,6 +11,7 @@ import { ShootingStars } from '../shared/ShootingStars';
 import { DeepSpaceVoyage } from './DeepSpaceVoyage';
 import { CosmicStardustFloating } from './CosmicStardustFloating';
 import { SiteFooter } from '../shared/SiteFooter';
+import { TeaserTrailerModal } from './TeaserTrailerModal';
 
 interface CountdownPageProps {
   onUnlockBirthday: () => void;
@@ -19,6 +20,7 @@ interface CountdownPageProps {
 export const CountdownPage: React.FC<CountdownPageProps> = ({ onUnlockBirthday }) => {
   const countdown = useCountdown();
   const [triggerMidnight, setTriggerMidnight] = useState<boolean>(false);
+  const [showTeaser, setShowTeaser] = useState<boolean>(false);
 
   return (
     <div className="relative min-h-screen bg-[#060412] text-white flex flex-col items-center justify-between overflow-x-hidden selection:bg-[#FF2D78] selection:text-white select-none">
@@ -82,6 +84,30 @@ export const CountdownPage: React.FC<CountdownPageProps> = ({ onUnlockBirthday }
           />
         </motion.div>
 
+        {/* Cinematic Teaser Trailer Gateway */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.6 }}
+          className="mt-7 sm:mt-9 flex flex-col items-center gap-2.5"
+        >
+          <button
+            onClick={() => setShowTeaser(true)}
+            className="group relative inline-flex items-center gap-3 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-gradient-to-r from-pink-500/25 via-amber-400/25 to-pink-500/25 hover:from-pink-500/40 hover:via-amber-400/40 hover:to-pink-500/40 border border-pink-400/50 hover:border-amber-300 text-white font-fredoka font-semibold text-sm sm:text-base backdrop-blur-xl shadow-[0_0_30px_rgba(255,77,141,0.35)] hover:shadow-[0_0_45px_rgba(255,217,61,0.5)] transition-all duration-300 hover:scale-105 active:scale-95"
+          >
+            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#FF4D8D] to-[#FFD93D] flex items-center justify-center text-white shadow-lg group-hover:rotate-12 transition-transform">
+              <Play className="w-4 h-4 fill-white ml-0.5" />
+            </div>
+            <span>Watch Official Teaser Trailer 🎬✨</span>
+            <span className="text-[10px] font-space px-2 py-0.5 rounded-full bg-pink-500/30 border border-pink-400/40 text-pink-200 uppercase tracking-wider">
+              Sneak Peek
+            </span>
+          </button>
+          <p className="text-xs font-quicksand text-pink-200/70">
+            A glimpse into the celebration realm ahead of March 6
+          </p>
+        </motion.div>
+
         {/* Local Dev Simulator Button */}
         {import.meta.env.DEV && (
           <div className="mt-4 sm:mt-6">
@@ -110,6 +136,13 @@ export const CountdownPage: React.FC<CountdownPageProps> = ({ onUnlockBirthday }
 
       {/* Dedicated Credits Footer */}
       <SiteFooter dark />
+
+      {/* Cinematic Teaser Trailer Modal */}
+      <TeaserTrailerModal
+        isOpen={showTeaser}
+        onClose={() => setShowTeaser(false)}
+        videoSrc="/assets/intro/montage.mp4"
+      />
 
       {/* Midnight Reveal Transition Overlay */}
       {triggerMidnight && (

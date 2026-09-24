@@ -1,141 +1,79 @@
 -- =========================================================================
--- SHREE'S 22ND BIRTHDAY SUPABASE DATABASE SCHEMA
--- Execute this script in your Supabase project's SQL Editor
+-- Supabase Schema for Shree 4.0 Birthday Celebration
+-- Run this script in your Supabase SQL Editor (Dashboard -> SQL Editor -> New Query)
 -- =========================================================================
 
--- Enable UUID extension
-create extension if not exists "uuid-ossp";
-
--- =========================================================================
--- 1. FAN WISHES TABLE (Public submissions from fans worldwide)
--- =========================================================================
-create table if not exists public.fan_wishes (
-  id uuid primary key default gen_random_uuid(),
-  name text not null,
-  message text not null,
-  city text,
-  emoji text default '🌸',
-  likes integer default 0,
-  created_at timestamptz default now()
+-- 1. Create table for Fan Wishes
+CREATE TABLE IF NOT EXISTS public.fan_wishes (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    name TEXT NOT NULL,
+    message TEXT NOT NULL,
+    city TEXT DEFAULT '',
+    emoji TEXT DEFAULT '🌸',
+    likes INTEGER DEFAULT 0,
+    created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
--- RLS: Allow anyone to read and insert fan wishes
-alter table public.fan_wishes enable row level security;
+-- Enable Row Level Security (RLS)
+ALTER TABLE public.fan_wishes ENABLE ROW LEVEL SECURITY;
 
-create policy "Allow public read on fan_wishes"
-  on public.fan_wishes for select
-  using (true);
+-- Allow public read access
+CREATE POLICY "Allow public read access on fan_wishes" 
+    ON public.fan_wishes FOR SELECT 
+    USING (true);
 
-create policy "Allow public insert on fan_wishes"
-  on public.fan_wishes for insert
-  with check (true);
+-- Allow public insert access
+CREATE POLICY "Allow public insert access on fan_wishes" 
+    ON public.fan_wishes FOR INSERT 
+    WITH CHECK (true);
 
-create policy "Allow public update likes on fan_wishes"
-  on public.fan_wishes for update
-  using (true);
-
--- Enable Realtime for fan_wishes
-alter publication supabase_realtime add table public.fan_wishes;
-
-
--- =========================================================================
--- 2. SACRED OFFERINGS TABLE (Floating Diyas & Lotuses)
--- =========================================================================
-create table if not exists public.sacred_offerings (
-  id uuid primary key default gen_random_uuid(),
-  name text not null,
-  type text not null check (type in ('diya', 'lotus')),
-  blessing text not null,
-  x_pos float default 50.0,
-  y_pos float default 50.0,
-  created_at timestamptz default now()
+-- 2. Create table for Floating Diya & Lotus Sacred Offerings
+CREATE TABLE IF NOT EXISTS public.sacred_offerings (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    name TEXT NOT NULL,
+    type TEXT NOT NULL DEFAULT 'diya',
+    blessing TEXT NOT NULL,
+    x DOUBLE PRECISION DEFAULT 0.5,
+    y DOUBLE PRECISION DEFAULT 0.5,
+    speed_x DOUBLE PRECISION DEFAULT 0.01,
+    speed_y DOUBLE PRECISION DEFAULT -0.01,
+    rotation DOUBLE PRECISION DEFAULT 0,
+    size DOUBLE PRECISION DEFAULT 50,
+    created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
-alter table public.sacred_offerings enable row level security;
+ALTER TABLE public.sacred_offerings ENABLE ROW LEVEL SECURITY;
 
-create policy "Allow public read on sacred_offerings"
-  on public.sacred_offerings for select
-  using (true);
+CREATE POLICY "Allow public read access on sacred_offerings" 
+    ON public.sacred_offerings FOR SELECT 
+    USING (true);
 
-create policy "Allow public insert on sacred_offerings"
-  on public.sacred_offerings for insert
-  with check (true);
+CREATE POLICY "Allow public insert access on sacred_offerings" 
+    ON public.sacred_offerings FOR INSERT 
+    WITH CHECK (true);
 
-alter publication supabase_realtime add table public.sacred_offerings;
-
-
--- =========================================================================
--- 3. ARCADE LEADERBOARD TABLE (Top Stardust Catch Scores)
--- =========================================================================
-create table if not exists public.arcade_leaderboard (
-  id uuid primary key default gen_random_uuid(),
-  name text not null,
-  score integer not null,
-  rank text not null,
-  avatar text default '🐱',
-  city text,
-  created_at timestamptz default now()
+-- 3. Create table for Arcade Mini-Game Leaderboard
+CREATE TABLE IF NOT EXISTS public.leaderboard (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    name TEXT NOT NULL,
+    score INTEGER NOT NULL,
+    rank TEXT DEFAULT 'Star Adventurer',
+    avatar TEXT DEFAULT '🐱',
+    city TEXT DEFAULT '',
+    created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
-alter table public.arcade_leaderboard enable row level security;
+ALTER TABLE public.leaderboard ENABLE ROW LEVEL SECURITY;
 
-create policy "Allow public read on arcade_leaderboard"
-  on public.arcade_leaderboard for select
-  using (true);
+CREATE POLICY "Allow public read access on leaderboard" 
+    ON public.leaderboard FOR SELECT 
+    USING (true);
 
-create policy "Allow public insert on arcade_leaderboard"
-  on public.arcade_leaderboard for insert
-  with check (true);
+CREATE POLICY "Allow public insert access on leaderboard" 
+    ON public.leaderboard FOR INSERT 
+    WITH CHECK (true);
 
-alter publication supabase_realtime add table public.arcade_leaderboard;
-
-
--- =========================================================================
--- 4. GLOBAL COUNTERS TABLE (Kitty Headpats, Offerings, Views)
--- =========================================================================
-create table if not exists public.global_counters (
-  key text primary key,
-  value bigint default 0,
-  updated_at timestamptz default now()
-);
-
-alter table public.global_counters enable row level security;
-
-create policy "Allow public read on global_counters"
-  on public.global_counters for select
-  using (true);
-
-create policy "Allow public update on global_counters"
-  on public.global_counters for update
-  using (true);
-
-create policy "Allow public insert on global_counters"
-  on public.global_counters for insert
-  with check (true);
-
--- Seed initial global counters
-insert into public.global_counters (key, value)
-values 
-  ('cat_headpats', 12480),
-  ('diyas_lit', 4820),
-  ('total_visits', 15400)
-on conflict (key) do nothing;
-
--- =========================================================================
--- 5. INITIAL SEED DATA FOR FAN WISHES & LEADERBOARD
--- =========================================================================
-insert into public.fan_wishes (name, city, message, emoji, likes)
-values
-  ('Aanya Sharma', 'Mumbai', 'Happy 22nd Birthday Shree! You are the sweetest and most genuine creator. Keep shining always! 🎂🌸', '🌸', 42),
-  ('Rohan Verma', 'Delhi', 'Wishing you the happiest birthday! May Mahadev bless you with boundless health and joy! 🪷', '🪷', 38),
-  ('Sneha & Kitties', 'Bangalore', 'Happy Birthday to our favorite cat lover! Sending purrs, hugs, and endless happiness! 🐱🐾', '🐱', 55),
-  ('Pooja K.', 'Hyderabad', 'The kindest soul on the internet! Have the most magical year ahead 💖', '💖', 29)
-on conflict do nothing;
-
-insert into public.arcade_leaderboard (name, score, rank, avatar, city)
-values
-  ('Riya (Bestie)', 5850, 'SSS 👑', '🐱', 'Delhi'),
-  ('Ananya V.', 4920, 'SSS 👑', '🌸', 'Mumbai'),
-  ('Rohan (Kitties)', 4410, 'SS 🪷', '🐾', 'Bengaluru'),
-  ('Pooja K.', 3890, 'SS 🪷', '💖', 'Hyderabad')
-on conflict do nothing;
+-- Index creation for ultra-fast sorting
+CREATE INDEX IF NOT EXISTS idx_fan_wishes_created ON public.fan_wishes (created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_offerings_created ON public.sacred_offerings (created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_leaderboard_score ON public.leaderboard (score DESC);
