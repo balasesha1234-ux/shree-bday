@@ -14,6 +14,8 @@ import { MobileLetterOpen } from './screens/MobileLetterOpen';
 import { MobileBrotherLetterbox } from './screens/MobileBrotherLetterbox';
 import { MobileElevenEleven } from './screens/MobileElevenEleven';
 import { MobileTabletOverview } from './screens/MobileTabletOverview';
+import { MobileDeveloperLetter } from './screens/MobileDeveloperLetter';
+import { MobileCandleBlowout } from './screens/MobileCandleBlowout';
 import { MobileTab } from './shared/MobileBottomNav';
 
 export type ScreenId =
@@ -30,6 +32,8 @@ export type ScreenId =
   | 'letter-open'
   | 'brother-letterbox'
   | 'eleven-eleven'
+  | 'developer-letter'
+  | 'candle'
   | 'overview';
 
 interface MobileAppProps {
@@ -142,6 +146,14 @@ export const MobileApp: React.FC<MobileAppProps> = ({
 
       {currentScreen === 'eleven-eleven' && (
         <MobileElevenEleven onBack={() => navigateTo('private-home')} />
+      )}
+
+      {currentScreen === 'developer-letter' && (
+        <MobileDeveloperLetter onBack={() => navigateTo('home')} />
+      )}
+
+      {currentScreen === 'candle' && (
+        <MobileCandleBlowout onBack={() => navigateTo('home')} />
       )}
 
       {currentScreen === 'overview' && (

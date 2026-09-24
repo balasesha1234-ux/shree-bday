@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Home, Music, Image, Sparkles, Heart, BookOpen, Lock } from 'lucide-react';
+import { X, Home, Music, Image, Sparkles, Heart, BookOpen, Lock, Flame, Laptop, Play, ExternalLink } from 'lucide-react';
 
 interface MobileDrawerMenuProps {
   isOpen: boolean;
@@ -14,13 +14,14 @@ export const MobileDrawerMenu: React.FC<MobileDrawerMenuProps> = ({
   onSelectScreen
 }) => {
   const menuItems = [
-    { id: 'home', label: 'Home', subtitle: 'The World', icon: Home, color: 'text-[#FF4D8D]' },
-    { id: 'music', label: 'Music', subtitle: 'Her Voice', icon: Music, color: 'text-amber-500' },
-    { id: 'memories', label: 'Memories', subtitle: 'Moments', icon: Image, color: 'text-rose-500' },
-    { id: 'faith', label: 'Faith', subtitle: 'Krishna', icon: Sparkles, color: 'text-amber-400' },
-    { id: 'wishes', label: 'Wishes', subtitle: 'From Everyone', icon: Heart, color: 'text-pink-500' },
-    { id: 'letter-open', label: 'Letter', subtitle: 'A Personal Note', icon: BookOpen, color: 'text-purple-500' },
-    { id: 'private-home', label: 'Private', subtitle: 'Just for Shree', icon: Lock, color: 'text-[#D4A84B]', highlight: true },
+    { id: 'home', label: 'Home', subtitle: 'Celebration Realm', icon: Home, color: 'text-[#FF4D8D]' },
+    { id: 'music', label: 'Music & Spotify', subtitle: 'Her Voice & Spotify Hub', icon: Music, color: 'text-[#1DB954]' },
+    { id: 'candle', label: 'Blow Candles', subtitle: 'Make a Silent Wish 🎂', icon: Flame, color: 'text-amber-500' },
+    { id: 'wishes', label: 'Friend & Fan Wishes', subtitle: 'Balloons & Messages 🎈', icon: Heart, color: 'text-pink-500' },
+    { id: 'memories', label: 'Memories Gallery', subtitle: 'Cherished Moments 📷', icon: Image, color: 'text-rose-500' },
+    { id: 'faith', label: 'Faith & Diyas', subtitle: 'Light a Diya for Shree 🪷', icon: Sparkles, color: 'text-amber-400' },
+    { id: 'developer-letter', label: "Developer's Letter", subtitle: 'Karthik 💻🛡️ & Contacts', icon: Laptop, color: 'text-[#D4A84B]' },
+    { id: 'private-home', label: 'Private Sanctuary', subtitle: 'Inner Circle Only 🔐', icon: Lock, color: 'text-[#D4A84B]', highlight: true },
   ];
 
   return (
@@ -92,12 +93,24 @@ export const MobileDrawerMenu: React.FC<MobileDrawerMenuProps> = ({
               </div>
             </div>
 
-            {/* Footer Quote from Screen 05 */}
-            <div className="pt-4 border-t border-pink-200/70 text-center">
+            {/* Footer with Teaser Link & Quote */}
+            <div className="pt-3 border-t border-pink-200/70 text-center space-y-2">
+              <a
+                href="https://www.instagram.com/karthiikk.exe/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-rose-500/10 border border-pink-300/60 text-[#D82E6E] font-fredoka text-xs font-semibold hover:bg-pink-100/80 transition-all shadow-xs"
+              >
+                <span>🎬 Birthday Teaser</span>
+                <span className="text-[10px] text-gray-500 font-mono">@karthiikk.exe ↗</span>
+              </a>
               <p className="font-caveat text-sm text-gray-600 italic">
                 "A kinder tomorrow is still possible."
               </p>
-              <div className="text-pink-400 text-lg mt-1">🌸</div>
+              <div className="text-pink-400 text-xs flex items-center justify-center gap-1">
+                <span>🌸</span>
+                <span className="text-[10px] font-fredoka text-gray-400">Crafted with infinite love</span>
+              </div>
             </div>
           </motion.div>
         </div>

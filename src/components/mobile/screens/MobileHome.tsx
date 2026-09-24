@@ -53,7 +53,7 @@ export const MobileHome: React.FC<MobileHomeProps> = ({
       </div>
 
       {/* Center Visual Space: Calligraphic Devotion Music Faith Emblem */}
-      <div className="relative z-10 px-6 my-auto text-center flex flex-col items-center">
+      <div className="relative z-10 px-6 my-auto text-center flex flex-col items-center gap-3">
         <motion.div
           animate={{ scale: [1, 1.04, 1] }}
           transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
@@ -67,6 +67,24 @@ export const MobileHome: React.FC<MobileHomeProps> = ({
             A World of Grace & Radiance
           </span>
         </motion.div>
+
+        {/* Quick Launch Action Pills */}
+        <div className="flex flex-wrap items-center justify-center gap-2 max-w-xs">
+          <button
+            onClick={() => onNavigateScreen('candle')}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-500/20 border border-amber-300/40 text-amber-200 text-xs font-fredoka backdrop-blur-md hover:bg-amber-500/35 transition-all cursor-pointer shadow-sm active:scale-95"
+          >
+            <Flame className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
+            <span>Blow Candles 🎂</span>
+          </button>
+
+          <button
+            onClick={() => onNavigateScreen('developer-letter')}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-pink-500/20 border border-pink-300/40 text-pink-200 text-xs font-fredoka backdrop-blur-md hover:bg-pink-500/35 transition-all cursor-pointer shadow-sm active:scale-95"
+          >
+            <span>💻 Letter & Contacts</span>
+          </button>
+        </div>
       </div>
 
       {/* 5 Circular Frosted Action Icons matching Screen 04 */}
