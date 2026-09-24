@@ -17,7 +17,7 @@ export const FriendWishWall: React.FC = () => {
   };
 
   return (
-    <section className="w-full max-w-5xl mx-auto px-4 py-20">
+    <section id="friend-wish-wall" className="w-full max-w-5xl mx-auto px-4 py-20">
       <div className="text-center max-w-xl mx-auto mb-14">
         <span className="text-xs font-fredoka uppercase tracking-widest text-[#FF4D8D] font-bold">
           CHAPTER 04 // CLOSE CIRCLE
@@ -31,7 +31,7 @@ export const FriendWishWall: React.FC = () => {
       </div>
 
       {/* Floating Balloons */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+      <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8 max-w-4xl mx-auto">
         {FRIEND_WISHES_DATA.map((item, idx) => {
           const isPopped = poppedIds.has(item.id);
 
@@ -43,7 +43,7 @@ export const FriendWishWall: React.FC = () => {
               whileHover={{ scale: 1.08 }}
               whileTap={{ scale: 0.92 }}
               onClick={(e) => handlePop(item, e)}
-              className="cursor-pointer flex flex-col items-center text-center p-4"
+              className="cursor-pointer flex flex-col items-center text-center p-3 sm:p-4"
             >
               <div
                 className={`w-20 h-24 sm:w-24 sm:h-28 rounded-full ${item.balloonColor} text-white flex flex-col items-center justify-center shadow-lg border-2 border-white relative overflow-hidden p-2`}
@@ -52,13 +52,16 @@ export const FriendWishWall: React.FC = () => {
                   <img
                     src={item.avatarImg}
                     alt={item.name}
+                    style={{ objectPosition: item.avatarPosition || 'center' }}
                     className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover border-2 border-white/90 shadow-md"
                   />
                 ) : (
-                  <span className="text-2xl">{item.avatarEmoji}</span>
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/25 backdrop-blur-sm border-2 border-white/90 flex items-center justify-center shadow-md">
+                    <span className="text-xl sm:text-2xl">{item.avatarEmoji}</span>
+                  </div>
                 )}
-                <span className="text-xs font-fredoka font-bold mt-1 max-w-[70px] truncate text-center">
-                  {item.name}
+                <span className="text-[11px] sm:text-xs font-fredoka font-bold mt-1.5 max-w-[82px] truncate text-center text-white drop-shadow-sm">
+                  {item.shortName || item.name}
                 </span>
 
                 {/* Balloon string */}
@@ -99,11 +102,14 @@ export const FriendWishWall: React.FC = () => {
                   <img
                     src={selectedWish.avatarImg}
                     alt={selectedWish.name}
+                    style={{ objectPosition: selectedWish.avatarPosition || 'center' }}
                     className="w-full h-full object-cover"
                   />
                 </div>
               ) : (
-                <span className="text-5xl">{selectedWish.avatarEmoji}</span>
+                <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-[#FFD93D] via-[#D4A84B] to-amber-600 text-white flex items-center justify-center text-4xl border-4 border-amber-200 shadow-lg mb-2">
+                  <span>{selectedWish.avatarEmoji}</span>
+                </div>
               )}
 
               <h3 className="text-2xl font-fredoka font-bold text-gray-800 mt-2">
