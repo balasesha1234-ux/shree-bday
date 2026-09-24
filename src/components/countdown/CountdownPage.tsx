@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, Play, Film } from 'lucide-react';
+import { Sparkles, Play, Film, ExternalLink } from 'lucide-react';
 import { useCountdown } from '../../hooks/useCountdown';
 import { CountdownTimer } from './CountdownTimer';
 import { LokiGlitchAge } from '../shared/GlitchAge';
@@ -12,6 +12,8 @@ import { DeepSpaceVoyage } from './DeepSpaceVoyage';
 import { CosmicStardustFloating } from './CosmicStardustFloating';
 import { SiteFooter } from '../shared/SiteFooter';
 import { TeaserTrailerModal } from './TeaserTrailerModal';
+import { soundEngine } from '../../utils/soundEffects';
+import { triggerCustomConfetti } from '../shared/Confetti';
 
 interface CountdownPageProps {
   onUnlockBirthday: () => void;
@@ -91,21 +93,36 @@ export const CountdownPage: React.FC<CountdownPageProps> = ({ onUnlockBirthday }
           transition={{ duration: 0.8, delay: 1.6 }}
           className="mt-7 sm:mt-9 flex flex-col items-center gap-2.5"
         >
-          <button
-            onClick={() => setShowTeaser(true)}
+          <a
+            href="https://www.instagram.com/karthiikk.exe/"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => {
+              soundEngine.playSparkle(1.5);
+              triggerCustomConfetti(e.clientX, e.clientY);
+            }}
             className="group relative inline-flex items-center gap-3 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-gradient-to-r from-pink-500/25 via-amber-400/25 to-pink-500/25 hover:from-pink-500/40 hover:via-amber-400/40 hover:to-pink-500/40 border border-pink-400/50 hover:border-amber-300 text-white font-fredoka font-semibold text-sm sm:text-base backdrop-blur-xl shadow-[0_0_30px_rgba(255,77,141,0.35)] hover:shadow-[0_0_45px_rgba(255,217,61,0.5)] transition-all duration-300 hover:scale-105 active:scale-95"
           >
             <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#FF4D8D] to-[#FFD93D] flex items-center justify-center text-white shadow-lg group-hover:rotate-12 transition-transform">
               <Play className="w-4 h-4 fill-white ml-0.5" />
             </div>
-            <span>Watch Official Teaser Trailer 🎬✨</span>
-            <span className="text-[10px] font-space px-2 py-0.5 rounded-full bg-pink-500/30 border border-pink-400/40 text-pink-200 uppercase tracking-wider">
-              Sneak Peek
+            <span>Watch Official Teaser on Instagram 🎬✨</span>
+            <span className="text-[11px] font-space px-2.5 py-0.5 rounded-full bg-pink-500/30 border border-pink-400/40 text-pink-200 uppercase tracking-wider flex items-center gap-1 font-bold">
+              <span>@karthiikk.exe</span>
+              <ExternalLink className="w-3.5 h-3.5 text-pink-200" />
             </span>
-          </button>
-          <p className="text-xs font-quicksand text-pink-200/70">
-            A glimpse into the celebration realm ahead of March 6
-          </p>
+          </a>
+          <div className="flex items-center gap-3 text-xs font-quicksand text-pink-200/70">
+            <span>Official sneak peek trailer ahead of March 6</span>
+            <span>•</span>
+            <button
+              onClick={() => setShowTeaser(true)}
+              className="text-[#FFD93D] hover:underline flex items-center gap-1 font-semibold"
+            >
+              <span>Preview on Web</span>
+              <Film className="w-3 h-3 text-[#FFD93D]" />
+            </button>
+          </div>
         </motion.div>
 
         {/* Local Dev Simulator Button */}

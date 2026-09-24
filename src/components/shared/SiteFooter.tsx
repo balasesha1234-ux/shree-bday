@@ -1,5 +1,6 @@
 import React from 'react';
-import { Heart, Sparkles } from 'lucide-react';
+import { Heart, Sparkles, Instagram, Linkedin } from 'lucide-react';
+import { DEVELOPER_CONTACTS } from '../../data/developerContacts';
 
 interface SiteFooterProps {
   dark?: boolean;
@@ -38,6 +39,40 @@ export const SiteFooter: React.FC<SiteFooterProps> = ({ dark = false }) => {
           <span>
             Assets by <strong className={`font-bold ${dark ? 'text-white' : 'text-gray-900'}`}>Arun</strong>
           </span>
+        </div>
+
+        {/* Developer's Contacts */}
+        <div className="pt-1 flex flex-wrap items-center justify-center gap-2.5 text-xs font-space">
+          <span className={`text-[11px] font-bold uppercase tracking-wider ${dark ? 'text-gray-400' : 'text-gray-500'}`}>
+            Developer's Contacts:
+          </span>
+          <a
+            href={DEVELOPER_CONTACTS.instagram.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border transition-all hover:scale-105 active:scale-95 ${
+              dark
+                ? 'bg-white/5 border-pink-400/30 text-pink-300 hover:bg-pink-500/20'
+                : 'bg-white border-pink-200 text-[#FF4D8D] hover:bg-pink-50 shadow-xs'
+            }`}
+          >
+            <Instagram className="w-3.5 h-3.5" />
+            <span className="font-semibold">{DEVELOPER_CONTACTS.instagram.handle}</span>
+          </a>
+
+          <a
+            href={DEVELOPER_CONTACTS.linkedin.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border transition-all hover:scale-105 active:scale-95 ${
+              dark
+                ? 'bg-white/5 border-blue-400/30 text-blue-300 hover:bg-blue-500/20'
+                : 'bg-white border-blue-200 text-[#0077B5] hover:bg-blue-50 shadow-xs'
+            }`}
+          >
+            <Linkedin className="w-3.5 h-3.5" />
+            <span className="font-semibold">{DEVELOPER_CONTACTS.linkedin.name}</span>
+          </a>
         </div>
 
         {/* Special Thanks Line */}

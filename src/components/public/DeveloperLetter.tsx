@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Code2, Sparkles, Heart, Terminal, Send, Crown, Shield, Laptop, ChevronDown, Check, Layers, Cpu } from 'lucide-react';
+import { Code2, Sparkles, Heart, Terminal, Send, Crown, Shield, Laptop, ChevronDown, Check, Layers, Cpu, Instagram, Linkedin } from 'lucide-react';
 import { soundEngine } from '../../utils/soundEffects';
 import { triggerCustomConfetti } from '../shared/Confetti';
+import { DEVELOPER_CONTACTS } from '../../data/developerContacts';
 
 export const DeveloperLetter: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState<boolean>(true);
@@ -195,6 +196,55 @@ export const DeveloperLetter: React.FC = () => {
                 </span>
               </div>
             </motion.button>
+          </div>
+        </div>
+
+        {/* Developer's Contacts Section */}
+        <div className="mt-8 p-6 sm:p-7 rounded-2xl bg-gradient-to-r from-amber-50/70 via-pink-50/50 to-amber-50/70 border border-[#D4A84B]/30 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="flex items-center gap-3.5">
+            <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-[#D4A84B] to-amber-600 text-white flex items-center justify-center shadow-md border border-white">
+              <Laptop className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-space uppercase tracking-widest text-[#B88728] font-bold">
+                  DEVELOPER'S CONTACTS
+                </span>
+                <span className="text-[10px] font-space px-2 py-0.5 rounded-full bg-amber-200/60 text-amber-900 font-semibold">
+                  OFFICIAL
+                </span>
+              </div>
+              <p className="font-fredoka text-base font-bold text-gray-900 mt-0.5 flex items-center gap-1.5">
+                <span>{DEVELOPER_CONTACTS.name}</span>
+                <Shield className="w-3.5 h-3.5 text-blue-600 fill-blue-100" />
+              </p>
+              <p className="text-[11px] font-quicksand text-gray-600 max-w-sm">
+                {DEVELOPER_CONTACTS.headline} • {DEVELOPER_CONTACTS.location}
+              </p>
+            </div>
+          </div>
+
+          {/* Social Badges */}
+          <div className="flex items-center gap-2.5 flex-wrap">
+            <a
+              href={DEVELOPER_CONTACTS.instagram.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#F77737] text-white text-xs font-space font-bold shadow-sm hover:shadow-md hover:scale-105 active:scale-95 transition-all"
+            >
+              <Instagram className="w-4 h-4" />
+              <span>{DEVELOPER_CONTACTS.instagram.handle}</span>
+            </a>
+
+            <a
+              href={DEVELOPER_CONTACTS.linkedin.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#0077B5] text-white text-xs font-space font-bold shadow-sm hover:shadow-md hover:scale-105 active:scale-95 transition-all"
+            >
+              <Linkedin className="w-4 h-4" />
+              <span>{DEVELOPER_CONTACTS.linkedin.name}</span>
+            </a>
           </div>
         </div>
 
