@@ -8,7 +8,7 @@ interface KarthikVoiceNoteProps {
 }
 
 export const KarthikVoiceNote: React.FC<KarthikVoiceNoteProps> = ({
-  audioSrc = '/assets/audio/karthik_voice_note.mp3'
+  audioSrc = '/assets/audio/karthik_voice_note.wav'
 }) => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [currentTime, setCurrentTime] = useState<number>(0);
@@ -51,9 +51,12 @@ export const KarthikVoiceNote: React.FC<KarthikVoiceNoteProps> = ({
     };
 
     const handleError = () => {
-      // If default karthik_voice_note.mp3 is not placed yet, fallback gracefully to sacred flute
-      if (audioUrl === '/assets/audio/karthik_voice_note.mp3') {
-        console.info('Custom voice note not found in /assets/audio/karthik_voice_note.mp3, standing by for upload.');
+      // If default .wav is not found, automatically try .mp3
+      if (audioUrl === '/assets/audio/karthik_voice_note.wav') {
+        console.info('karthik_voice_note.wav not found, trying .mp3 fallback...');
+        setAudioUrl('/assets/audio/karthik_voice_note.mp3');
+      } else {
+        console.info('Voice note standing by for audio placement or upload.');
       }
     };
 
