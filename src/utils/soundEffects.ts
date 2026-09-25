@@ -50,6 +50,19 @@ class SoundEngine {
     return this.volume;
   }
 
+  // Smoothly duck background music during voice notes or video playback
+  public duckBgm(duck: boolean): void {
+    const targetVolume = duck ? this.volume * 0.15 : this.volume;
+    if (this.currentAudioElement) {
+      this.currentAudioElement.volume = targetVolume;
+    }
+    if (this.bgmGain && this.ctx) {
+      try {
+        this.bgmGain.gain.setValueAtTime(targetVolume * 0.25, this.ctx.currentTime);
+      } catch (_) {}
+    }
+  }
+
   // 1. Crisp Glass Raindrop Tap (Punchy & Audible)
   public playTap() {
     try {

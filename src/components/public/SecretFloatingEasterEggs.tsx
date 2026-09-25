@@ -92,6 +92,11 @@ export const SecretFloatingEasterEggs: React.FC<SecretFloatingEasterEggsProps> =
             <motion.div
               whileHover={{ scale: 1.35, rotate: 12 }}
               whileTap={{ scale: 0.75 }}
+              onMouseEnter={() => {
+                if (sticker.isSecretTarget === 'cat') soundEngine.playMeow();
+                else if (sticker.isSecretTarget === 'star') soundEngine.playSparkle(1.3);
+                else if (sticker.isSecretTarget === 'heart') soundEngine.playSparkle(1.6);
+              }}
               onClick={(e) => handleStickerClick(sticker, e)}
               className="relative text-2xl sm:text-3.5xl filter opacity-80 hover:opacity-100 transition-opacity p-2 select-none"
               style={{

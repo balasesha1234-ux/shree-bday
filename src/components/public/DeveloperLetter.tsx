@@ -173,29 +173,40 @@ export const DeveloperLetter: React.FC = () => {
             </div>
 
             {/* Interactive Royal Sibling Wax Seal */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleStamp}
-              className={`flex items-center gap-2.5 px-4 py-2 rounded-2xl border-2 transition-all ${
-                hasStamped
-                  ? 'bg-emerald-50 border-emerald-300 text-emerald-800 shadow-sm'
-                  : 'bg-gradient-to-r from-amber-50 to-pink-50 border-[#D4A84B] text-gray-800 hover:shadow-md'
-              }`}
-              title="Click to stamp royal seal"
-            >
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#D4A84B] to-amber-600 text-white flex items-center justify-center text-xs font-bold shadow-md">
-                {hasStamped ? <Check className="w-4 h-4 text-white" /> : 'K♡S'}
-              </div>
-              <div className="text-left">
-                <span className="text-[10px] font-space font-bold uppercase tracking-wider text-[#D4A84B] block leading-none">
-                  {hasStamped ? 'SEAL VERIFIED' : 'STAMP SIBLING SEAL'}
-                </span>
-                <span className="text-xs font-fredoka font-bold text-gray-900">
-                  {hasStamped ? 'Blessed by Karthik ✨' : 'Click to Bless 🪷'}
-                </span>
-              </div>
-            </motion.button>
+            <div className="flex flex-col items-start sm:items-end gap-1.5">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleStamp}
+                className={`flex items-center gap-2.5 px-4 py-2 rounded-2xl border-2 transition-all cursor-pointer ${
+                  hasStamped
+                    ? 'bg-emerald-50 border-emerald-300 text-emerald-800 shadow-sm'
+                    : 'bg-gradient-to-r from-amber-50 to-pink-50 border-[#D4A84B] text-gray-800 hover:shadow-md'
+                }`}
+                title="Click to stamp royal seal"
+              >
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#D4A84B] to-amber-600 text-white flex items-center justify-center text-xs font-bold shadow-md">
+                  {hasStamped ? <Check className="w-4 h-4 text-white" /> : 'K♡S'}
+                </div>
+                <div className="text-left">
+                  <span className="text-[10px] font-space font-bold uppercase tracking-wider text-[#D4A84B] block leading-none">
+                    {hasStamped ? 'SEAL VERIFIED' : 'STAMP SIBLING SEAL'}
+                  </span>
+                  <span className="text-xs font-fredoka font-bold text-gray-900">
+                    {hasStamped ? 'Blessed by Karthik ✨' : 'Click to Bless 🪷'}
+                  </span>
+                </div>
+              </motion.button>
+              {hasStamped && (
+                <motion.p
+                  initial={{ opacity: 0, y: 5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-[10px] font-space text-[#D4A84B] italic"
+                >
+                  "Karthik & Shree: Eternal bond protected by Krishna's grace 🪷"
+                </motion.p>
+              )}
+            </div>
           </div>
         </div>
 

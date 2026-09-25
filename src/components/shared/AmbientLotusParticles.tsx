@@ -72,6 +72,42 @@ export const AmbientLotusParticles: React.FC = () => {
     resize();
     window.addEventListener('resize', resize);
 
+    // Interactive Cursor Stardust Sparkle Trail
+    interface CursorSparkle {
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      size: number;
+      opacity: number;
+      color: string;
+    }
+    const cursorSparkles: CursorSparkle[] = [];
+    const sparklePalette = ['#FFD700', '#FF4D8D', '#FFF', '#FFD1DC'];
+
+    const onPointerMove = (e: MouseEvent | TouchEvent) => {
+      const clientX = 'touches' in e ? e.touches[0]?.clientX : (e as MouseEvent).clientX;
+      const clientY = 'touches' in e ? e.touches[0]?.clientY : (e as MouseEvent).clientY;
+      if (clientX === undefined || clientY === undefined) return;
+
+      // Add 2 subtle sparkler particles
+      for (let i = 0; i < 2; i++) {
+        cursorSparkles.push({
+          x: clientX + (Math.random() - 0.5) * 8,
+          y: clientY + (Math.random() - 0.5) * 8,
+          vx: (Math.random() - 0.5) * 1.2,
+          vy: Math.random() * -1.2 - 0.3,
+          size: Math.random() * 3.5 + 2,
+          opacity: 0.85,
+          color: sparklePalette[Math.floor(Math.random() * sparklePalette.length)]
+        });
+      }
+      if (cursorSparkles.length > 50) cursorSparkles.shift();
+    };
+
+    window.addEventListener('mousemove', onPointerMove, { passive: true });
+    window.addEventListener('touchmove', onPointerMove, { passive: true });
+
     const initParticles = (rain: SacredRainType) => {
       const count = Math.min(26, Math.floor(window.innerWidth / 38));
       particlesRef.current = Array.from({ length: count }, () => {
@@ -209,6 +245,28 @@ export const AmbientLotusParticles: React.FC = () => {
         ctx.restore();
       }
 
+      // Render Interactive Cursor Stardust Trail
+      for (let i = cursorSparkles.length - 1; i >= 0; i--) {
+        const s = cursorSparkles[i];
+        s.x += s.vx;
+        s.y += s.vy;
+        s.opacity -= 0.028;
+        if (s.opacity <= 0) {
+          cursorSparkles.splice(i, 1);
+          continue;
+        }
+
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, s.opacity);
+        ctx.fillStyle = s.color;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = s.color;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+
       animationFrameId = requestAnimationFrame(render);
     };
 
@@ -216,6 +274,8 @@ export const AmbientLotusParticles: React.FC = () => {
 
     return () => {
       window.removeEventListener('resize', resize);
+      window.removeEventListener('mousemove', onPointerMove);
+      window.removeEventListener('touchmove', onPointerMove);
       window.removeEventListener('celestial-theme-change', handleThemeChange);
       cancelAnimationFrame(animationFrameId);
     };
