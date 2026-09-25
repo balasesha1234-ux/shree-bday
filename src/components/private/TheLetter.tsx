@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Sparkles, Shield, Heart, CheckCircle2 } from 'lucide-react';
 import { soundEngine } from '../../utils/soundEffects';
 import { triggerCustomConfetti } from '../shared/Confetti';
+import { KarthikVoiceNote } from './KarthikVoiceNote';
 
 export const TheLetter: React.FC = () => {
   const [sealStamped, setSealStamped] = useState(false);
@@ -95,7 +96,7 @@ export const TheLetter: React.FC = () => {
           </p>
 
           <p>
-            I still remember around my birthday, July 16th, 2026. When I look back at that day, everything feels so strangely canonical, almost like I was meant to meet you.
+            I still remember around my birthday, July 16th, 2024. When I look back at that day, everything feels so strangely canonical, almost like I was meant to meet you.
           </p>
 
           <p>
@@ -184,12 +185,19 @@ export const TheLetter: React.FC = () => {
           </p>
 
           <p>
-            Not because a website is somehow more meaningful than words. But because I had too many words, too many memories, too much gratitude, and too many things I wanted you to know to fit into one tiny birthday message.
+            Looking back now across these three years — from July 2024 to today — so much has happened, and so much has changed. The confusion, the emotional battles, the way I saw life back then, and how Vardhanji and the Bhagavad Gita slowly helped me mature and see clearly. Those three years shaped who I am, and through all of it, our connection grew into this sacred, unbreakable sisterly bond that I thank Krishna for every day.
+          </p>
+
+          <p>
+            And about five or six months ago, I made a quiet promise to myself. I told myself that a casual birthday text, an Instagram story, or a generic gift was never going to be enough. I fought for months to build this website. Night after night, sitting in front of my screen until the early hours of the morning, writing thousands of lines of code, solving bugs at 3 AM, and building every single little piece — the Vrindavan dawn, the flute melodies, the candle blowout, your Spotify stotrams, the memory lane — because you deserved something that took real sacrifice, real time, and real devotion.
           </p>
 
           <p className="font-bold text-[#FF4D8D]">
-            So I made a place where I could put them all. A small piece of my world, made specifically for you.
+            Not because a website is somehow more meaningful than words. But because I had too many words, too many memories, too much gratitude, and too many things I wanted you to know to fit into one tiny birthday message. So I made an entire universe where I could put them all — a permanent sanctuary made specifically for you.
           </p>
+
+          {/* Dedicated Intimate Voice Note Player */}
+          <KarthikVoiceNote />
 
           <p>
             Thank you for being a part of my life, Shree.

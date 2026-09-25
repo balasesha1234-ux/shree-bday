@@ -7,7 +7,7 @@ interface UseTapSequenceProps {
   resetTimeoutMs?: number;
 }
 
-export function useTapSequence({ onUnlock, resetTimeoutMs = 6000 }: UseTapSequenceProps) {
+export function useTapSequence({ onUnlock, resetTimeoutMs = 45000 }: UseTapSequenceProps) {
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [lastTapped, setLastTapped] = useState<TapTarget | null>(null);
   const [isUnlocked, setIsUnlocked] = useState<boolean>(false);

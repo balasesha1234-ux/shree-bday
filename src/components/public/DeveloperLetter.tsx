@@ -76,7 +76,7 @@ export const DeveloperLetter: React.FC = () => {
                 </span>
               </h3>
               <p className="text-xs font-space text-gray-500 mt-0.5">
-                Handcrafted with React, TypeScript & Devotion • March 6, 2027
+                Handcrafted across 6 months with React, TypeScript & Devotion • March 6, 2027
               </p>
             </div>
           </div>
@@ -124,7 +124,7 @@ export const DeveloperLetter: React.FC = () => {
                 <p>• <span className="text-gray-400">Motion & 3D:</span> Framer Motion + CSS 3D Tilt + Lenis Smooth Scroll</p>
                 <p>• <span className="text-gray-400">Audio Engine:</span> Web Audio API synthesized flute harmonics & multi-track controller</p>
                 <p>• <span className="text-gray-400">Security Architecture:</span> PrivateSecurityShield (Anti-capture, anti-drag, watermarked sanctuary)</p>
-                <p>• <span className="text-gray-400">Lines of Code:</span> Hand-crafted thousands of lines with pride and love</p>
+                <p>• <span className="text-gray-400">Development Span:</span> 6 months of late-night coding // 10,000+ handwritten lines with devotion</p>
               </div>
             </motion.div>
           )}
