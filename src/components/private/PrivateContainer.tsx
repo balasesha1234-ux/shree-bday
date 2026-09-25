@@ -12,6 +12,7 @@ import { InnerCircleBlessings } from './InnerCircleBlessings';
 import { FriendWishWall } from './FriendWishWall';
 import { SisterCertificate } from './SisterCertificate';
 import { TheLetter } from './TheLetter';
+import { ShreeVoiceReply } from './ShreeVoiceReply';
 import { ShootingStars } from '../shared/ShootingStars';
 import { PrivateFinale } from './PrivateFinale';
 import { PrivateSecurityShield } from './PrivateSecurityShield';
@@ -45,6 +46,9 @@ export const PrivateContainer: React.FC<PrivateContainerProps> = ({ onReplay }) 
         <FriendWishWall />
         <SisterCertificate />
         <TheLetter />
+        <div className="relative w-full max-w-4xl mx-auto px-4">
+          <ShreeVoiceReply />
+        </div>
         <PrivateFinale onReplay={onReplay} />
       </div>
     </PrivateSecurityShield>

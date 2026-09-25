@@ -315,3 +315,83 @@ export async function submitScore(entry: Omit<LeaderboardEntry, 'id' | 'created_
 
 export const getArcadeLeaderboard = getLeaderboard;
 export const submitArcadeScore = submitScore;
+
+// =========================================================================
+// 4. SHREE VOICE REPLY API
+// =========================================================================
+
+export interface ShreeVoiceNote {
+  id: string;
+  audio_data: string; // Base64 or Blob URL
+  duration: number;
+  created_at: string;
+  sender_name?: string;
+  note_message?: string;
+}
+
+export async function saveShreeVoiceNote(voiceNote: Omit<ShreeVoiceNote, 'id' | 'created_at'>): Promise<ShreeVoiceNote> {
+  const newNote: ShreeVoiceNote = {
+    id: String(Date.now()),
+    audio_data: voiceNote.audio_data,
+    duration: voiceNote.duration,
+    sender_name: voiceNote.sender_name || 'Shree',
+    note_message: voiceNote.note_message || '',
+    created_at: new Date().toISOString()
+  };
+
+  // Always save to localStorage immediately for instant local resilience
+  try {
+    localStorage.setItem('shree_voice_reply_saved', JSON.stringify(newNote));
+  } catch (e) {
+    console.warn('LocalStorage save error:', e);
+  }
+
+  // Attempt to save to Supabase if table exists
+  if (supabase) {
+    try {
+      const { data, error } = await supabase
+        .from('shree_voice_notes')
+        .insert([{
+          audio_data: newNote.audio_data,
+          duration: newNote.duration,
+          sender_name: newNote.sender_name,
+          note_message: newNote.note_message
+        }])
+        .select()
+        .single();
+
+      if (!error && data) {
+        return data;
+      }
+    } catch (_) {}
+  }
+
+  return newNote;
+}
+
+export async function getLatestShreeVoiceNote(): Promise<ShreeVoiceNote | null> {
+  if (supabase) {
+    try {
+      const { data, error } = await supabase
+        .from('shree_voice_notes')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single();
+
+      if (!error && data) {
+        return data;
+      }
+    } catch (_) {}
+  }
+
+  try {
+    const local = localStorage.getItem('shree_voice_reply_saved');
+    if (local) {
+      return JSON.parse(local);
+    }
+  } catch (_) {}
+
+  return null;
+}
+
