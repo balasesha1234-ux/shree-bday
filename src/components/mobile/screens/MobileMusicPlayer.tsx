@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MobileTopBar } from '../shared/MobileTopBar';
-import { ChevronLeft, Heart, Play, Pause, SkipBack, SkipForward, ExternalLink, Sparkles, Disc, Radio } from 'lucide-react';
+import { ChevronLeft, Heart, Play, Pause, SkipBack, SkipForward, ExternalLink, Sparkles, Disc, Radio, Shuffle, Repeat, Repeat1 } from 'lucide-react';
 import { MOBILE_TRACKS, MobileTrack } from '../../../data/mobileExperienceData';
 import { soundEngine } from '../../../utils/soundEffects';
 
@@ -15,6 +15,8 @@ export const MobileMusicPlayer: React.FC<MobileMusicPlayerProps> = ({ onBack }) 
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(30);
   const [isLiked, setIsLiked] = useState(true);
+  const [isShuffle, setIsShuffle] = useState(false);
+  const [repeatMode, setRepeatMode] = useState<'off' | 'all' | 'one'>('all');
 
   const track = MOBILE_TRACKS[currentTrackIndex];
   const SPOTIFY_ARTIST_URL = 'https://open.spotify.com/artist/3LjhIPXyU2IECCPJ0SZj8C';
@@ -24,9 +26,28 @@ export const MobileMusicPlayer: React.FC<MobileMusicPlayerProps> = ({ onBack }) 
     setIsPlaying(!isPlaying);
   };
 
+  const cycleRepeatMode = () => {
+    soundEngine.playTap();
+    setRepeatMode((prev) => {
+      if (prev === 'off') return 'all';
+      if (prev === 'all') return 'one';
+      return 'off';
+    });
+  };
+
+  const toggleShuffle = () => {
+    soundEngine.playTap();
+    setIsShuffle(!isShuffle);
+  };
+
   const handleNext = () => {
     soundEngine.playTap();
-    setCurrentTrackIndex((prev) => (prev + 1) % MOBILE_TRACKS.length);
+    if (isShuffle) {
+      const nextIdx = Math.floor(Math.random() * MOBILE_TRACKS.length);
+      setCurrentTrackIndex(nextIdx);
+    } else {
+      setCurrentTrackIndex((prev) => (prev + 1) % MOBILE_TRACKS.length);
+    }
     setProgress(0);
   };
 
@@ -40,11 +61,29 @@ export const MobileMusicPlayer: React.FC<MobileMusicPlayerProps> = ({ onBack }) 
     let interval: NodeJS.Timeout;
     if (isPlaying && viewMode === 'vinyl') {
       interval = setInterval(() => {
-        setProgress((p) => (p >= 100 ? 0 : p + 1));
+        setProgress((p) => {
+          if (p >= 100) {
+            if (repeatMode === 'one') {
+              return 0;
+            } else if (repeatMode === 'all') {
+              handleNext();
+              return 0;
+            } else {
+              if (currentTrackIndex < MOBILE_TRACKS.length - 1) {
+                handleNext();
+                return 0;
+              } else {
+                setIsPlaying(false);
+                return 100;
+              }
+            }
+          }
+          return p + 1;
+        });
       }, 1000);
     }
     return () => clearInterval(interval);
-  }, [isPlaying, viewMode]);
+  }, [isPlaying, viewMode, repeatMode, currentTrackIndex, isShuffle]);
 
   return (
     <div className="relative w-full h-full min-h-[720px] bg-[#0c140e] text-white flex flex-col justify-between overflow-hidden select-none">
@@ -176,9 +215,23 @@ export const MobileMusicPlayer: React.FC<MobileMusicPlayerProps> = ({ onBack }) 
             </div>
 
             {/* Playback Controls */}
-            <div className="flex items-center gap-6 mt-3">
-              <button onClick={handlePrev} className="text-gray-300 hover:text-white transition-colors">
-                <SkipBack className="w-5 h-5" />
+            <div className="flex items-center justify-between w-full max-w-xs mt-3 px-2">
+              {/* Shuffle */}
+              <button
+                onClick={toggleShuffle}
+                className={`relative p-2 rounded-full transition-all ${
+                  isShuffle ? 'text-[#1DB954]' : 'text-gray-400 hover:text-white'
+                }`}
+                title={isShuffle ? 'Disable Shuffle' : 'Enable Shuffle'}
+              >
+                <Shuffle className="w-4 h-4" />
+                {isShuffle && (
+                  <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#1DB954]" />
+                )}
+              </button>
+
+              <button onClick={handlePrev} className="text-gray-300 hover:text-white transition-colors p-2">
+                <SkipBack className="w-5 h-5 fill-current" />
               </button>
 
               <button
@@ -188,8 +241,22 @@ export const MobileMusicPlayer: React.FC<MobileMusicPlayerProps> = ({ onBack }) 
                 {isPlaying ? <Pause className="w-6 h-6 fill-current" /> : <Play className="w-6 h-6 fill-current ml-0.5" />}
               </button>
 
-              <button onClick={handleNext} className="text-gray-300 hover:text-white transition-colors">
-                <SkipForward className="w-5 h-5" />
+              <button onClick={handleNext} className="text-gray-300 hover:text-white transition-colors p-2">
+                <SkipForward className="w-5 h-5 fill-current" />
+              </button>
+
+              {/* Repeat */}
+              <button
+                onClick={cycleRepeatMode}
+                className={`relative p-2 rounded-full transition-all ${
+                  repeatMode !== 'off' ? 'text-[#1DB954]' : 'text-gray-400 hover:text-white'
+                }`}
+                title={`Repeat: ${repeatMode.toUpperCase()}`}
+              >
+                {repeatMode === 'one' ? <Repeat1 className="w-4 h-4" /> : <Repeat className="w-4 h-4" />}
+                {repeatMode !== 'off' && (
+                  <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#1DB954]" />
+                )}
               </button>
             </div>
           </div>
