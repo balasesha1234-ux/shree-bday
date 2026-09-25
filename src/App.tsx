@@ -81,12 +81,16 @@ export function App() {
     appMode === 'countdown' ? 'countdown' : appMode === 'private' ? 'devotional' : 'party'
   );
 
-  // Secret Tap Unlock Engine (Cat -> Star -> Heart)
+  // Secret Tap Unlock Engine (Cat -> Star -> 3s Hold on Heart)
   const {
     currentStep,
     isUnlocked: isTapUnlocked,
     handleTap,
     resetSequence,
+    isHoldingHeart,
+    heartHoldProgress,
+    startHeartHold,
+    cancelHeartHold
   } = useTapSequence({
     onUnlock: () => {
       playEffect('sparkle', 1.5);
@@ -197,7 +201,14 @@ export function App() {
             <PublicFinale />
 
             {/* Secret Easter Egg Bubbles scattered across scroll depths */}
-            <SecretFloatingEasterEggs onTapTarget={handleTapTarget} />
+            <SecretFloatingEasterEggs
+              onTapTarget={handleTapTarget}
+              isHoldingHeart={isHoldingHeart}
+              heartHoldProgress={heartHoldProgress}
+              onHeartHoldStart={startHeartHold}
+              onHeartHoldEnd={cancelHeartHold}
+              currentStep={currentStep}
+            />
           </main>
         )}
 

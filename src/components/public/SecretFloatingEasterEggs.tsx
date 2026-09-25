@@ -6,6 +6,11 @@ import { soundEngine } from '../../utils/soundEffects';
 
 interface SecretFloatingEasterEggsProps {
   onTapTarget: (target: TapTarget, event: React.MouseEvent) => void;
+  isHoldingHeart?: boolean;
+  heartHoldProgress?: number;
+  onHeartHoldStart?: () => void;
+  onHeartHoldEnd?: () => void;
+  currentStep?: number;
 }
 
 interface FloatingSticker {
@@ -45,7 +50,14 @@ const ALL_FLOATING_STICKERS: FloatingSticker[] = [
   { id: 'decoy-12', emoji: '💫', topPct: 97, leftPct: 6, floatDuration: 6.1, delay: 1.0, glowColor: 'rgba(255,217,61,0.5)' }
 ];
 
-export const SecretFloatingEasterEggs: React.FC<SecretFloatingEasterEggsProps> = ({ onTapTarget }) => {
+export const SecretFloatingEasterEggs: React.FC<SecretFloatingEasterEggsProps> = ({
+  onTapTarget,
+  isHoldingHeart = false,
+  heartHoldProgress = 0,
+  onHeartHoldStart,
+  onHeartHoldEnd,
+  currentStep = 0
+}) => {
   const handleStickerClick = (sticker: FloatingSticker, event: React.MouseEvent) => {
     if (sticker.isSecretTarget === 'cat') {
       soundEngine.playMeow();
@@ -73,6 +85,8 @@ export const SecretFloatingEasterEggs: React.FC<SecretFloatingEasterEggsProps> =
         if (sticker.leftPct !== undefined) style.left = `${sticker.leftPct}%`;
         if (sticker.rightPct !== undefined) style.right = `${sticker.rightPct}%`;
 
+        const isHeart = sticker.isSecretTarget === 'heart';
+
         return (
           <motion.div
             key={sticker.id}
@@ -97,12 +111,42 @@ export const SecretFloatingEasterEggs: React.FC<SecretFloatingEasterEggsProps> =
                 else if (sticker.isSecretTarget === 'star') soundEngine.playSparkle(1.3);
                 else if (sticker.isSecretTarget === 'heart') soundEngine.playSparkle(1.6);
               }}
+              onPointerDown={isHeart ? onHeartHoldStart : undefined}
+              onPointerUp={isHeart ? onHeartHoldEnd : undefined}
+              onPointerLeave={isHeart ? onHeartHoldEnd : undefined}
+              onPointerCancel={isHeart ? onHeartHoldEnd : undefined}
               onClick={(e) => handleStickerClick(sticker, e)}
-              className="relative text-2xl sm:text-3.5xl filter opacity-80 hover:opacity-100 transition-opacity p-2 select-none"
+              className="relative text-2xl sm:text-3.5xl filter opacity-80 hover:opacity-100 transition-opacity p-2 select-none flex items-center justify-center"
               style={{
                 filter: `drop-shadow(0 4px 12px ${sticker.glowColor})`
               }}
             >
+              {/* Circular charging ring around Heart when held down during Step 2 */}
+              {isHeart && isHoldingHeart && currentStep === 2 && (
+                <svg className="absolute -inset-1 w-11 h-11 -rotate-90 pointer-events-none z-20">
+                  <circle
+                    cx="22"
+                    cy="22"
+                    r="17"
+                    fill="none"
+                    stroke="rgba(255, 217, 61, 0.3)"
+                    strokeWidth="3"
+                  />
+                  <circle
+                    cx="22"
+                    cy="22"
+                    r="17"
+                    fill="none"
+                    stroke="#FFD93D"
+                    strokeWidth="3"
+                    strokeDasharray={2 * Math.PI * 17}
+                    strokeDashoffset={2 * Math.PI * 17 * (1 - (heartHoldProgress || 0) / 100)}
+                    strokeLinecap="round"
+                    className="transition-all duration-75"
+                  />
+                </svg>
+              )}
+
               <span className="block hover:animate-bounce">{sticker.emoji}</span>
               <span className="absolute -top-1 -right-1 text-[10px] opacity-0 hover:opacity-100 transition-opacity">✨</span>
             </motion.div>

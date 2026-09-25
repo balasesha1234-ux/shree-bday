@@ -8,12 +8,21 @@ interface MobileDrawerMenuProps {
   onSelectScreen: (screenId: string) => void;
 }
 
+interface DrawerMenuItem {
+  id: string;
+  label: string;
+  subtitle: string;
+  icon: any;
+  color: string;
+  highlight?: boolean;
+}
+
 export const MobileDrawerMenu: React.FC<MobileDrawerMenuProps> = ({
   isOpen,
   onClose,
   onSelectScreen
 }) => {
-  const menuItems = [
+  const menuItems: DrawerMenuItem[] = [
     { id: 'home', label: 'Home', subtitle: 'Celebration Realm', icon: Home, color: 'text-[#FF4D8D]' },
     { id: 'music', label: 'Music & Spotify', subtitle: 'Her Voice & Spotify Hub', icon: Music, color: 'text-[#1DB954]' },
     { id: 'candle', label: 'Blow Candles', subtitle: 'Make a Silent Wish 🎂', icon: Flame, color: 'text-amber-500' },
@@ -21,7 +30,7 @@ export const MobileDrawerMenu: React.FC<MobileDrawerMenuProps> = ({
     { id: 'memories', label: 'Memories Gallery', subtitle: 'Cherished Moments 📷', icon: Image, color: 'text-rose-500' },
     { id: 'faith', label: 'Faith & Diyas', subtitle: 'Light a Diya for Shree 🪷', icon: Sparkles, color: 'text-amber-400' },
     { id: 'developer-letter', label: "Developer's Letter", subtitle: 'Karthik 💻🛡️ & Contacts', icon: Laptop, color: 'text-[#D4A84B]' },
-    { id: 'private-home', label: 'Private Sanctuary', subtitle: 'Inner Circle Only 🔐', icon: Lock, color: 'text-[#D4A84B]', highlight: true },
+    { id: 'letter-lock', label: "A Letter to You", subtitle: 'Sealed Envelope 💌', icon: Lock, color: 'text-[#D4A84B]' },
   ];
 
   return (

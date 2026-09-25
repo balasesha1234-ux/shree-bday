@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { MobileTopBar } from '../shared/MobileTopBar';
 import { ChevronLeft, Lock, Sparkles, CheckCircle2 } from 'lucide-react';
@@ -11,30 +11,123 @@ interface MobileLetterLockProps {
 }
 
 export const MobileLetterLock: React.FC<MobileLetterLockProps> = ({ onBack, onEnterPrivate }) => {
-  // Secret sequence: 0 = awaiting Cat (🐱), 1 = awaiting Star (⭐), 2 = awaiting Heart (💖), 3 = Unlocked!
+  // Secret sequence: 0 = awaiting Cat (🐱), 1 = awaiting Star (⭐), 2 = awaiting 3s Hold on Heart (💖), 3 = Unlocked!
   const [tapStep, setTapStep] = useState(0);
+  const [isHolding, setIsHolding] = useState(false);
+  const [holdProgress, setHoldProgress] = useState(0);
   const [showPortal, setShowPortal] = useState(false);
 
-  const handleTapSecretCharm = (charm: 'cat' | 'star' | 'heart') => {
-    if (tapStep === 0 && charm === 'cat') {
-      soundEngine.playSparkle(1.2);
-      setTapStep(1);
-    } else if (tapStep === 1 && charm === 'star') {
+  const holdIntervalRef = useRef<number | null>(null);
+  const holdStartTimeRef = useRef<number | null>(null);
+  const inactivityTimerRef = useRef<number | null>(null);
+
+  // Clear timers on unmount
+  useEffect(() => {
+    return () => {
+      if (holdIntervalRef.current) clearInterval(holdIntervalRef.current);
+      if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
+    };
+  }, []);
+
+  const resetInactivityTimer = () => {
+    if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
+    inactivityTimerRef.current = window.setTimeout(() => {
+      setTapStep(0);
+      setIsHolding(false);
+      setHoldProgress(0);
+    }, 15000);
+  };
+
+  const handleTapCat = () => {
+    soundEngine.playSparkle(1.2);
+    setTapStep(1);
+    resetInactivityTimer();
+  };
+
+  const handleTapStar = () => {
+    if (tapStep === 1) {
       soundEngine.playSparkle(1.5);
       setTapStep(2);
-    } else if (tapStep === 2 && charm === 'heart') {
-      soundEngine.playSparkle(1.8);
-      soundEngine.playTempleBell();
-      triggerCustomConfetti();
-      setTapStep(3);
-      setShowPortal(true);
-      setTimeout(() => {
-        onEnterPrivate();
-      }, 1500);
+      resetInactivityTimer();
     } else {
-      // Wrong sequence tap -> gentle reset
       soundEngine.playPop();
       setTapStep(0);
+    }
+  };
+
+  // Pointer down on Heart / Lock seal
+  const handleHeartPointerDown = (e: React.PointerEvent) => {
+    e.preventDefault();
+    if (tapStep !== 2) return;
+
+    setIsHolding(true);
+    setHoldProgress(0);
+    holdStartTimeRef.current = Date.now();
+
+    const HOLD_DURATION_MS = 3000;
+
+    if (holdIntervalRef.current) clearInterval(holdIntervalRef.current);
+
+    holdIntervalRef.current = window.setInterval(() => {
+      if (!holdStartTimeRef.current) return;
+      const elapsed = Date.now() - holdStartTimeRef.current;
+      const progress = Math.min(100, (elapsed / HOLD_DURATION_MS) * 100);
+      setHoldProgress(progress);
+
+      // Light haptic tick every second
+      if (elapsed >= 1000 && elapsed < 1050) {
+        if ('vibrate' in navigator) {
+          try { navigator.vibrate(30); } catch (_) {}
+        }
+      }
+      if (elapsed >= 2000 && elapsed < 2050) {
+        if ('vibrate' in navigator) {
+          try { navigator.vibrate(40); } catch (_) {}
+        }
+      }
+
+      if (elapsed >= HOLD_DURATION_MS) {
+        if (holdIntervalRef.current) clearInterval(holdIntervalRef.current);
+        holdIntervalRef.current = null;
+        setIsHolding(false);
+        setHoldProgress(100);
+        setTapStep(3);
+
+        soundEngine.playSparkle(2.0);
+        soundEngine.playTempleBell();
+        triggerCustomConfetti();
+
+        if ('vibrate' in navigator) {
+          try { navigator.vibrate([100, 50, 200]); } catch (_) {}
+        }
+
+        setShowPortal(true);
+        setTimeout(() => {
+          onEnterPrivate();
+        }, 1500);
+      }
+    }, 25);
+  };
+
+  // Pointer released or canceled
+  const handleHeartPointerUp = (e: React.PointerEvent) => {
+    e.preventDefault();
+
+    if (holdIntervalRef.current) {
+      clearInterval(holdIntervalRef.current);
+      holdIntervalRef.current = null;
+    }
+
+    if (isHolding && holdProgress < 100) {
+      // Released before 3 seconds -> Innocent decoy reaction!
+      soundEngine.playPop();
+      triggerCustomConfetti(e.clientX, e.clientY);
+      setIsHolding(false);
+      setHoldProgress(0);
+    } else if (!isHolding && tapStep !== 2) {
+      // Ordinary click without sequence -> cute decoy
+      soundEngine.playPop();
+      triggerCustomConfetti(e.clientX, e.clientY);
     }
   };
 
@@ -66,7 +159,7 @@ export const MobileLetterLock: React.FC<MobileLetterLockProps> = ({ onBack, onEn
         >
           {/* Top Stamp with SECRET CHARM 1: 🐱 CAT (Hidden in plain sight) */}
           <button
-            onClick={() => handleTapSecretCharm('cat')}
+            onClick={handleTapCat}
             className={`absolute -top-3 -left-3 w-10 h-10 rounded-2xl bg-white shadow-md border border-pink-200 flex items-center justify-center text-lg hover:scale-110 active:scale-95 transition-all cursor-pointer ${
               tapStep >= 1 ? 'border-amber-400 bg-amber-50 shadow-[0_0_10px_rgba(245,158,11,0.5)]' : ''
             }`}
@@ -77,7 +170,7 @@ export const MobileLetterLock: React.FC<MobileLetterLockProps> = ({ onBack, onEn
 
           {/* Top Right Stamp with SECRET CHARM 2: ⭐ STAR (Hidden in plain sight) */}
           <button
-            onClick={() => handleTapSecretCharm('star')}
+            onClick={handleTapStar}
             className={`absolute -top-3 -right-3 w-10 h-10 rounded-2xl bg-white shadow-md border border-pink-200 flex items-center justify-center text-lg hover:scale-110 active:scale-95 transition-all cursor-pointer ${
               tapStep >= 2 ? 'border-amber-400 bg-amber-50 shadow-[0_0_10px_rgba(245,158,11,0.5)]' : ''
             }`}
@@ -86,22 +179,54 @@ export const MobileLetterLock: React.FC<MobileLetterLockProps> = ({ onBack, onEn
             ⭐
           </button>
 
-          {/* Golden Seal with Lock & SECRET CHARM 3: 💖 HEART */}
-          <div className="relative mb-3">
+          {/* Golden Seal with Lock & 3-SECOND HOLD */}
+          <div className="relative mb-3 flex items-center justify-center">
+            {/* Circular Progress Ring when Holding */}
+            {isHolding && tapStep === 2 && (
+              <svg className="absolute -inset-2 w-[72px] h-[72px] -rotate-90 pointer-events-none z-20">
+                <circle
+                  cx="36"
+                  cy="36"
+                  r="30"
+                  fill="none"
+                  stroke="rgba(255, 217, 61, 0.3)"
+                  strokeWidth="4"
+                />
+                <circle
+                  cx="36"
+                  cy="36"
+                  r="30"
+                  fill="none"
+                  stroke="#FFD93D"
+                  strokeWidth="4"
+                  strokeDasharray={2 * Math.PI * 30}
+                  strokeDashoffset={2 * Math.PI * 30 * (1 - holdProgress / 100)}
+                  strokeLinecap="round"
+                  className="transition-all duration-75"
+                />
+              </svg>
+            )}
+
             <button
-              onClick={() => handleTapSecretCharm('heart')}
-              className={`w-14 h-14 rounded-full bg-gradient-to-br from-[#FFD93D] to-[#D4A84B] text-[#3D2040] flex items-center justify-center shadow-lg border-2 border-white transition-all cursor-pointer hover:scale-105 active:scale-95 ${
-                tapStep === 3 ? 'scale-110 shadow-[0_0_20px_rgba(255,77,141,0.8)]' : ''
-              }`}
+              onPointerDown={handleHeartPointerDown}
+              onPointerUp={handleHeartPointerUp}
+              onPointerLeave={handleHeartPointerUp}
+              onPointerCancel={handleHeartPointerUp}
+              className={`relative z-10 w-14 h-14 rounded-full bg-gradient-to-br from-[#FFD93D] to-[#D4A84B] text-[#3D2040] flex items-center justify-center shadow-lg border-2 border-white transition-all cursor-pointer select-none ${
+                isHolding ? 'scale-105 shadow-[0_0_25px_rgba(255,217,61,0.9)]' : 'hover:scale-105 active:scale-95'
+              } ${tapStep === 3 ? 'scale-110 shadow-[0_0_20px_rgba(255,77,141,0.8)]' : ''}`}
               title="Wax Seal"
             >
-              <Lock className="w-6 h-6" />
+              <Lock className={`w-6 h-6 transition-transform ${isHolding ? 'scale-110 text-amber-900' : ''}`} />
             </button>
 
             {/* Hidden subtle heart badge */}
             <button
-              onClick={() => handleTapSecretCharm('heart')}
-              className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-pink-100 border border-pink-300 flex items-center justify-center text-xs hover:scale-125 transition-transform"
+              onPointerDown={handleHeartPointerDown}
+              onPointerUp={handleHeartPointerUp}
+              onPointerLeave={handleHeartPointerUp}
+              onPointerCancel={handleHeartPointerUp}
+              className="absolute -bottom-1 -right-1 z-20 w-6 h-6 rounded-full bg-pink-100 border border-pink-300 flex items-center justify-center text-xs hover:scale-125 transition-transform cursor-pointer select-none"
             >
               💖
             </button>
@@ -115,9 +240,9 @@ export const MobileLetterLock: React.FC<MobileLetterLockProps> = ({ onBack, onEn
             "To the world, she is a talented creator and kind singer. But to someone special, she is the world itself. Some memories are sealed only for her eyes."
           </p>
 
-          {/* Hint regarding the secret scattered charms */}
-          <div className="mt-4 pt-3 border-t border-pink-100/80 w-full flex items-center justify-center gap-1.5 text-[11px] font-space text-[#FF4D8D]">
-            <span>{tapStep === 0 ? '🐾 A secret bond unlocks this seal...' : tapStep === 1 ? '✨ Follow the star in the sky...' : tapStep === 2 ? '💖 Seal with brotherly heart...' : '🌸 Sanctuary Unlocked!'}</span>
+          {/* Innocent, respectful subtitle with NO giveaway spoilers */}
+          <div className="mt-4 pt-3 border-t border-pink-100/80 w-full flex items-center justify-center gap-1.5 text-[11px] font-space text-gray-400">
+            <span>A handwritten token of gratitude • March 2026 🪷</span>
           </div>
         </motion.div>
       </div>
