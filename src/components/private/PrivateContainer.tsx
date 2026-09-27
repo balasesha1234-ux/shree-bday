@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { PrivateIntro } from './PrivateIntro';
 import { DistanceTracker } from './DistanceTracker';
 import { SiblingCodex } from './SiblingCodex';
@@ -22,6 +22,32 @@ interface PrivateContainerProps {
 }
 
 export const PrivateContainer: React.FC<PrivateContainerProps> = ({ onReplay }) => {
+  useEffect(() => {
+    // Instantly reset scroll to top on entering the private sanctuary
+    const resetScroll = () => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+      if ((window as any).lenis) {
+        try {
+          (window as any).lenis.scrollTo(0, { immediate: true, force: true });
+          (window as any).lenis.resize();
+        } catch (_) {}
+      }
+    };
+
+    resetScroll();
+    const frameId = requestAnimationFrame(resetScroll);
+    const t1 = setTimeout(resetScroll, 50);
+    const t2 = setTimeout(resetScroll, 200);
+
+    return () => {
+      cancelAnimationFrame(frameId);
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, []);
+
   const scrollToChapterOne = () => {
     window.scrollTo({
       top: window.innerHeight * 0.9,

@@ -15,14 +15,35 @@ export const TapSequenceOverlay: React.FC<TapSequenceOverlayProps> = ({ isUnlock
       soundEngine.playTempleBell();
       triggerCustomConfetti();
 
+      const resetScrollToTop = () => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+        if ((window as any).lenis) {
+          try {
+            (window as any).lenis.scrollTo(0, { immediate: true, force: true });
+            (window as any).lenis.resize();
+          } catch (_) {}
+        }
+      };
+
+      // Reset scroll position midway while curtains are fully closed (1200ms)
+      const curtainMidpoint = setTimeout(() => {
+        resetScrollToTop();
+      }, 1200);
+
       // Automatically transition to private realm after 2.4 seconds
       const timer = setTimeout(() => {
+        resetScrollToTop();
         if (onComplete) {
           onComplete();
         }
       }, 2400);
 
-      return () => clearTimeout(timer);
+      return () => {
+        clearTimeout(curtainMidpoint);
+        clearTimeout(timer);
+      };
     }
   }, [isUnlocked, onComplete]);
 

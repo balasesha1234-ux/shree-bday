@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { isBirthdayActive, AppMode } from './utils/dateCheck';
 import { useLenis } from './hooks/useLenis';
 import { useTapSequence } from './hooks/useTapSequence';
@@ -59,8 +59,43 @@ export function App() {
     setAppMode(mode);
     if (typeof window !== 'undefined') {
       localStorage.setItem('shree_preview_app_mode', mode);
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+      if ((window as any).lenis) {
+        try {
+          (window as any).lenis.scrollTo(0, { immediate: true, force: true });
+          (window as any).lenis.resize();
+        } catch (_) {}
+      }
     }
   };
+
+  // Reset scroll whenever switching realms
+  useEffect(() => {
+    const resetScroll = () => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+      if ((window as any).lenis) {
+        try {
+          (window as any).lenis.scrollTo(0, { immediate: true, force: true });
+          (window as any).lenis.resize();
+        } catch (_) {}
+      }
+    };
+
+    resetScroll();
+    const frameId = requestAnimationFrame(resetScroll);
+    const t1 = setTimeout(resetScroll, 60);
+    const t2 = setTimeout(resetScroll, 200);
+
+    return () => {
+      cancelAnimationFrame(frameId);
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, [appMode]);
 
   // Preview Switcher is strictly enabled only during local npm run dev
   const showPreviewToolbar = import.meta.env.DEV;
@@ -233,7 +268,22 @@ export function App() {
         <ConfettiEffect />
 
         {/* Cinematic Golden Lotus Portal Transition Overlay */}
-        <TapSequenceOverlay isUnlocked={isTapUnlocked} onComplete={() => { setAppMode("private"); resetSequence(); }} />
+        <TapSequenceOverlay
+          isUnlocked={isTapUnlocked}
+          onComplete={() => {
+            window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+            if ((window as any).lenis) {
+              try {
+                (window as any).lenis.scrollTo(0, { immediate: true, force: true });
+                (window as any).lenis.resize();
+              } catch (_) {}
+            }
+            setAppMode("private");
+            resetSequence();
+          }}
+        />
       </div>
 
       {/* ========================================================================= */}
