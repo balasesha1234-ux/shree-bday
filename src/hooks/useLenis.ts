@@ -36,14 +36,14 @@ export function useLenis(enabled: boolean = true) {
       return;
     }
 
-    // Ice-glide physics configuration
+    // Balanced, responsive physics configuration
     const lenis = new Lenis({
-      lerp: 0.065, // Responsive yet silky velvet tracking
+      lerp: 0.08, // Crisp and responsive tracking
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1.15, // Light, effortless flick response
-      touchMultiplier: 1.2,
+      wheelMultiplier: 1.0, // Natural 1:1 wheel distance
+      touchMultiplier: 1.0,
       autoResize: true,
       infinite: false,
     });
@@ -51,11 +51,10 @@ export function useLenis(enabled: boolean = true) {
     (window as any).lenis = lenis;
 
     // =========================================================================
-    // KINETIC ICE-GLIDE INERTIA & MOMENTUM CONSERVATION ENGINE
+    // CALIBRATED MOMENTUM COASTING ENGINE (GENTLE & CONTROLLED)
     // =========================================================================
-    // When the user scrolls, momentum accumulates based on flick velocity.
-    // When they stop scrolling, the conserved kinetic momentum is released
-    // smoothly across the ice, coasting forward before coming to a soft rest.
+    // Adds a pleasant, subtle forward glide that releases conserved momentum
+    // without sliding excessively or feeling out of control.
     let momentum = 0;
     let lastWheelTime = 0;
     let lastTickTime = performance.now();
@@ -75,15 +74,14 @@ export function useLenis(enabled: boolean = true) {
         momentum = 0;
       }
 
-      // Dynamic velocity multiplier: fast flicks generate high kinetic momentum,
-      // while slow deliberate nudges produce gentle, short coasting.
-      const speedFactor = Math.min(2.6, Math.max(0.7, 100 / interval));
-      const impulse = delta * 0.28 * speedFactor;
+      // Mild velocity multiplier: gives a modest forward coast without over-gliding
+      const speedFactor = Math.min(1.4, Math.max(0.6, 90 / interval));
+      const impulse = delta * 0.10 * speedFactor;
 
       momentum += impulse;
 
-      // Limit max momentum to prevent extreme overshoot
-      const MAX_MOMENTUM = 220;
+      // Tight cap on max momentum so it never sails too far
+      const MAX_MOMENTUM = 65;
       momentum = Math.max(-MAX_MOMENTUM, Math.min(MAX_MOMENTUM, momentum));
     };
 
@@ -103,9 +101,9 @@ export function useLenis(enabled: boolean = true) {
       lastRafTime = time;
 
       // When the user stops turning the wheel (> 35ms since last impulse),
-      // release conserved kinetic momentum like gliding on ice
+      // release a gentle, modest amount of conserved momentum
       const timeSinceWheel = time - lastWheelTime;
-      if (timeSinceWheel > 35 && Math.abs(momentum) > 0.35) {
+      if (timeSinceWheel > 35 && Math.abs(momentum) > 0.4) {
         // Prevent pushing past page bounds
         const isAtTop = lenis.scroll <= 0 && momentum < 0;
         const isAtBottom = lenis.scroll >= lenis.limit && momentum > 0;
@@ -116,13 +114,13 @@ export function useLenis(enabled: boolean = true) {
           const step = momentum * (dt / 16.67);
           lenis.scrollTo(lenis.targetScroll + step, {
             immediate: false,
-            lerp: 0.05 // Silky smooth damping curve during the coast
+            lerp: 0.08 // Clean, responsive damping
           });
 
-          // Ice friction decay (0.938 per 16.67ms gives that frictionless gliding feel)
-          momentum *= Math.pow(0.938, dt / 16.67);
+          // Moderated friction decay (0.88 per 16.67ms settles within ~300-400ms)
+          momentum *= Math.pow(0.88, dt / 16.67);
         }
-      } else if (timeSinceWheel > 35 && Math.abs(momentum) <= 0.35) {
+      } else if (timeSinceWheel > 35 && Math.abs(momentum) <= 0.4) {
         momentum = 0;
       }
 
