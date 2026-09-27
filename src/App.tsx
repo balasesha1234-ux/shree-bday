@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { isBirthdayActive, AppMode } from './utils/dateCheck';
-import { useLenis } from './hooks/useLenis';
+import { useLenis, smoothScrollTo } from './hooks/useLenis';
 import { useTapSequence } from './hooks/useTapSequence';
 import { useAudio } from './hooks/useAudio';
 
@@ -139,14 +139,11 @@ export function App() {
   };
 
   const handleWishWallScroll = () => {
-    const wall = document.getElementById('wish-wall');
-    if (wall) {
-      wall.scrollIntoView({ behavior: 'smooth' });
-    }
+    smoothScrollTo('wish-wall', 1.4);
   };
 
   const handleReplay = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    smoothScrollTo(0, 1.5);
   };
 
   if (isLocalHost && experienceMode === 'mobile_app') {

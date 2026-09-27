@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Play, RotateCcw, Trophy, Sparkles } from 'lucide-react';
 import { soundEngine } from '../../utils/soundEffects';
 import { triggerCustomConfetti } from './Confetti';
+import { smoothScrollTo } from '../../hooks/useLenis';
 import { LeaderboardEntry, INITIAL_LEADERBOARD, getArcadeLeaderboard, submitArcadeScore, supabase } from '../../utils/supabaseClient';
 
 interface FallingItem {
@@ -489,8 +490,7 @@ export const BirthdayMiniGame: React.FC = () => {
 
                     <button
                       onClick={() => {
-                        const wishWall = document.getElementById('wish-wall');
-                        if (wishWall) wishWall.scrollIntoView({ behavior: 'smooth' });
+                        smoothScrollTo('wish-wall', 1.4);
                       }}
                       className="w-full py-2.5 rounded-full bg-white/15 hover:bg-white/25 border border-pink-300/40 text-pink-200 hover:text-white font-fredoka font-semibold text-xs transition-all flex items-center justify-center gap-1.5"
                     >

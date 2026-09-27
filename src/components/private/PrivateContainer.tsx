@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { smoothScrollTo } from '../../hooks/useLenis';
 import { PrivateIntro } from './PrivateIntro';
 import { DistanceTracker } from './DistanceTracker';
 import { SiblingCodex } from './SiblingCodex';
@@ -49,10 +50,7 @@ export const PrivateContainer: React.FC<PrivateContainerProps> = ({ onReplay }) 
   }, []);
 
   const scrollToChapterOne = () => {
-    window.scrollTo({
-      top: window.innerHeight * 0.9,
-      behavior: 'smooth'
-    });
+    smoothScrollTo(window.innerHeight * 0.9, 1.3);
   };
 
   return (

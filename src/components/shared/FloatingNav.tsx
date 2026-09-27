@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Lock, Sparkles } from 'lucide-react';
 import { soundEngine } from '../../utils/soundEffects';
+import { smoothScrollTo } from '../../hooks/useLenis';
 
 interface FloatingNavProps {
   appMode: 'countdown' | 'public' | 'private';
@@ -72,10 +73,7 @@ export const FloatingNav: React.FC<FloatingNavProps> = ({ appMode }) => {
 
   const scrollTo = (id: string) => {
     soundEngine.playPop();
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
+    smoothScrollTo(id, 1.3);
   };
 
   return (

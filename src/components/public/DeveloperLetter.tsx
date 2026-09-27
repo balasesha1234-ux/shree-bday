@@ -4,6 +4,7 @@ import { Code2, Sparkles, Heart, Terminal, Send, Crown, Shield, Laptop, ChevronD
 import { soundEngine } from '../../utils/soundEffects';
 import { triggerCustomConfetti } from '../shared/Confetti';
 import { DEVELOPER_CONTACTS } from '../../data/developerContacts';
+import { smoothScrollTo } from '../../hooks/useLenis';
 
 export const DeveloperLetter: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState<boolean>(true);
@@ -19,10 +20,7 @@ export const DeveloperLetter: React.FC = () => {
 
   const scrollToWishWall = () => {
     soundEngine.playPop();
-    const wall = document.getElementById('wish-wall');
-    if (wall) {
-      wall.scrollIntoView({ behavior: 'smooth' });
-    }
+    smoothScrollTo('wish-wall', 1.4);
   };
 
   return (

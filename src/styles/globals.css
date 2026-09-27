@@ -4,7 +4,7 @@
 
 @layer base {
   html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto !important;
     font-family: 'Quicksand', sans-serif;
   }
   
@@ -16,6 +16,7 @@
     background-color: #FFF5F5;
     color: #2D2D2D;
     overflow-x: hidden;
+    overscroll-behavior-y: none;
   }
 }
 
