@@ -111,7 +111,7 @@ export const MobileApp: React.FC<MobileAppProps> = ({
       )}
 
       {currentScreen === 'letter-lock' && (
-        <MobileLetterLock
+        <MobileDeveloperLetter
           onBack={() => navigateTo('home')}
           onEnterPrivate={() => navigateTo('private-home')}
         />
@@ -149,7 +149,10 @@ export const MobileApp: React.FC<MobileAppProps> = ({
       )}
 
       {currentScreen === 'developer-letter' && (
-        <MobileDeveloperLetter onBack={() => navigateTo('home')} />
+        <MobileDeveloperLetter
+          onBack={() => navigateTo('home')}
+          onEnterPrivate={() => navigateTo('private-home')}
+        />
       )}
 
       {currentScreen === 'candle' && (

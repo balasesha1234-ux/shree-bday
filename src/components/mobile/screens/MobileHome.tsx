@@ -134,15 +134,15 @@ export const MobileHome: React.FC<MobileHomeProps> = ({
             <span className="text-[10px] font-quicksand font-semibold text-pink-100">Wishes</span>
           </button>
 
-          {/* 5. Letter (Developer Letter & Secret Sequence) */}
+          {/* 5. Developer Letter (Architect's Note & Secret Sequence) */}
           <button
-            onClick={() => onNavigateScreen('letter-lock')}
+            onClick={() => onNavigateScreen('developer-letter')}
             className="flex flex-col items-center gap-1.5 group cursor-pointer"
           >
             <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-white/20 backdrop-blur-xl border border-white/40 flex items-center justify-center text-white shadow-xl group-hover:scale-110 group-hover:bg-[#3D2040] transition-all">
               <BookOpen className="w-5 h-5" />
             </div>
-            <span className="text-[10px] font-quicksand font-semibold text-pink-100">Letter</span>
+            <span className="text-[10px] font-quicksand font-semibold text-pink-100">Architect</span>
           </button>
         </div>
 

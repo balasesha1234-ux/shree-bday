@@ -29,8 +29,7 @@ export const MobileDrawerMenu: React.FC<MobileDrawerMenuProps> = ({
     { id: 'wishes', label: 'Friend & Fan Wishes', subtitle: 'Balloons & Messages 🎈', icon: Heart, color: 'text-pink-500' },
     { id: 'memories', label: 'Memories Gallery', subtitle: 'Cherished Moments 📷', icon: Image, color: 'text-rose-500' },
     { id: 'faith', label: 'Faith & Diyas', subtitle: 'Light a Diya for Shree 🪷', icon: Sparkles, color: 'text-amber-400' },
-    { id: 'developer-letter', label: "Developer's Letter", subtitle: 'Karthik 💻🛡️ & Contacts', icon: Laptop, color: 'text-[#D4A84B]' },
-    { id: 'letter-lock', label: "A Letter to You", subtitle: 'Sealed Envelope 💌', icon: Lock, color: 'text-[#D4A84B]' },
+    { id: 'developer-letter', label: "Developer's Letter", subtitle: 'Karthik 💻🛡️ & Contacts', icon: Laptop, color: 'text-[#D4A84B]' }
   ];
 
   return (
